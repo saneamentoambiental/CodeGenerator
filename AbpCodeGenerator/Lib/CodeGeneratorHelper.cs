@@ -219,7 +219,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Entity_Name_Here}}", className)
                                              .Replace("{{Primary_Key_Inside_Tag_Here}}", primary_Key_Inside_Tag_Here)
                                              ;
-            Write(Configuration.Application_Directory + className + "s\\", "I" + className + "AppService.cs", templateContent);
+            Write(Path.Combine( Configuration.Application_Directory , className + "s"), "I" + className + "AppService.cs", templateContent);
         }
 
         /// <summary>
@@ -243,10 +243,11 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Primary_Key_Inside_Tag_Here}}", Primary_Key_Inside_Tag_Here)
                                              .Replace("{{entity_Name_Here}}", GetFirstToLowerStr(className))
                                              .Replace("{{Permission_Name_Here}}", $"Pages_Administration_{className}")
-                                             .Replace("{{Project_Name_Here}}", Configuration.Application_AppServiceBase)
-                                             .Replace("{{Primary_Key_With_Comma_Here}}", Primary_Key_With_Comma_Here)
+                                             .Replace("{{Project_Name_Here}}", Configuration.Controller_Base_Class)
+											 .Replace("{{Application_AppServiceBase}}",Configuration.Application_AppServiceBase)
+											 .Replace("{{Primary_Key_With_Comma_Here}}", Primary_Key_With_Comma_Here)
                                              ;
-            Write(Configuration.Application_Directory + className + "s\\", className + "AppService.cs", templateContent);
+            Write(Path.Combine(Configuration.Application_Directory , className + "s"), className + "AppService.cs", templateContent);
         }
 
         /// <summary>
@@ -265,7 +266,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Entity_Name_Here}}", className)
                                              .Replace("{{entity_Name_Here}}", GetFirstToLowerStr(className))
                                              ;
-            Write(Configuration.Application_Directory + className + "s\\Exporting\\", "I" + className + "ListExcelExporter.cs", templateContent);
+            Write(Path.Combine( Configuration.Application_Directory , className + "s\\Exporting\\"), "I" + className + "ListExcelExporter.cs", templateContent);
         }
 
         /// <summary>
@@ -309,7 +310,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Excel_Header}}", excel_Header.ToString())
                                              .Replace("{{Excel_Objects}}", excel_Objects.ToString())
                                              ;
-            Write(Configuration.Application_Directory + className + "s\\Exporting\\", className + "ListExcelExporter.cs", templateContent);
+            Write( Path.Combine(Configuration.Application_Directory , className + "s\\Exporting\\"), className + "ListExcelExporter.cs", templateContent);
         }
 
         #region Dtos
@@ -327,7 +328,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
                                              .Replace("{{Entity_Name_Here}}", className)
                                              ;
-            Write(Configuration.Application_Directory + className + "s\\Dtos\\", "Get" + className + "Input.cs", templateContent);
+            Write(Path.Combine( Configuration.Application_Directory, className + "s\\Dtos"), "Get" + className + "Input.cs", templateContent);
         }
 
 
@@ -344,7 +345,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
                                              .Replace("{{Entity_Name_Here}}", className)
                                              ;
-            Write(Configuration.Application_Directory + className + "s\\Dtos\\", "Get" + className + "ForEditOutput.cs", templateContent);
+            Write(Path.Combine(Configuration.Application_Directory, className + "s\\Dtos"), "Get" + className + "ForEditOutput.cs", templateContent);
         }
 
 
@@ -373,7 +374,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Entity_Name_Here}}", className)
                                              .Replace("{{Property_Looped_Template_Here}}", property_Looped_Template_Here)
                                              ;
-            Write(Configuration.Application_Directory + className + "s\\Dtos\\", className + "ListDto.cs", templateContent);
+            Write(Path.Combine(Configuration.Application_Directory, className + "s\\Dtos"), className + "ListDto.cs", templateContent);
         }
 
 
@@ -402,7 +403,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Entity_Name_Here}}", className)
                                              .Replace("{{Property_Looped_Template_Here}}", property_Looped_Template_Here)
                                              ;
-            Write(Configuration.Application_Directory + className + "s\\Dtos\\", "CreateOrEdit" + className + "Input.cs", templateContent);
+            Write(Path.Combine(Configuration.Application_Directory , className + "s\\Dtos\\"), "CreateOrEdit" + className + "Input.cs", templateContent);
         }
 
 
@@ -418,7 +419,7 @@ namespace AbpCodeGenerator.Lib
             templateContent = templateContent.Replace("{{entity_Name_Here}}", GetFirstToLowerStr(className))
                                              .Replace("{{Entity_Name_Here}}", className)
                                              ;
-            Write(Configuration.Application_Directory + className + "s\\", className + "ConstsClass.txt", templateContent);
+            Write(Path.Combine(Configuration.Application_Directory , className + "s\\"), className + "ConstsClass.txt", templateContent);
         }
 
         /// <summary>
@@ -453,16 +454,16 @@ namespace AbpCodeGenerator.Lib
         {
             StringBuilder sbAppAuthorizationProvider_Here = new StringBuilder();
             sbAppAuthorizationProvider_Here.AppendLine($"#region {className}");
-            sbAppAuthorizationProvider_Here.AppendLine($" var {className} = administration.CreateChildPermission(AppPermissions.Pages_Administration_{className}, L(\"{ className }\"));");
-            sbAppAuthorizationProvider_Here.AppendLine($"{className}.CreateChildPermission(AppPermissions.Pages_Administration_{ className }_Create, L(\"CreatingNew{className}\"));");
-            sbAppAuthorizationProvider_Here.AppendLine($"{className}.CreateChildPermission(AppPermissions.Pages_Administration_{className}_Edit, L(\"Editing{className}\"));");
-            sbAppAuthorizationProvider_Here.AppendLine($"{className}.CreateChildPermission(AppPermissions.Pages_Administration_{className}_Delete, L(\"Deleting{className}\"));");
+            sbAppAuthorizationProvider_Here.AppendLine($" var {className} = administration.CreateChildPermission(PermissionNames.Pages_Administration_{className}, L(\"{ className }\"));");
+            sbAppAuthorizationProvider_Here.AppendLine($"{className}.CreateChildPermission(PermissionNames.Pages_Administration_{ className }_Create, L(\"CreatingNew{className}\"));");
+            sbAppAuthorizationProvider_Here.AppendLine($"{className}.CreateChildPermission(PermissionNames.Pages_Administration_{className}_Edit, L(\"Editing{className}\"));");
+            sbAppAuthorizationProvider_Here.AppendLine($"{className}.CreateChildPermission(PermissionNames.Pages_Administration_{className}_Delete, L(\"Deleting{className}\"));");
             sbAppAuthorizationProvider_Here.AppendLine(" #endregion");
             sbAppAuthorizationProvider_Here.AppendLine("                         ");
             sbAppAuthorizationProvider_Here.AppendLine(" //{{AppAuthorizationProvider_Here}}");
 
             var appAuthorizationProviderTemplateContent = Read(Configuration.AppAuthorizationProvider_Path);
-            if (!appAuthorizationProviderTemplateContent.Contains($"AppPermissions.Pages_Administration_{className}"))
+            if (!appAuthorizationProviderTemplateContent.Contains($"PermissionNames.Pages_Administration_{className}"))
             {
                 appAuthorizationProviderTemplateContent = appAuthorizationProviderTemplateContent.Replace("//{{AppAuthorizationProvider_Here}}", sbAppAuthorizationProvider_Here.ToString());
                 Write(Configuration.AppAuthorizationProvider_Path, appAuthorizationProviderTemplateContent);
@@ -506,14 +507,7 @@ namespace AbpCodeGenerator.Lib
         {
             using (StreamReader sr = new StreamReader(path, Encoding.Default))
             {
-                StringBuilder sb = new StringBuilder();
-
-                String line;
-                while ((line = sr.ReadLine()) != null)
-                {
-                    sb.AppendLine(line.ToString());
-                }
-                return sb.ToString();
+				return sr.ReadToEnd();
             }
         }
 
@@ -529,7 +523,7 @@ namespace AbpCodeGenerator.Lib
             {
                 Directory.CreateDirectory(filePath);
             }
-            using (FileStream fs = new FileStream(filePath + fileName, FileMode.Create))
+            using (FileStream fs = new FileStream(Path.Combine(filePath, fileName), FileMode.Create))
             {
                 //获得字节数组
                 byte[] data = Encoding.Default.GetBytes(templateContent);

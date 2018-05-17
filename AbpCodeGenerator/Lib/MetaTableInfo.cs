@@ -128,7 +128,7 @@ namespace AbpCodeGenerator.Lib
                         }
                         else
                         {
-                            metaTableInfo.PropertyType = properties.PropertyType.ToString().Split('.').Last().Replace("]", "");
+                            metaTableInfo.PropertyType = properties.PropertyType.ToString().Split('.').Last().Replace("]", "").Replace("+",".");
                         }
                         list.Add(metaTableInfo);
                     }

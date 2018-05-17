@@ -21,7 +21,7 @@
         </div>
         <div class="col-sm-12 col-md-6 text-right">
 		    <button id="Export{{Entity_Name_Here}}ToExcelButton" class="btn btn-outline-success"><i class="fa fa-file-excel-o"></i> @L("ExportToExcel")</button>
-            @if (IsGranted(AppPermissions.{{Permission_Name_Here}}_Create))
+            @if (IsGranted(PermissionNames.{{Permission_Name_Here}}_Create))
             {
                 <button id="CreateNew{{Entity_Name_Here}}Button" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreatingNew{{Entity_Name_Here}}")</button>
             }

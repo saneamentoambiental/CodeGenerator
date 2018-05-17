@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
-using ZhouDaFu.XinYunFen.Orders.Dtos;
-using ZhouDaFu.XinYunFen.Authorization;
+using {{Namespace_Here}}.Authorization;
 using Abp.Authorization;
 using Abp.Timing.Timezone;
 using {{Namespace_Here}}.DataExporting.Excel.EpPlus;
 using {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s.Exporting;
 using Abp.Runtime.Session;
-using {{Namespace_Here}}.Dto;
+//using {{Namespace_Here}}.Dto;
 
 namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s
 {
-	[AbpAuthorize(AppPermissions.{{Permission_Name_Here}})]
+	[AbpAuthorize(PermissionNames.{{Permission_Name_Here}})]
     public class {{Entity_Name_Here}}ListExcelExporter : EpPlusExcelExporterBase, I{{Entity_Name_Here}}ListExcelExporter
     {
         private readonly ITimeZoneConverter _timeZoneConverter;

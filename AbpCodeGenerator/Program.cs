@@ -7,51 +7,57 @@ using Microsoft.Extensions.Configuration;
 
 namespace AbpCodeGenerator
 {
-    class Program
-    {
+	class Program
+	{
 
-        static void Main(string[] args)
-        {
+		static void Main(string[] args)
+		{
 
+			Console.WriteLine("Informe o classe Model ou Tabela");
+			string className = "X";
+			className = Console.ReadLine();
+			while (!className.Equals("S", StringComparison.InvariantCultureIgnoreCase))
+			{
+				#region Duas maneiras de obter uma fonte de dados mysql e assembly de reflexão
+				// mysql
+				// string tableName = "abpusers"; // nome da tabela
+				// var metaTableInfoList = MetaTableInfo.GetMetaTableInfoListForMysql (tableName);
 
-            #region 获取数据源的两种方式mysql和反射程序集
-            //mysql
-            //string tableName = "abpusers";//表名
-            //var metaTableInfoList = MetaTableInfo.GetMetaTableInfoListForMysql(tableName);
+				// Reflete a montagem para gerar o código correspondente
+				//跟类名保持一致
+				var metaTableInfoList = MetaTableInfo.GetMetaTableInfoListForAssembly(className);
+				#endregion
 
-            //反射程序集的方式生成相应代码 
-            string className = "Order";//跟类名保持一致
-            var metaTableInfoList = MetaTableInfo.GetMetaTableInfoListForAssembly(className);
-            #endregion
+				//Obter o tipo de chave primária
+				var propertyType = metaTableInfoList.FirstOrDefault(m => m.Name == "Id").PropertyType;
+				// Geração do lado do servidor  
+				CodeGeneratorHelper.SetAppServiceIntercafeClass(className, propertyType);
+				CodeGeneratorHelper.SetAppServiceClass(className, propertyType);
+				CodeGeneratorHelper.SetCreateOrEditInputClass(className, metaTableInfoList);
+				CodeGeneratorHelper.SetGetForEditOutputClass(className);
+				CodeGeneratorHelper.SetGetInputClass(className);
+				CodeGeneratorHelper.SetListDtoClass(className, metaTableInfoList);
+				CodeGeneratorHelper.SetCreateOrEditInputClass(className, metaTableInfoList);
+				//CodeGeneratorHelper.SetExportingIntercafeClass(className);
+				//CodeGeneratorHelper.SetExportingClass(className, metaTableInfoList);
+				//CodeGeneratorHelper.SetConstsClass(className); Se você usa SetAppPermissions，SetAppAuthorizationProvider，SetZh_CN_LocalizationDictionary_Here, então pode usar este método
 
-            //得到主键类型
-            var propertyType = metaTableInfoList.FirstOrDefault(m => m.Name == "Id").PropertyType;
-            // server端生成
-            CodeGeneratorHelper.SetAppServiceIntercafeClass(className, propertyType);
-            CodeGeneratorHelper.SetAppServiceClass(className, propertyType);
-            CodeGeneratorHelper.SetCreateOrEditInputClass(className, metaTableInfoList);
-            CodeGeneratorHelper.SetGetForEditOutputClass(className);
-            CodeGeneratorHelper.SetGetInputClass(className);
-            CodeGeneratorHelper.SetListDtoClass(className, metaTableInfoList);
-            CodeGeneratorHelper.SetCreateOrEditInputClass(className, metaTableInfoList);
-            CodeGeneratorHelper.SetExportingIntercafeClass(className);
-            CodeGeneratorHelper.SetExportingClass(className, metaTableInfoList);
-            //CodeGeneratorHelper.SetConstsClass(className); 若使用 SetAppPermissions，SetAppAuthorizationProvider，SetZh_CN_LocalizationDictionary_Here 三个方法 就可弃用该方法  
+				CodeGeneratorHelper.SetAppPermissions(className);
+				CodeGeneratorHelper.SetAppAuthorizationProvider(className);
+				CodeGeneratorHelper.SetZh_CN_LocalizationDictionary_Here(className, metaTableInfoList[0].ClassAnnotation);
 
-            CodeGeneratorHelper.SetAppPermissions(className);
-            CodeGeneratorHelper.SetAppAuthorizationProvider(className);
-            CodeGeneratorHelper.SetZh_CN_LocalizationDictionary_Here(className, metaTableInfoList[0].ClassAnnotation);
+				////client
+				CodeGeneratorHelper.SetControllerClass(className, propertyType);
+				CodeGeneratorHelper.SetCreateOrEditHtmlTemplate(className, metaTableInfoList);
+				CodeGeneratorHelper.SetCreateOrEditJs(className);
+				CodeGeneratorHelper.SetCreateOrEditViewModelClass(className);
+				CodeGeneratorHelper.SetIndexHtmlTemplate(className, metaTableInfoList);
+				CodeGeneratorHelper.SetIndexJsTemplate(className, metaTableInfoList);
 
-            ////client
-            CodeGeneratorHelper.SetControllerClass(className, propertyType);
-            CodeGeneratorHelper.SetCreateOrEditHtmlTemplate(className, metaTableInfoList);
-            CodeGeneratorHelper.SetCreateOrEditJs(className);
-            CodeGeneratorHelper.SetCreateOrEditViewModelClass(className);
-            CodeGeneratorHelper.SetIndexHtmlTemplate(className, metaTableInfoList);
-            CodeGeneratorHelper.SetIndexJsTemplate(className, metaTableInfoList);
-        }
-
-
-
-    }
+				Console.WriteLine("Informe o classe Model ou Tabela");
+				Console.WriteLine("ou S para sair?");
+				className = Console.ReadLine();
+			}
+		}
+	}
 }

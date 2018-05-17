@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Abp.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Models.{{Entity_Name_Plural_Here}}s;
-using {{Namespace_Here}}.Web.Controllers;
+using {{Namespace_Here}}.Controllers;
 using {{Namespace_Here}}.Authorization;
 using {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s;
 using {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s.Dtos;
@@ -12,7 +12,7 @@ using Abp.Application.Services.Dto;
 namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
 {
     [Area("{{App_Area_Name_Here}}")]
-    [AbpMvcAuthorize(AppPermissions.{{Permission_Name_Here}})]
+    [AbpMvcAuthorize(PermissionNames.{{Permission_Name_Here}})]
     public class {{Entity_Name_Plural_Here}}Controller : {{Project_Name_Here}}ControllerBase
     {
         private readonly I{{Entity_Name_Plural_Here}}AppService _{{entity_Name_Plural_Here}}AppService;
@@ -32,7 +32,7 @@ namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
             return View();
         }
 
-        [AbpMvcAuthorize(AppPermissions.{{Permission_Name_Here}}_Create, AppPermissions.{{Permission_Name_Here}}_Edit)]
+        [AbpMvcAuthorize(PermissionNames.{{Permission_Name_Here}}_Create, PermissionNames.{{Permission_Name_Here}}_Edit)]
         public async Task<PartialViewResult> CreateOrEditModal({{Primary_Key_Here}}? id)
         {
 			Get{{Entity_Name_Here}}ForEditOutput get{{Entity_Name_Here}}ForEditOutput;

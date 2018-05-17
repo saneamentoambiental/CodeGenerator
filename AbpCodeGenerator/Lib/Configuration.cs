@@ -10,10 +10,12 @@ namespace AbpCodeGenerator.Lib
     {
         private static IConfiguration _configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
 
-        /// <summary>
-        /// 读取的程序集路径 需换成自己项目的下的程序集路径
-        /// </summary>
-        public static string SourceAssembly = _configuration["SourceAssembly"];
+		public static string SourceSolution = _configuration["SourceSolution"];
+
+		/// <summary>
+		/// 读取的程序集路径 需换成自己项目的下的程序集路径
+		/// </summary>
+		public static string SourceAssembly = Path.Combine(SourceSolution, _configuration["SourceAssembly"]);
 
         /// <summary>
         /// 根目录 读取模板的绝对路径
@@ -28,12 +30,12 @@ namespace AbpCodeGenerator.Lib
         /// <summary>
         /// 输出目录路径  生成的代码输出到那个项目下
         /// </summary>
-        public static string Application_Directory = _configuration["Application_Directory"];
+        public static string Application_Directory = Path.Combine(SourceSolution, _configuration["Application_Directory"]);
 
         /// <summary>
         /// Mvc输出目录路径  生成的代码输出到那个项目下
         /// </summary>
-        public static string Web_Mvc_Directory = _configuration["Web_Mvc:Web_Mvc_Directory"];
+        public static string Web_Mvc_Directory = Path.Combine(SourceSolution, _configuration["Web_Mvc:Web_Mvc_Directory"]);
 
         /// <summary>
         ///区域名
@@ -60,22 +62,22 @@ namespace AbpCodeGenerator.Lib
         /// <summary>
         /// 应用服务基类
         /// </summary>
-        public static string Application_AppServiceBase = _configuration["Application_AppServiceBase"];
+        public static string Application_AppServiceBase = Path.Combine("", _configuration["Application_AppServiceBase"]);
 
         /// <summary>
         ///AppPermissions.cs（参考abp.zero.core 5.3.0）文件的绝对路径
         /// </summary>
-        public static string AppPermissions_Path = _configuration["AppPermissions_Path"];
+        public static string AppPermissions_Path = Path.Combine(SourceSolution, _configuration["AppPermissions_Path"]);
 
         /// <summary>
         ///AppAuthorizationProvider.cs（参考abp.zero.core 5.3.0）文件的绝对路径
         /// </summary>
-        public static string AppAuthorizationProvider_Path = _configuration["AppAuthorizationProvider_Path"];
+        public static string AppAuthorizationProvider_Path = Path.Combine(SourceSolution, _configuration["AppAuthorizationProvider_Path"]);
 
         /// <summary>
         ///本地化源 xml 文档（如：XinYunFen-zh-CN.xml）文件的绝对路径 （参考abp.zero.core 5.3.0）
         /// </summary>
-        public static string Zh_CN_LocalizationDictionary_Path = _configuration["Zh_CN_LocalizationDictionary_Path"];
+        public static string Zh_CN_LocalizationDictionary_Path = Path.Combine(SourceSolution, _configuration["Zh_CN_LocalizationDictionary_Path"]);
 
     }
 }
