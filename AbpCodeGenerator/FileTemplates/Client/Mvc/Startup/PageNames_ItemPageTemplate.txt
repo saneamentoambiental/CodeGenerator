@@ -1,0 +1,10 @@
+﻿#region {{Entity_Name_Here}}
+
+public class {{Entity_Name_Here}} {
+	//public const string Index = "{{App_Area_Name_Here}}.{{Entity_Name_Here}}.Index";
+	public const string Index = "{{Entity_Name_Here}}"; 
+}
+
+#endregion {{Entity_Name_Here}}
+
+//{{Template_Page_Name_Consts}}

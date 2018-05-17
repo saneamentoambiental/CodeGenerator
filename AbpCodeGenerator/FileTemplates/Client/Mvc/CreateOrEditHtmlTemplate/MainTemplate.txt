@@ -1,5 +1,5 @@
 ﻿@using Abp.Extensions
-@using {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Models.Common.Modals
+@using {{Namespace_Here}}.Web.Models.Common.Modals
 @using {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Models.{{Entity_Name_Plural_Here}}s
 @model CreateOrEdit{{Entity_Name_Here}}ModalViewModel
 

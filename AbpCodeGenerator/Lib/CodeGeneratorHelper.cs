@@ -9,13 +9,35 @@ namespace AbpCodeGenerator.Lib
     public class CodeGeneratorHelper
     {
 
-        #region client
+		#region client
 
-        /// <summary>
-        /// 生成ControllerClass
-        /// </summary>
-        /// <param name="className"></param>
-        public static void SetControllerClass(string className, string primary_Key_Here)
+		public static void AddNavigationMenu(string className)
+		{
+			//{{Item_Menu_Template}
+
+			string template = Configuration.RootDirectory + @"\Client\Mvc\Startup\ItemMenuTemplate.txt";
+			var templateContent = Read(template);
+
+			templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
+											 .Replace("{{Namespace_Relative_Full_Here}}", className)
+											 .Replace("{{Entity_Name_Plural_Here}}", className)
+											 .Replace("{{Entity_Name_Here}}", className)
+											 .Replace("{{Permission_Name_Here}}", $"Pages_{Configuration.App_Area_Name}_{className}")
+											 .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
+											 .Replace("{{Project_Name_Here}}", Configuration.Controller_Base_Class)
+											 .Replace("{{entity_Name_Plural_Here}}", GetFirstToLowerStr(className))									
+											 ;
+			var path = Path.Combine(Configuration.Web_Mvc_Directory, "Startup", Configuration.Controller_Base_Class+"NavigationProvider.cs");
+			var menuFile = Read(path);
+			menuFile = menuFile.Replace("//{{Item_Menu_Template}", templateContent);
+			Write(path, menuFile);
+
+		}
+			/// <summary>
+			/// 生成ControllerClass
+			/// </summary>
+			/// <param name="className"></param>
+			public static void SetControllerClass(string className, string primary_Key_Here)
         {
             string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Client\Mvc\ControllerClass\MainTemplate.txt";
             var templateContent = Read(appServiceIntercafeClassDirectory);
@@ -24,13 +46,13 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
                                              .Replace("{{Entity_Name_Plural_Here}}", className)
                                              .Replace("{{Entity_Name_Here}}", className)
-                                             .Replace("{{Permission_Name_Here}}", $"Pages_Administration_{className}")
-                                             .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
+                                             .Replace("{{Permission_Name_Here}}", $"Pages_{Configuration.App_Area_Name}_{className}")
+											 .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
                                              .Replace("{{Primary_Key_Here}}", primary_Key_Here)
                                              .Replace("{{Project_Name_Here}}", Configuration.Controller_Base_Class)
                                              .Replace("{{entity_Name_Plural_Here}}", GetFirstToLowerStr(className))
                                              ;
-            Write(Configuration.Web_Mvc_Directory + "Areas\\Admin\\Controllers\\", className + "Controller.cs", templateContent);
+            Write(Path.Combine(Configuration.Web_Mvc_Directory, "Areas", Configuration.App_Area_Name, "Controllers", className + "Controller.cs"), templateContent);
         }
 
 
@@ -46,7 +68,10 @@ namespace AbpCodeGenerator.Lib
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < metaTableInfoList.Count; i++)
             {
-                sb.AppendLine("<div class=\"form-group m-form__group row\">");
+				if (metaTableInfoList[i].IsAuditableField)
+					continue;
+
+				sb.AppendLine("<div class=\"form-group m-form__group row\">");
                 if (i % 2 == 0)
                 {
                     sb.AppendLine($"<label class=\"col-xl-1 col-lg-1 col-form-label\">{metaTableInfoList[i].Annotation}</label>");
@@ -65,18 +90,24 @@ namespace AbpCodeGenerator.Lib
 
                     if (i + 1 < metaTableInfoList.Count)
                     {
-                        sb.AppendLine($"<label class=\"col-xl-1 col-lg-1 col-form-label\">{metaTableInfoList[i + 1].Annotation}</label>");
+						
+
+						sb.AppendLine($"<label class=\"col-xl-1 col-lg-1 col-form-label\">{metaTableInfoList[i + 1].Annotation}</label>");
                         sb.AppendLine(" <div class=\"col-xl-5 col-lg-5\">");
-                        if (metaTableInfoList[i + 1].PropertyType == "string")
-                        {
-                            // <input type="datetime"  class="form-control date-picker">
-                            sb.AppendLine("  <input class=\"form-control@(Model." + className + "." + metaTableInfoList[i + 1].Name + ".IsNullOrEmpty() ? \"\" : \" edited\")\"");
-                        }
-                        else
-                        {
-                            sb.AppendLine("  <input class=\"form-control\"");
-                        }
-                        sb.AppendLine("type=\"text\" name=\"" + metaTableInfoList[i + 1].Name + "\"");
+						if (metaTableInfoList[i + 1].PropertyType == "string")
+						{
+							// <input type="datetime"  class="form-control date-picker">
+							sb.AppendLine("  <input type=\"text\" class=\"form-control@(Model." + className + "." + metaTableInfoList[i + 1].Name + ".IsNullOrEmpty() ? \"\" : \" edited\")\"");
+						}
+						else if (metaTableInfoList[i + 1].PropertyType.Equals("datetime", StringComparison.CurrentCultureIgnoreCase) )
+						{
+							sb.AppendLine("<input type=\"datetime\"  class=\"form-control date-picker\">");							
+						}
+						else
+						{
+							sb.AppendLine("  <input type=\"text\" class=\"form-control\" ");
+						}
+                        sb.AppendLine("name=\"" + metaTableInfoList[i + 1].Name + "\"");
                         sb.AppendLine("value=\"@Model." + className + "." + metaTableInfoList[i + 1].Name + "\" />");
                         sb.AppendLine("</div>");
                     }
@@ -96,7 +127,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Property_Looped_Template_Here}}", property_Looped_Template_Here)
                                              .Replace("{{entity_Name_Plural_Here}}", GetFirstToLowerStr(className))
                                              ;
-            Write(Configuration.Web_Mvc_Directory + "Areas\\Admin\\Views\\" + className + "\\", "_CreateOrEditModal.cshtml", templateContent);
+            Write(Path.Combine(Configuration.Web_Mvc_Directory, "Areas", Configuration.App_Area_Name,"Views", className, "_CreateOrEditModal.cshtml"), templateContent);
         }
 
 
@@ -116,7 +147,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{entity_Name_Here}}", GetFirstToLowerStr(className))
                                              .Replace("{{entity_Name_Plural_Here}}", GetFirstToLowerStr(className))
                                              ;
-            Write(Configuration.Web_Mvc_Directory + "\\wwwroot\\view-resources\\Areas\\Admin\\Views\\" + className + "\\", "_CreateOrEditModal.js", templateContent);
+            Write(Path.Combine(Configuration.Web_Mvc_Directory, "wwwroot\\view-resources\\Areas", Configuration.App_Area_Name,"Views" , className, "_CreateOrEditModal.js"), templateContent);
         }
 
 
@@ -135,15 +166,47 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Entity_Name_Here}}", className)
                                              .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
                                              ;
-            Write(Configuration.Web_Mvc_Directory + "Areas\\Admin\\Models\\" + className + "s\\", "CreateOrEdit" + className + "ModalViewModel.cs", templateContent);
+            Write(Path.Combine(Configuration.Web_Mvc_Directory,"Areas", Configuration.App_Area_Name, "Models", className + "s", "CreateOrEdit" + className + "ModalViewModel.cs"), templateContent);
         }
 
 
-        /// <summary>
-        /// 生成IndexHtmlTemplate
-        /// </summary>
-        /// <param name="className"></param>
-        public static void SetIndexHtmlTemplate(string className, List<MetaTableInfo> metaTableInfoList)
+		public static void GeneretePageNameConsts(string className)
+		{
+			var path = Path.Combine(Configuration.Web_Mvc_Directory, "Areas", Configuration.App_Area_Name, "Startup", "PageNames.cs");
+			if (!File.Exists(path))
+			{
+				if (!Directory.Exists(Path.GetDirectoryName(path))) Directory.CreateDirectory(Path.GetDirectoryName(path));
+				File.Create(path).Close();
+				string pageNamesConsts_CreateClassTemplate = Configuration.RootDirectory + @"\Client\Mvc\Startup\PagaNames_CreateClassTemplate.txt";
+				var templateContentFile = Read(pageNamesConsts_CreateClassTemplate);
+				templateContentFile = templateContentFile.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
+												 .Replace("{{Namespace_Relative_Full_Here}}", className)
+												 .Replace("{{Entity_Name_Plural_Here}}", className)
+												 .Replace("{{Entity_Name_Here}}", className)
+												 .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
+												 ;
+				Write(path, templateContentFile);
+			}
+
+			string pageNames_ItemPageTemplate = Configuration.RootDirectory + @"\Client\Mvc\Startup\PageNames_ItemPageTemplate.txt";
+			var pageNames_ItemPageTemplateFile = Read(pageNames_ItemPageTemplate);
+			pageNames_ItemPageTemplateFile = pageNames_ItemPageTemplateFile.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
+											 .Replace("{{Namespace_Relative_Full_Here}}", className)
+											 .Replace("{{Entity_Name_Plural_Here}}", className)
+											 .Replace("{{Entity_Name_Here}}", className)
+											 .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
+											 ;
+			var templateContent = Read(path);
+			templateContent = templateContent.Replace("//{{Template_Page_Name_Consts}}", pageNames_ItemPageTemplateFile);
+			Write(path, templateContent);
+
+		}
+
+		/// <summary>
+		/// 生成IndexHtmlTemplate
+		/// </summary>
+		/// <param name="className"></param>
+		public static void SetIndexHtmlTemplate(string className, List<MetaTableInfo> metaTableInfoList)
         {
             string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Client\Mvc\IndexHtmlTemplate\MainTemplate.txt";
             var templateContent = Read(appServiceIntercafeClassDirectory);
@@ -152,6 +215,8 @@ namespace AbpCodeGenerator.Lib
 
             foreach (var item in metaTableInfoList)
             {
+				if (item.IsAuditableField)
+					continue;
                 sb.AppendLine(" <th>" + item.Annotation + "</th>");
             }
             var property_Looped_Template_Here = sb.ToString();
@@ -161,9 +226,10 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Entity_Name_Here}}", className)
                                              .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
                                              .Replace("{{Property_Looped_Template_Here}}", property_Looped_Template_Here)
-                                             .Replace("{{Permission_Name_Here}}", $"Pages_Administration_{className}")
-                                             ;
-            Write(Configuration.Web_Mvc_Directory + "Areas\\Admin\\Views\\" + className + "\\", "Index.cshtml", templateContent);
+                                             .Replace("{{Permission_Name_Here}}", $"Pages_{Configuration.App_Area_Name}_{className}")
+
+											 ;
+            Write(Path.Combine(Configuration.Web_Mvc_Directory, "Areas", Configuration.App_Area_Name, "Views", className, "Index.cshtml"), templateContent);
         }
 
 
@@ -180,6 +246,8 @@ namespace AbpCodeGenerator.Lib
             var i = 1;
             foreach (var item in metaTableInfoList)
             {
+				if (item.IsAuditableField)
+					continue;
                 sb.AppendLine(", {");
                 sb.AppendLine("targets: " + i + ",");
                 sb.AppendLine("data: \"" + GetFirstToLowerStr(item.Name) + "\"");
@@ -194,9 +262,9 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{entity_Name_Plural_Here}}", GetFirstToLowerStr(className))
                                              .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
                                              .Replace("{{Property_Looped_Template_Here}}", property_Looped_Template_Here)
-                                             .Replace("{{Permission_Value_Here}}", "Pages.Administration." + className + "")
+                                             .Replace("{{Permission_Value_Here}}", $"Pages.{Configuration.App_Area_Name}.{className}")
                                              ;
-            Write(Configuration.Web_Mvc_Directory + "\\wwwroot\\view-resources\\Areas\\Admin\\Views\\" + className + "\\", "Index.js", templateContent);
+            Write(Path.Combine(Configuration.Web_Mvc_Directory, "wwwroot", "view-resources", "Areas", Configuration.App_Area_Name,"Views", className, "Index.js"), templateContent);
         }
 
         #endregion
@@ -242,7 +310,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Entity_Name_Here}}", className)
                                              .Replace("{{Primary_Key_Inside_Tag_Here}}", Primary_Key_Inside_Tag_Here)
                                              .Replace("{{entity_Name_Here}}", GetFirstToLowerStr(className))
-                                             .Replace("{{Permission_Name_Here}}", $"Pages_Administration_{className}")
+                                             .Replace("{{Permission_Name_Here}}", $"Pages_{Configuration.App_Area_Name}_{className}")
                                              .Replace("{{Project_Name_Here}}", Configuration.Controller_Base_Class)
 											 .Replace("{{Application_AppServiceBase}}",Configuration.Application_AppServiceBase)
 											 .Replace("{{Primary_Key_With_Comma_Here}}", Primary_Key_With_Comma_Here)
@@ -306,8 +374,8 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
                                              .Replace("{{Entity_Name_Here}}", className)
                                              .Replace("{{entity_Name_Here}}", GetFirstToLowerStr(className))
-                                             .Replace("{{Permission_Name_Here}}", $"Pages_Administration_{className}")
-                                             .Replace("{{Excel_Header}}", excel_Header.ToString())
+                                             .Replace("{{Permission_Name_Here}}", $"Pages_{Configuration.App_Area_Name}_{className}")
+											 .Replace("{{Excel_Header}}", excel_Header.ToString())
                                              .Replace("{{Excel_Objects}}", excel_Objects.ToString())
                                              ;
             Write( Path.Combine(Configuration.Application_Directory , className + "s\\Exporting\\"), className + "ListExcelExporter.cs", templateContent);
@@ -362,6 +430,8 @@ namespace AbpCodeGenerator.Lib
 
             foreach (var item in metaTableInfoList)
             {
+				if (item.IsAuditableField)
+					continue;
                 sb.AppendLine("/// <summary>");
                 sb.AppendLine("/// " + item.Annotation);
                 sb.AppendLine("/// </summary>");
@@ -391,7 +461,9 @@ namespace AbpCodeGenerator.Lib
 
             foreach (var item in metaTableInfoList)
             {
-                sb.AppendLine("/// <summary>");
+				if (item.IsAuditableField)
+					continue;
+				sb.AppendLine("/// <summary>");
                 sb.AppendLine("/// " + item.Annotation);
                 sb.AppendLine("/// </summary>");
                 sb.AppendLine("public " + item.PropertyType + (item.Name == "Id" ? "? " : " ") + item.Name + " { get; set; }");
@@ -403,7 +475,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Entity_Name_Here}}", className)
                                              .Replace("{{Property_Looped_Template_Here}}", property_Looped_Template_Here)
                                              ;
-            Write(Path.Combine(Configuration.Application_Directory , className + "s\\Dtos\\"), "CreateOrEdit" + className + "Input.cs", templateContent);
+			Write(Path.Combine(Configuration.Application_Directory , className + "s","Dtos"), "CreateOrEdit" + className + "Input.cs", templateContent);
         }
 
 
@@ -411,9 +483,11 @@ namespace AbpCodeGenerator.Lib
         /// 生成ConstsClass
         /// </summary>
         /// <param name="className"></param>
-        public static void SetConstsClass(string className)
+        [Obsolete("See GeneretePageNameConsts Method")]
+		public static void SetConstsClass(string className)
         {
-            string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\ConstsClass\MainTemplate.txt";
+
+			string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\ConstsClass\MainTemplate.txt";
             var templateContent = Read(appServiceIntercafeClassDirectory);
 
             templateContent = templateContent.Replace("{{entity_Name_Here}}", GetFirstToLowerStr(className))
@@ -430,17 +504,18 @@ namespace AbpCodeGenerator.Lib
         {
             StringBuilder sbAppPermissions_Here = new StringBuilder();
             sbAppPermissions_Here.AppendLine($"#region {className}");
-            sbAppPermissions_Here.AppendLine($"public const string Pages_Administration_{className} = \"Pages.Administration.{className}\";");
-            sbAppPermissions_Here.AppendLine($"public const string Pages_Administration_{className}_Create = \"Pages.Administration.{className}.Create\";");
-            sbAppPermissions_Here.AppendLine($"public const string Pages_Administration_{className}_Edit = \"Pages.Administration.{className}.Edit\";");
-            sbAppPermissions_Here.AppendLine($"public const string Pages_Administration_{className}_Delete = \"Pages.Administration.{className}.Delete\";");
+            sbAppPermissions_Here.AppendLine($"public const string Pages_{Configuration.App_Area_Name}_{className}			= \"Pages.{Configuration.App_Area_Name}.{className}\";");
+            sbAppPermissions_Here.AppendLine($"public const string Pages_{Configuration.App_Area_Name}_{className}_Create	= \"Pages.{Configuration.App_Area_Name}.{className}.Create\";");
+            sbAppPermissions_Here.AppendLine($"public const string Pages_{Configuration.App_Area_Name}_{className}_Edit		= \"Pages.{Configuration.App_Area_Name}.{className}.Edit\";");
+            sbAppPermissions_Here.AppendLine($"public const string Pages_{Configuration.App_Area_Name}_{className}_Delete	= \"Pages.{Configuration.App_Area_Name}.{className}.Delete\";");
             sbAppPermissions_Here.AppendLine(" #endregion");
             sbAppPermissions_Here.AppendLine("                         ");
             sbAppPermissions_Here.AppendLine(" //{{AppPermissions_Here}}");
 
             var appPermissionsTemplateContent = Read(Configuration.AppPermissions_Path);
-            if (!appPermissionsTemplateContent.Contains($"Pages_Administration_{className}"))
-            {
+            if (!appPermissionsTemplateContent.Contains($"Pages_{Configuration.App_Area_Name}_{className}"))
+
+			{
                 appPermissionsTemplateContent = appPermissionsTemplateContent.Replace("//{{AppPermissions_Here}}", sbAppPermissions_Here.ToString());
                 Write(Configuration.AppPermissions_Path, appPermissionsTemplateContent);
             }
@@ -454,17 +529,20 @@ namespace AbpCodeGenerator.Lib
         {
             StringBuilder sbAppAuthorizationProvider_Here = new StringBuilder();
             sbAppAuthorizationProvider_Here.AppendLine($"#region {className}");
-            sbAppAuthorizationProvider_Here.AppendLine($" var {className} = administration.CreateChildPermission(PermissionNames.Pages_Administration_{className}, L(\"{ className }\"));");
-            sbAppAuthorizationProvider_Here.AppendLine($"{className}.CreateChildPermission(PermissionNames.Pages_Administration_{ className }_Create, L(\"CreatingNew{className}\"));");
-            sbAppAuthorizationProvider_Here.AppendLine($"{className}.CreateChildPermission(PermissionNames.Pages_Administration_{className}_Edit, L(\"Editing{className}\"));");
-            sbAppAuthorizationProvider_Here.AppendLine($"{className}.CreateChildPermission(PermissionNames.Pages_Administration_{className}_Delete, L(\"Deleting{className}\"));");
-            sbAppAuthorizationProvider_Here.AppendLine(" #endregion");
+            sbAppAuthorizationProvider_Here.AppendLine($" var {className} = administration.CreateChildPermission(PermissionNames.Pages_{Configuration.App_Area_Name}_{className}, L(\"{ className }\"));");
+
+			sbAppAuthorizationProvider_Here.AppendLine($"{className}.CreateChildPermission(PermissionNames.Pages_{Configuration.App_Area_Name}_{ className }_Create, L(\"CreatingNew{className}\"));");
+            sbAppAuthorizationProvider_Here.AppendLine($"{className}.CreateChildPermission(PermissionNames.Pages_{Configuration.App_Area_Name}_{className}_Edit, L(\"Editing{className}\"));");
+            sbAppAuthorizationProvider_Here.AppendLine($"{className}.CreateChildPermission(PermissionNames.Pages_{Configuration.App_Area_Name}_{className}_Delete, L(\"Deleting{className}\"));");
+
+			sbAppAuthorizationProvider_Here.AppendLine(" #endregion");
             sbAppAuthorizationProvider_Here.AppendLine("                         ");
             sbAppAuthorizationProvider_Here.AppendLine(" //{{AppAuthorizationProvider_Here}}");
 
             var appAuthorizationProviderTemplateContent = Read(Configuration.AppAuthorizationProvider_Path);
-            if (!appAuthorizationProviderTemplateContent.Contains($"PermissionNames.Pages_Administration_{className}"))
-            {
+            if (!appAuthorizationProviderTemplateContent.Contains($"PermissionNames.Pages_{Configuration.App_Area_Name}_{className}"))
+
+			{
                 appAuthorizationProviderTemplateContent = appAuthorizationProviderTemplateContent.Replace("//{{AppAuthorizationProvider_Here}}", sbAppAuthorizationProvider_Here.ToString());
                 Write(Configuration.AppAuthorizationProvider_Path, appAuthorizationProviderTemplateContent);
             }
@@ -540,7 +618,10 @@ namespace AbpCodeGenerator.Lib
         /// <param name="templateContent">模板内容</param>
         public static void Write(string filePath, string templateContent)
         {
-            using (FileStream fs = new FileStream(filePath, FileMode.Create))
+			if (!Directory.Exists(Path.GetDirectoryName(filePath)))
+				Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+			using (FileStream fs = new FileStream(filePath, FileMode.Create))
             {
                 //获得字节数组
                 byte[] data = Encoding.Default.GetBytes(templateContent);

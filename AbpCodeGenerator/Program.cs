@@ -30,6 +30,12 @@ namespace AbpCodeGenerator
 
 				//Obter o tipo de chave primária
 				var propertyType = metaTableInfoList.FirstOrDefault(m => m.Name == "Id").PropertyType;
+
+				CodeGeneratorHelper.SetIndexJsTemplate(className, metaTableInfoList);
+				
+				CodeGeneratorHelper.AddNavigationMenu(className);
+				
+
 				// Geração do lado do servidor  
 				CodeGeneratorHelper.SetAppServiceIntercafeClass(className, propertyType);
 				CodeGeneratorHelper.SetAppServiceClass(className, propertyType);
@@ -38,6 +44,9 @@ namespace AbpCodeGenerator
 				CodeGeneratorHelper.SetGetInputClass(className);
 				CodeGeneratorHelper.SetListDtoClass(className, metaTableInfoList);
 				CodeGeneratorHelper.SetCreateOrEditInputClass(className, metaTableInfoList);
+
+				CodeGeneratorHelper.GeneretePageNameConsts(className);
+				
 				//CodeGeneratorHelper.SetExportingIntercafeClass(className);
 				//CodeGeneratorHelper.SetExportingClass(className, metaTableInfoList);
 				//CodeGeneratorHelper.SetConstsClass(className); Se você usa SetAppPermissions，SetAppAuthorizationProvider，SetZh_CN_LocalizationDictionary_Here, então pode usar este método
@@ -52,7 +61,7 @@ namespace AbpCodeGenerator
 				CodeGeneratorHelper.SetCreateOrEditJs(className);
 				CodeGeneratorHelper.SetCreateOrEditViewModelClass(className);
 				CodeGeneratorHelper.SetIndexHtmlTemplate(className, metaTableInfoList);
-				CodeGeneratorHelper.SetIndexJsTemplate(className, metaTableInfoList);
+				
 
 				Console.WriteLine("Informe o classe Model ou Tabela");
 				Console.WriteLine("ou S para sair?");

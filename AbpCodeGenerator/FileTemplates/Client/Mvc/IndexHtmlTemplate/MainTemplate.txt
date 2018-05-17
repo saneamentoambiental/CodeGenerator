@@ -3,9 +3,9 @@
 @using {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Startup
 
 @{
-    ViewBag.CurrentPageName = {{App_Area_Name_Here}}PageNames.{{Entity_Name_Plural_Here}}.Index;
+    ViewBag.CurrentPageName = PageNames.{{Entity_Name_Here}}.Index;
 }
-@section Scripts
+@section scripts
 {
     <script abp-src="/view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Plural_Here}}/Index.js" asp-append-version="true"></script>
 }

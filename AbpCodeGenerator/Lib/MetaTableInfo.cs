@@ -30,6 +30,14 @@ namespace AbpCodeGenerator.Lib
         /// </summary>
         public string Annotation { get; set; }
 
+		public bool IsAuditableField
+		{
+			get
+			{
+				return ",CreatorUserId,CreationTime,LastModifierUserId,LastModificationTime,DeletionTime,DeleterUserId,IsDeleted,".Contains($",{Name},");
+			}
+		}
+
         public static List<MetaTableInfo> GetMetaTableInfoListForMysql(string tableName)
         {
             var mysqlEntity = MysqlEntity.GetMysqlEntityByTableName(tableName);

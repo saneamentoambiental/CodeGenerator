@@ -1,7 +1,7 @@
 ﻿@using {{Namespace_Here}}.Authorization
 @using {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Models.{{Entity_Name_Plural_Here}}
 @using {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Startup
-@using {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Models.Common.Modals
+@using {{Namespace_Here}}.Web.Models.Common.Modals
 @model {{NP_Foreign_Entity_Name_Here}}LookupTableViewModel
 
 @section Scripts

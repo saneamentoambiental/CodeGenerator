@@ -1,0 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Startup
+{
+    public class PageNames
+    {
+		//{{Template_Page_Name_Consts}}
+	}
+}
