@@ -2,59 +2,101 @@
 @using {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Models.{{Entity_Name_Plural_Here}}s
 @using {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Startup
 
+@model {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Models.{{Entity_Name_Here}}s.{{Entity_Name_Here}}ListViewModel
 @{
-    ViewBag.CurrentPageName = PageNames.{{Entity_Name_Here}}.Index;
+    //ViewBag.ActiveMenu = PageNames.{{Entity_Name_Here}}.Index;
+	ViewBag.Title = L("{{Entity_Name_Here}}");
+    ViewBag.CurrentPageName = PageNames.{{Entity_Name_Here}}.Index; // The menu item will be active for this page.
 }
 @section scripts
 {
-    <script abp-src="/view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Plural_Here}}/Index.js" asp-append-version="true"></script>
+    <environment names="Development">
+		<script src="~/view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Plural_Here}}/Index.js" asp-append-version="true"></script>        
+    </environment>
+
+    <environment names="Staging,Production">        
+		<script src="~/view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Plural_Here}}/Index.js" asp-append-version="true"></script>
+    </environment>
 }
-<div class="m-subheader">
-    <div class="row align-items-center">
-        <div class="mr-auto col-sm-12 col-md-6">
-            <h3 class="m-subheader__title m-subheader__title--separator">
-                <span>@L("{{Entity_Name_Plural_Here}}")</span>
-            </h3>
-            <span class="m-section__sub">
-                @L("{{Entity_Name_Plural_Here}}HeaderInfo")
-            </span>
-        </div>
-        <div class="col-sm-12 col-md-6 text-right">
-		    <button id="Export{{Entity_Name_Here}}ToExcelButton" class="btn btn-outline-success"><i class="fa fa-file-excel-o"></i> @L("ExportToExcel")</button>
-            @if (IsGranted(PermissionNames.{{Permission_Name_Here}}_Create))
-            {
-                <button id="CreateNew{{Entity_Name_Here}}Button" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreatingNew{{Entity_Name_Here}}")</button>
-            }
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    @L("{{Entity_Name_Here}}HeaderInfo")
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a id="RefreshButton" href="javascript:void(0);" class="waves-effect waves-block"><i class="material-icons">refresh</i>@L("Refresh")</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="body table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        {{Show_Columns_Title_Here}}
+						<th>@L("Actions")</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model.{{Entity_Name_Here}}s)
+                    {
+                        <tr>
+                            {{Show_Columns_Field_Here}}
+                            <td class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">menu</i>
+                                </a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="#" class="waves-effect waves-block edit-role" data-role-id="@item.Id" data-toggle="modal" data-target="#{{Entity_Name_Here}}EditModal"><i class="material-icons">edit</i>@L("Edit")</a></li>
+                                    <li><a href="#" class="waves-effect waves-block delete-role" data-role-id="@item.Id" data-role-name="@role.Name"><i class="material-icons">delete_sweep</i>@L("Delete")</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+				@if (IsGranted(PermissionNames.{{Permission_Name_Here}}_Create))
+				{
+					<button type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float pull-right" data-toggle="modal" data-target="#{{Entity_Name_Here}}CreateModal">
+						<i class="material-icons">add</i>
+					</button>
+				}
+            </div>
         </div>
     </div>
 </div>
-<div class="m-content">
-    <div class="m-portlet m-portlet--mobile">
-        <div class="m-portlet__body">
-			<div class="m-form m-form--label-align-right">
-			   <div class="row align-items-center m--margin-bottom-10">
-                    <div class="col-xl-12">
-                        <div class="form-group m-form__group align-items-center">
-                            <div class="input-group">
-                                <input type="text" id="{{Entity_Name_Plural_Here}}TableFilter" class="form-control m-input" placeholder="@L("SearchWithThreeDot")" >
-                                <span class="input-group-btn">
-                                    <button id="Get{{Entity_Name_Plural_Here}}Button" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-			</div>
-            <div class="row align-items-center">
-                <table id="MainTable" class="display table table-striped table-bordered table-hover dt-responsive nowrap">
-                    <thead>
-                        <tr>
-                            <th>@L("Actions")</th>
-							{{Property_Looped_Template_Here}}
-                        </tr>
-                    </thead>
-                </table>
+<div class="modal fade" id="{{Entity_Name_Here}}CreateModal" tabindex="-1" role="dialog" aria-labelledby="{{Entity_Name_Here}}CreateModalLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>@L("CreateNew{{Entity_Name_Here}}")</span>
+                </h4>
             </div>
+            <div class="modal-body">
+                <form name="roleCreateForm" role="form" novalidate class="form-validation">
+                    <!--{{Input_Fields}}-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">@L("Cancel")</button>
+                        <button type="submit" class="btn btn-primary waves-effect">@L("Save")</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="RoleEditModal" tabindex="-1" role="dialog" aria-labelledby="RoleEditModalLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
         </div>
     </div>
 </div>

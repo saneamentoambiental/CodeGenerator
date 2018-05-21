@@ -8,6 +8,26 @@ namespace AbpCodeGenerator.Lib
 {
     public class CodeGeneratorHelper
     {
+		#region Show data Grid 
+
+		/// <summary>
+		/// 生成CreateOrEditViewModelClass
+		/// </summary>
+		/// <param name="className"></param>
+		public static void SetListViewModelClass(string className)
+		{
+			string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Client\Mvc\ViewModelClass\ListViewModel.txt";
+			var templateContent = Read(appServiceIntercafeClassDirectory);
+			templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
+											 .Replace("{{Namespace_Relative_Full_Here}}", className)
+											 .Replace("{{Entity_Name_Plural_Here}}", className)
+											 .Replace("{{Entity_Name_Here}}", className)
+											 .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
+											 ;
+			Write(Path.Combine(Configuration.Web_Mvc_Directory, "Areas", Configuration.App_Area_Name, "Models", className + "s", className + "ListViewModel.cs"), templateContent);
+		}
+
+		#endregion
 
 		#region client
 
@@ -208,18 +228,24 @@ namespace AbpCodeGenerator.Lib
 		/// <param name="className"></param>
 		public static void SetIndexHtmlTemplate(string className, List<MetaTableInfo> metaTableInfoList)
         {
-            string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Client\Mvc\IndexHtmlTemplate\MainTemplate.txt";
-            var templateContent = Read(appServiceIntercafeClassDirectory);
+			var directory = Configuration.RootDirectory + @"\Client\Mvc\IndexHtmlTemplate\";
+            string templatePath = Path.Combine(directory, "MainTemplate.txt");
+            var templateContent = Read(templatePath);
 
-            StringBuilder sb = new StringBuilder();
+			string templateColumnTitle = Read(Path.Combine(directory, "Show_Columns_Title_Template.txt"));
+			string templateColumnField = Read(Path.Combine(directory, "Show_Columns_Field_Template.txt"));
 
-            foreach (var item in metaTableInfoList)
+			StringBuilder sbColumnTitle = new StringBuilder();
+			StringBuilder sbColumnField = new StringBuilder();
+
+			foreach (var item in metaTableInfoList)
             {
 				if (item.IsAuditableField)
 					continue;
-                sb.AppendLine(" <th>" + item.Annotation + "</th>");
-            }
-            var property_Looped_Template_Here = sb.ToString();
+                sbColumnTitle.AppendLine(templateColumnTitle.Replace("{{Entity_Field_Name}}", (string.IsNullOrWhiteSpace(item.Annotation)? item.Name: item.Annotation )));
+				sbColumnField.AppendLine(templateColumnField.Replace("{{Entity_Field_Name}}", item.Name));
+			}
+            var property_Looped_Template_Here = sbColumnTitle.ToString();
 
             templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
                                              .Replace("{{Entity_Name_Plural_Here}}", className)
@@ -227,7 +253,8 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
                                              .Replace("{{Property_Looped_Template_Here}}", property_Looped_Template_Here)
                                              .Replace("{{Permission_Name_Here}}", $"Pages_{Configuration.App_Area_Name}_{className}")
-
+											 .Replace("{{Show_Columns_Title_Here}}", sbColumnTitle.ToString())
+											 .Replace("{{Show_Columns_Field_Here}}", sbColumnField.ToString())
 											 ;
             Write(Path.Combine(Configuration.Web_Mvc_Directory, "Areas", Configuration.App_Area_Name, "Views", className, "Index.cshtml"), templateContent);
         }
@@ -583,11 +610,11 @@ namespace AbpCodeGenerator.Lib
         #region 文件读取
         public static string Read(string path)
         {
-            using (StreamReader sr = new StreamReader(path, Encoding.Default))
+			using (StreamReader sr = new StreamReader(path, Encoding.Default))
             {
 				return sr.ReadToEnd();
-            }
-        }
+            }			
+		}
 
         /// <summary>
         /// 
@@ -597,19 +624,23 @@ namespace AbpCodeGenerator.Lib
         /// <param name="templateContent">模板内容</param>
         public static void Write(string filePath, string fileName, string templateContent)
         {
-            if (!Directory.Exists(filePath))
+			Console.WriteLine($"Saving {filePath}...");
+			Console.WriteLine($"\t Checking directory...");
+			if (!Directory.Exists(filePath))
             {
-                Directory.CreateDirectory(filePath);
+				Console.WriteLine($"\t Creating directory...");
+				Directory.CreateDirectory(filePath);
             }
-            using (FileStream fs = new FileStream(Path.Combine(filePath, fileName), FileMode.Create))
+			Console.WriteLine($"\t Writing file...");
+			using (FileStream fs = new FileStream(Path.Combine(filePath, fileName), FileMode.Create))
             {
                 //获得字节数组
                 byte[] data = Encoding.Default.GetBytes(templateContent);
                 //开始写入
                 fs.Write(data, 0, data.Length);
             }
-
-        }
+			Console.WriteLine($"\t Finished with sucess.");
+		}
 
         /// <summary>
         /// 
@@ -618,9 +649,15 @@ namespace AbpCodeGenerator.Lib
         /// <param name="templateContent">模板内容</param>
         public static void Write(string filePath, string templateContent)
         {
+			Console.WriteLine($"Saving {filePath}...");
+			Console.WriteLine($"\t Checking directory...");
 			if (!Directory.Exists(Path.GetDirectoryName(filePath)))
+			{
+				Console.WriteLine($"\t Creating directory...");
 				Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-
+				
+			}
+			Console.WriteLine($"\t Writing file...");
 			using (FileStream fs = new FileStream(filePath, FileMode.Create))
             {
                 //获得字节数组
@@ -628,8 +665,9 @@ namespace AbpCodeGenerator.Lib
                 //开始写入
                 fs.Write(data, 0, data.Length);
             }
+			Console.WriteLine($"\t Finished with sucess.");
 
-        }
+		}
         #endregion
 
         #region 首字母小写

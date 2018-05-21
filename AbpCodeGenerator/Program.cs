@@ -31,8 +31,12 @@ namespace AbpCodeGenerator
 				//Obter o tipo de chave primária
 				var propertyType = metaTableInfoList.FirstOrDefault(m => m.Name == "Id").PropertyType;
 
-				CodeGeneratorHelper.SetIndexJsTemplate(className, metaTableInfoList);
-				
+				CodeGeneratorHelper.SetListViewModelClass(className);
+				CodeGeneratorHelper.SetIndexHtmlTemplate(className, metaTableInfoList);
+				CodeGeneratorHelper.SetListDtoClass(className, metaTableInfoList);
+				break;
+
+				CodeGeneratorHelper.SetIndexJsTemplate(className, metaTableInfoList);				
 				CodeGeneratorHelper.AddNavigationMenu(className);
 				
 
@@ -42,7 +46,7 @@ namespace AbpCodeGenerator
 				CodeGeneratorHelper.SetCreateOrEditInputClass(className, metaTableInfoList);
 				CodeGeneratorHelper.SetGetForEditOutputClass(className);
 				CodeGeneratorHelper.SetGetInputClass(className);
-				CodeGeneratorHelper.SetListDtoClass(className, metaTableInfoList);
+				
 				CodeGeneratorHelper.SetCreateOrEditInputClass(className, metaTableInfoList);
 
 				CodeGeneratorHelper.GeneretePageNameConsts(className);
@@ -60,13 +64,14 @@ namespace AbpCodeGenerator
 				CodeGeneratorHelper.SetCreateOrEditHtmlTemplate(className, metaTableInfoList);
 				CodeGeneratorHelper.SetCreateOrEditJs(className);
 				CodeGeneratorHelper.SetCreateOrEditViewModelClass(className);
-				CodeGeneratorHelper.SetIndexHtmlTemplate(className, metaTableInfoList);
 				
 
 				Console.WriteLine("Informe o classe Model ou Tabela");
 				Console.WriteLine("ou S para sair?");
 				className = Console.ReadLine();
 			}
+			Console.WriteLine("Press any key to exit.");
+			Console.ReadKey();
 		}
 	}
 }

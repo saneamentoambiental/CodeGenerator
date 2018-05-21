@@ -1,0 +1,17 @@
+﻿using System.Collections.Generic;
+using {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s.Dtos;
+
+namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Models.{{Entity_Name_Plural_Here}}s 
+{
+	public class {{Entity_Name_Here}}ListViewModel
+	{
+		public IReadOnlyList<{{Entity_Name_Here}}ListDto> {{Entity_Name_Here}}s { get; }
+
+		public {{Entity_Name_Here}}ListViewModel(IReadOnlyList<{{Entity_Name_Here}}ListDto> {{Entity_Name_Here}}s)
+		{
+			this.{{Entity_Name_Here}}s = {{Entity_Name_Here}}s;
+		}
+
+    
+	}
+}

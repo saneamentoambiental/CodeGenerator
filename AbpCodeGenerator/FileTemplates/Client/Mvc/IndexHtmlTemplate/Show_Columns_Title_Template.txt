@@ -1,0 +1,1 @@
+﻿<th>@L("{{Entity_Field_Name}}")</th>

@@ -11,7 +11,7 @@
         };
 
         var _createOrEditModal = new app.ModalManager({
-            viewUrl: abp.appPath + '{{App_Area_Name_Here}}/{{Entity_Name_Plural_Here}}/CreateOrEditModal',
+            viewUrl: abp.appPath + '{{App_Area_Name_Here}}/Views/{{Entity_Name_Plural_Here}}/CreateOrEditModal',
             scriptUrl: abp.appPath + 'view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Plural_Here}}/_CreateOrEditModal.js',
             modalClass: 'CreateOrEdit{{Entity_Name_Here}}Modal'
         });
