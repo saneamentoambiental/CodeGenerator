@@ -36,7 +36,7 @@ namespace AbpCodeGenerator
 				CodeGeneratorHelper.SetListDtoClass(className, metaTableInfoList);
 				
 				CodeGeneratorHelper.SetIndexJsTemplate(className, metaTableInfoList);
-				break;
+				//break;
 				CodeGeneratorHelper.AddNavigationMenu(className);
 				
 

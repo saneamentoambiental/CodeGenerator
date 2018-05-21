@@ -28,8 +28,10 @@ namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
 			//{
 			//	FilterText = ""
 			//};
+			var data = (_{{entity_Name_Plural_Here}}AppService.GetAll(new Get{{Entity_Name_Here}}Input())).Result.Items;
+			var model = new {{Entity_Name_Here}}ListViewModel(data);
 
-            return View();
+            return View(model);
         }
 
         [AbpMvcAuthorize(PermissionNames.{{Permission_Name_Here}}_Create, PermissionNames.{{Permission_Name_Here}}_Edit)]
