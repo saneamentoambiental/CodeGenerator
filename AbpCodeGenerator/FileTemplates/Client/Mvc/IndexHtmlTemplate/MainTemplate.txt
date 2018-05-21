@@ -54,8 +54,8 @@
                                     <i class="material-icons">menu</i>
                                 </a>
                                 <ul class="dropdown-menu pull-right">
-                                    <li><a href="#" class="waves-effect waves-block edit-role" data-role-id="@item.Id" data-toggle="modal" data-target="#{{Entity_Name_Here}}EditModal"><i class="material-icons">edit</i>@L("Edit")</a></li>
-                                    <li><a href="#" class="waves-effect waves-block delete-role" data-role-id="@item.Id" data-role-name="@role.Name"><i class="material-icons">delete_sweep</i>@L("Delete")</a></li>
+                                    <li><a href="#" class="waves-effect waves-block edit-{{Entity_Name_Here}}" data-{{Entity_Name_Here}}-id="@item.Id" data-toggle="modal" data-target="#{{Entity_Name_Here}}EditModal"><i class="material-icons">edit</i>@L("Edit")</a></li>
+                                    <li><a href="#" class="waves-effect waves-block delete-{{Entity_Name_Here}}" data-{{Entity_Name_Here}}-id="@item.Id" data-{{Entity_Name_Here}}-name="@item.Id"><i class="material-icons">delete_sweep</i>@L("Delete")</a></li>
                                 </ul>
                             </td>
                         </tr>
@@ -72,6 +72,10 @@
         </div>
     </div>
 </div>
+
+
+<!-- TODO: -->
+
 <div class="modal fade" id="{{Entity_Name_Here}}CreateModal" tabindex="-1" role="dialog" aria-labelledby="{{Entity_Name_Here}}CreateModalLabel" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -93,7 +97,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="RoleEditModal" tabindex="-1" role="dialog" aria-labelledby="RoleEditModalLabel" data-backdrop="static">
+<div class="modal fade" id="{{Entity_Name_Here}}EditModal" tabindex="-1" role="dialog" aria-labelledby="RoleEditModalLabel" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 
