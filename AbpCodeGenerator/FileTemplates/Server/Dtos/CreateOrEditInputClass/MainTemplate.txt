@@ -1,10 +1,12 @@
 ﻿using System;
 using Abp.Application.Services.Dto;
+using Abp.AutoMapper;
 using System.ComponentModel.DataAnnotations;
 
 namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s.Dtos
 {
-    public class CreateOrEdit{{Entity_Name_Here}}Input 
+	[AutoMapTo(typeof({{Entity_Name_Here}}))]
+    public class CreateOrEdit{{Entity_Name_Here}}Input : IEntityDto
     {
       {{Property_Looped_Template_Here}}
     }

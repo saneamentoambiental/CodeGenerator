@@ -1,10 +1,12 @@
 ﻿using System;
 using Abp.Application.Services.Dto;
 using System.ComponentModel.DataAnnotations;
+using Abp.AutoMapper;
 
 namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s.Dtos
 {
-    public class {{Entity_Name_Here}}ListDto 
+	[AutoMap(typeof({{Entity_Name_Here}}))]
+    public class {{Entity_Name_Here}}ListDto : IEntityDto
     {
        {{Property_Looped_Template_Here}}
     }
