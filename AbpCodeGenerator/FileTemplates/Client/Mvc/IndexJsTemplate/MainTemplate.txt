@@ -21,10 +21,10 @@
 
 		$('.edit-{{Entity_Name_Here}}').click(function (e) {
 			var {{Entity_Name_Here}}Id = $(this).attr("data-{{Entity_Name_Here}}-id");
-
+			
 			e.preventDefault();
 			$.ajax({
-				url: abp.appPath + '{{Entity_Name_Here}}s/Edit{{Entity_Name_Here}}Modal?{{Entity_Name_Here}}Id=' + {{Entity_Name_Here}}Id,
+				url: abp.appPath + '{{App_Area_Name_Here}}/{{Entity_Name_Here}}/Edit{{Entity_Name_Here}}Modal?{{Entity_Name_Here}}Id=' + {{Entity_Name_Here}}Id,
 				type: 'POST',
 				contentType: 'application/html',
 				success: function (content) {
