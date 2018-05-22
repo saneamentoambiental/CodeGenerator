@@ -136,8 +136,17 @@ namespace AbpCodeGenerator.Lib
 
                 sb.AppendLine("</div> ");
             }
-
-            var property_Looped_Template_Here = sb.ToString();
+			sb.AppendLine("//Sample of lookup");
+			sb.AppendLine("\"<div class=\"form - group\">");
+			sb.AppendLine("@Html.Label(L(\"{{ReferenceEntity}}\"))");
+			sb.AppendLine("@Html.DropDownList(");
+			sb.AppendLine("\"{{ReferenceEntity}}Id\", Model.{ReferenceEntity}},");
+			sb.AppendLine("new");
+			sb.AppendLine("{");
+			sb.AppendLine("@class = \"form -control\",");
+			sb.AppendLine("	id = \"{{ReferenceEntity}}Combobox\"");
+			sb.AppendLine("})</ div >");
+			var property_Looped_Template_Here = sb.ToString();
 
             templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
