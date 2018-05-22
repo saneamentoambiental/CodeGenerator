@@ -24,7 +24,7 @@ namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s
 		  public {{Entity_Name_Plural_Here}}AppService(
 				IRepository<{{Entity_Name_Here}},{{Primary_Key_With_Comma_Here}}> {{entity_Name_Here}}Repository
 				/* , I{{Entity_Name_Here}}ListExcelExporter {{entity_Name_Here}}ListExcelExporter */
-			) 
+			) :base()
 		  {
 			_{{entity_Name_Here}}Repository = {{entity_Name_Here}}Repository;
 			//_{{entity_Name_Here}}ListExcelExporter = {{entity_Name_Here}}ListExcelExporter;
