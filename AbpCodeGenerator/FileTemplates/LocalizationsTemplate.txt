@@ -1,0 +1,12 @@
+﻿<!--LocalizationDictionary_Here-->
+
+<!-- {{Entity_Name_Here}}-->");
+<text name="{{Entity_Name_Here}}">{{Entity_Name_Here}}</text>
+<text name="CreatingNew{{Entity_Name_Here}}">Criar {{Entity_Name_Here}}</text>
+<text name="Creating new {{entity_Name_Here}}">Criar {{Entity_Name_Here}}</text>
+<text name="Editing{{Entity_Name_Here}}">Alterar {{Entity_Name_Here}}</text>
+<text name="Deleting{{Entity_Name_Here}}">Excluir {{Entity_Name_Here}}</text>
+<text name="{{Entity_Name_Here}}HeaderInfo">{{Entity_Name_Here}}</text>
+<text name="New {{entity_Name_Here}}">Novo {{Entity_Name_Here}}</text>
+<text name="{{entity_Name_Here}}Deleted">Removido com sucesso</text>
+

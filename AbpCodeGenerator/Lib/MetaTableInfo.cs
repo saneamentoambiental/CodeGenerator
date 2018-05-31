@@ -38,6 +38,11 @@ namespace AbpCodeGenerator.Lib
 			}
 		}
 
+		public bool IsIdField
+		{
+			get { return Name == "Id"; }
+		}
+
         public static List<MetaTableInfo> GetMetaTableInfoListForMysql(string tableName)
         {
             var mysqlEntity = MysqlEntity.GetMysqlEntityByTableName(tableName);
@@ -73,6 +78,7 @@ namespace AbpCodeGenerator.Lib
                     var classAnnotation = string.Empty;
                     try
                     {
+						
                         //获取类的注释
                         XmlElement xmlFromType = DocsByReflection.XMLFromType(type.GetTypeInfo());
                         classAnnotation = xmlFromType["summary"].InnerText.Trim();
@@ -88,10 +94,21 @@ namespace AbpCodeGenerator.Lib
                         var metaTableInfo = new MetaTableInfo();
                         try
                         {
-                            XmlElement documentation = DocsByReflection.XMLFromMember(type.GetProperty(properties.Name));
-                            metaTableInfo.Annotation = documentation["summary"].InnerText.Trim();
+                            //XmlElement documentation = DocsByReflection.XMLFromMember(type.GetProperty(properties.Name));
+                            //metaTableInfo.Annotation = documentation["summary"].InnerText.Trim();
 
-                            metaTableInfo.ClassAnnotation = classAnnotation;
+							var customAttributes = properties.GetCustomAttributes();
+							var attr = new List<string>();
+							if (customAttributes != null)
+							{
+								foreach (var attribute in customAttributes)
+								{
+									attr.Add(attribute.GetType().Name);
+								}
+								metaTableInfo.Annotation += "["+String.Join("]\n[", attr.ToArray())+"]";
+							}
+							metaTableInfo.Annotation = metaTableInfo.Annotation.Replace("Attribute", "").Replace("[]","");
+							metaTableInfo.ClassAnnotation = classAnnotation;
                         }
                         catch
                         {

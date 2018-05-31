@@ -1,0 +1,31 @@
+﻿
+<!-- TODO: Fix the template. Here is a little sample to begin job -->
+
+<div class="modal fade" id="{{Entity_Name_Here}}CreateModal" tabindex="-1" role="dialog" aria-labelledby="{{Entity_Name_Here}}CreateModalLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>@L("CreateNew{{Entity_Name_Here}}")</span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form name="roleCreateForm" role="form" novalidate class="form-validation">
+                    <!--{{Input_Fields}}-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">@L("Cancel")</button>
+                        <button type="submit" class="btn btn-primary waves-effect">@L("Save")</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="{{Entity_Name_Here}}EditModal" tabindex="-1" role="dialog" aria-labelledby="RoleEditModalLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>

@@ -15,7 +15,7 @@ namespace AbpCodeGenerator
 
 			Console.WriteLine("Informe o classe Model ou Tabela");
 			string className = "X";
-			className = "Parametro"; // Console.ReadLine();
+			className = "Pessoa"; // Console.ReadLine();
 			while (!string.IsNullOrWhiteSpace(className) &&  !className.Equals("S", StringComparison.InvariantCultureIgnoreCase))
 			{
 				GenerateOptions options = getOptionsFor(className);
@@ -52,7 +52,7 @@ namespace AbpCodeGenerator
 					CodeGeneratorHelper.SetListDtoClass(className, metaTableInfoList);
 					CodeGeneratorHelper.SetCreateOrEditInputClass(className, metaTableInfoList);
 					CodeGeneratorHelper.SetGetForEditOutputClass(className);
-					CodeGeneratorHelper.SetGetInputClass(className);
+					CodeGeneratorHelper.SetGetInputClass(className, metaTableInfoList);
 				}
 				if (options.CreatePageConsts)
 				{
@@ -68,7 +68,7 @@ namespace AbpCodeGenerator
 				}
 				if (options.CreateLoacalization)
 				{
-					CodeGeneratorHelper.SetZh_CN_LocalizationDictionary_Here(className, metaTableInfoList[0].ClassAnnotation);
+					CodeGeneratorHelper.setLocalizationKeys(className, metaTableInfoList);
 				}
 				if (options.CreateClientControllerAndViews)
 				{
@@ -88,7 +88,11 @@ namespace AbpCodeGenerator
 			Console.WriteLine("Press any key to exit.");
 			Console.ReadKey();
 		}
-
+		public static void gerarDataTableUtilClass()
+		{
+			CodeGeneratorHelper.CreateDataTableWrapper();
+			throw new NotImplementedException();
+		}
 		private static GenerateOptions getOptionsFor(string className)
 		{
 			return new GenerateOptions
@@ -97,7 +101,7 @@ namespace AbpCodeGenerator
 				CreateNavigationMenu = false,
 				CreatePageConsts = false,
 				SetPermissions = false,
-				CreateDtos = false,
+				CreateDtos = true,
 				CreateServiceClass = false,
 				CreateClientControllerAndViews = false
 			};

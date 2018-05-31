@@ -75,67 +75,107 @@ namespace AbpCodeGenerator.Lib
             Write(Path.Combine(Configuration.Web_Mvc_Directory, "Areas", Configuration.App_Area_Name, "Controllers", className + "Controller.cs"), templateContent);
         }
 
+		public static void CreateDataTableWrapper()
+		{
+			string dest = Path.Combine(Configuration.RootDirectory, "GPSA.ETESystem.Core", "Web", "DataTableNet", "DataTableWrapperExtensions.cs");
+			string templatePath = Path.Combine(Configuration.RootDirectory, "DataTableWrapperExtensions.txt");
+			var templateContent = Read(templatePath);
 
-        /// <summary>
-        /// 生成CreateOrEditHtmlTemplate
-        /// </summary>
-        /// <param name="className"></param>
-        public static void SetCreateOrEditHtmlTemplate(string className, List<MetaTableInfo> metaTableInfoList)
+			templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
+											 .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
+											 .Replace("{{Project_Name_Here}}", Configuration.Controller_Base_Class)
+											 ;
+			Write(dest, templateContent);
+		}
+
+
+		/// <summary>
+		/// 生成CreateOrEditHtmlTemplate
+		/// </summary>
+		/// <param name="className"></param>
+		public static void SetCreateOrEditHtmlTemplate(string className, List<MetaTableInfo> metaTableInfoList)
         {
             string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Client\Mvc\CreateOrEditHtmlTemplate\MainTemplate.txt";
             var templateContent = Read(appServiceIntercafeClassDirectory);
 
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < metaTableInfoList.Count; i++)
-            {
+
+			foreach (var field in metaTableInfoList)
+			{
+				if (field.IsAuditableField || field.IsIdField)
+					continue;
+
+
+				var fieldType = "text";
+				var fieldClass = "form-control";
+				switch (field.PropertyType)
+				{
+					case "datetime":
+						{
+							fieldType = "date";
+							fieldClass = "date-picker";
+							break;
+						}
+
+				}
+				sb.Append("<div class=\"form-group\"> ");
+				sb.Append($"	<label for=\"{field.Name}\">@L(\"{className}.{field.Name}\")</label>");
+				sb.Append($"	<input type=\"{fieldType}\" class=\"{fieldClass}\" name=\"{field.Name}\" placeholder=\"@L(\"{className}.{field.Name}.placeholder\")\"  value=\"@Model.{className}.{field.Name}\" >");
+				sb.Append("</div>");
+			}
+
+			sb.Append("<!-- ");
+			for (int i = 0; i < metaTableInfoList.Count; i++)
+			{
 				if (metaTableInfoList[i].IsAuditableField)
 					continue;
 
 				sb.AppendLine("<div class=\"form-group m-form__group row\">");
-                if (i % 2 == 0)
-                {
-                    sb.AppendLine($"<label class=\"col-xl-1 col-lg-1 col-form-label\">{metaTableInfoList[i].Annotation}</label>");
-                    sb.AppendLine(" <div class=\"col-xl-5 col-lg-5\">");
-                    if (metaTableInfoList[i].PropertyType == "string")
-                    {
-                        sb.AppendLine("  <input class=\"form-control@(Model." + className + "." + metaTableInfoList[i].Name + ".IsNullOrEmpty() ? \"\" : \" edited\")\"");
-                    }
-                    else
-                    {
-                        sb.AppendLine("  <input class=\"form-control\"");
-                    }
-                    sb.AppendLine("type=\"text\" name=\"" + metaTableInfoList[i].Name + "\"");
-                    sb.AppendLine("value=\"@Model." + className + "." + metaTableInfoList[i].Name + "\" />");
-                    sb.AppendLine("</div>");
+				if (i % 2 == 0)
+				{
+					sb.AppendLine($"<label class=\"col-xl-1 col-lg-1 col-form-label\">{metaTableInfoList[i].Annotation}</label>");
+					sb.AppendLine(" <div class=\"col-xl-5 col-lg-5\">");
+					if (metaTableInfoList[i].PropertyType == "string")
+					{
+						sb.AppendLine("  <input class=\"form-control@(Model." + className + "." + metaTableInfoList[i].Name + ".IsNullOrEmpty() ? \"\" : \" edited\")\"");
+					}
+					else
+					{
+						sb.AppendLine("  <input class=\"form-control\"");
+					}
+					sb.AppendLine("type=\"text\" name=\"" + metaTableInfoList[i].Name + "\"");
+					sb.AppendLine("value=\"@Model." + className + "." + metaTableInfoList[i].Name + "\" />");
+					sb.AppendLine("</div>");
 
-                    if (i + 1 < metaTableInfoList.Count)
-                    {
-						
+					if (i + 1 < metaTableInfoList.Count)
+					{
+
 
 						sb.AppendLine($"<label class=\"col-xl-1 col-lg-1 col-form-label\">{metaTableInfoList[i + 1].Annotation}</label>");
-                        sb.AppendLine(" <div class=\"col-xl-5 col-lg-5\">");
+						sb.AppendLine(" <div class=\"col-xl-5 col-lg-5\">");
 						if (metaTableInfoList[i + 1].PropertyType == "string")
 						{
 							// <input type="datetime"  class="form-control date-picker">
 							sb.AppendLine("  <input type=\"text\" class=\"form-control@(Model." + className + "." + metaTableInfoList[i + 1].Name + ".IsNullOrEmpty() ? \"\" : \" edited\")\"");
 						}
-						else if (metaTableInfoList[i + 1].PropertyType.Equals("datetime", StringComparison.CurrentCultureIgnoreCase) )
+						else if (metaTableInfoList[i + 1].PropertyType.Equals("datetime", StringComparison.CurrentCultureIgnoreCase))
 						{
-							sb.AppendLine("<input type=\"datetime\"  class=\"form-control date-picker\">");							
+							sb.AppendLine("<input type=\"datetime\"  class=\"form-control date-picker\">");
 						}
 						else
 						{
 							sb.AppendLine("  <input type=\"text\" class=\"form-control\" ");
 						}
-                        sb.AppendLine("name=\"" + metaTableInfoList[i + 1].Name + "\"");
-                        sb.AppendLine("value=\"@Model." + className + "." + metaTableInfoList[i + 1].Name + "\" />");
-                        sb.AppendLine("</div>");
-                    }
-                }
+						sb.AppendLine("name=\"" + metaTableInfoList[i + 1].Name + "\"");
+						sb.AppendLine("value=\"@Model." + className + "." + metaTableInfoList[i + 1].Name + "\" />");
+						sb.AppendLine("</div>");
+					}
+				}
 
 
-                sb.AppendLine("</div> ");
-            }
+				sb.AppendLine("</div>");
+			}
+			sb.Append("-->");
 			sb.AppendLine("//Sample of lookup");
 			sb.AppendLine("\"<div class=\"form - group\">");
 			sb.AppendLine("@Html.Label(L(\"{{ReferenceEntity}}\"))");
@@ -171,12 +211,13 @@ namespace AbpCodeGenerator.Lib
 
             templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
+                                             .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
                                              .Replace("{{Entity_Name_Plural_Here}}", className)
                                              .Replace("{{Entity_Name_Here}}", className)
                                              .Replace("{{entity_Name_Here}}", GetFirstToLowerStr(className))
                                              .Replace("{{entity_Name_Plural_Here}}", GetFirstToLowerStr(className))
                                              ;
-            Write(Path.Combine(Configuration.Web_Mvc_Directory, "wwwroot\\view-resources\\Areas", Configuration.App_Area_Name,"Views" , className, "_CreateOrEditModal.js"), templateContent);
+            Write(Path.Combine(Configuration.Web_Mvc_Directory, "wwwroot\\view-resources\\Areas", Configuration.App_Area_Name,"Views" , className, "_CreateOrEdit.js"), templateContent);
         }
 
 
@@ -248,11 +289,21 @@ namespace AbpCodeGenerator.Lib
 			StringBuilder sbColumnField = new StringBuilder();
 
 			foreach (var item in metaTableInfoList)
-            {
+			{
 				if (item.IsAuditableField)
 					continue;
-                sbColumnTitle.AppendLine(templateColumnTitle.Replace("{{Entity_Field_Name}}", (string.IsNullOrWhiteSpace(item.Annotation)? item.Name: item.Annotation )));
-				sbColumnField.AppendLine(templateColumnField.Replace("{{Entity_Field_Name}}", item.Name));
+				var title = templateColumnTitle.Replace("{{Entity_Field_Name}}", (string.IsNullOrWhiteSpace(item.Annotation) ? item.Name : item.Annotation));
+				var field = templateColumnField.Replace("{{Entity_Field_Name}}", item.Name);
+				if (item.IsIdField)
+				{
+					sbColumnTitle.Insert(0, title);
+					sbColumnField.Insert(0, field);
+				}
+				else
+				{
+					sbColumnTitle.AppendLine(title);
+					sbColumnField.AppendLine(field);
+				}
 			}
             var property_Looped_Template_Here = sbColumnTitle.ToString();
 
@@ -279,15 +330,18 @@ namespace AbpCodeGenerator.Lib
             var templateContent = Read(appServiceIntercafeClassDirectory);
 
             StringBuilder sb = new StringBuilder();
-            var i = 1;
+            var i = 2;
             foreach (var item in metaTableInfoList)
             {
 				if (item.IsAuditableField)
 					continue;
-                sb.AppendLine(", {");
-                sb.AppendLine("targets: " + i + ",");
-                sb.AppendLine("data: \"" + GetFirstToLowerStr(item.Name) + "\"");
-                sb.AppendLine("}");
+				//TODO: Verificar se o json é gerado na forma { target: i, data: "coluna" }
+				string column = Abp.Json.JsonExtensions.ToJsonString(new
+				{
+					target = i,
+					data = item.Name
+				});
+				sb.AppendLine(column +",");
                 i++;
             }
             var property_Looped_Template_Here = sb.ToString();
@@ -417,22 +471,37 @@ namespace AbpCodeGenerator.Lib
             Write( Path.Combine(Configuration.Application_Directory , className + "s\\Exporting\\"), className + "ListExcelExporter.cs", templateContent);
         }
 
-        #region Dtos
+		#region Dtos
+
+		private static string GetPropertiesForDTO(List<MetaTableInfo> metaTableInfoList, bool addIdField = true, bool addAuditableField = false)
+		{
+            StringBuilder sb = new StringBuilder();
+			foreach (var item in metaTableInfoList)
+			{
+				if (! addAuditableField && item.IsAuditableField )
+					continue;
+				if (!addIdField && item.IsIdField)
+					continue;
+				sb.AppendLine(item.Annotation);				
+				sb.AppendLine("public " + item.PropertyType + " " + item.Name + " { get; set; }");				
+			}
+			return sb.ToString();
+		}
 
         /// <summary>
         /// 生成GetInputClass
         /// </summary>
         /// <param name="className"></param>
-        public static void SetGetInputClass(string className)
+        public static void SetGetInputClass(string className, List<MetaTableInfo> metaTableInfoList)
         {
             string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\Dtos\GetInputClass\MainTemplate.txt";
             var templateContent = Read(appServiceIntercafeClassDirectory);
 
-            templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
+			templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
                                              .Replace("{{Entity_Name_Here}}", className)
-                                             ;
-            Write(Path.Combine( Configuration.Application_Directory, className + "s\\Dtos"), "Get" + className + "Input.cs", templateContent);
+											 ;
+			Write(Path.Combine( Configuration.Application_Directory, className + "s", "Dtos"), "Get" + className + "Input.cs", templateContent);
         }
 
 
@@ -449,7 +518,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
                                              .Replace("{{Entity_Name_Here}}", className)
                                              ;
-            Write(Path.Combine(Configuration.Application_Directory, className + "s\\Dtos"), "Get" + className + "ForEditOutput.cs", templateContent);
+            Write(Path.Combine(Configuration.Application_Directory, className + "s","Dtos"), "Get" + className + "ForEditOutput.cs", templateContent);
         }
 
 
@@ -494,17 +563,8 @@ namespace AbpCodeGenerator.Lib
             string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\Dtos\CreateOrEditInputClass\MainTemplate.txt";
             var templateContent = Read(appServiceIntercafeClassDirectory);
             StringBuilder sb = new StringBuilder();
-
-            foreach (var item in metaTableInfoList)
-            {
-				if (item.IsAuditableField)
-					continue;
-				sb.AppendLine("/// <summary>");
-                sb.AppendLine("/// " + item.Annotation);
-                sb.AppendLine("/// </summary>");
-                sb.AppendLine("public " + item.PropertyType + (item.Name == "Id" ? "? " : " ") + item.Name + " { get; set; }");
-                sb.AppendLine("     ");
-            }
+			sb.AppendLine("public int? Id { get; set; }");
+			sb.Append(GetPropertiesForDTO(metaTableInfoList, false, false));
             var property_Looped_Template_Here = sb.ToString();
             templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
@@ -540,10 +600,10 @@ namespace AbpCodeGenerator.Lib
         {
             StringBuilder sbAppPermissions_Here = new StringBuilder();
             sbAppPermissions_Here.AppendLine($"#region {className}");
-            sbAppPermissions_Here.AppendLine($"public const string Pages_{Configuration.App_Area_Name}_{className}			= \"Pages.{Configuration.App_Area_Name}.{className}\";");
-            sbAppPermissions_Here.AppendLine($"public const string Pages_{Configuration.App_Area_Name}_{className}_Create	= \"Pages.{Configuration.App_Area_Name}.{className}.Create\";");
-            sbAppPermissions_Here.AppendLine($"public const string Pages_{Configuration.App_Area_Name}_{className}_Edit		= \"Pages.{Configuration.App_Area_Name}.{className}.Edit\";");
-            sbAppPermissions_Here.AppendLine($"public const string Pages_{Configuration.App_Area_Name}_{className}_Delete	= \"Pages.{Configuration.App_Area_Name}.{className}.Delete\";");
+            sbAppPermissions_Here.AppendLine($"public const string Pages_{Configuration.App_Area_Name}_{className}			= \"{Configuration.App_Area_Name}.{className}\";");
+            sbAppPermissions_Here.AppendLine($"public const string Pages_{Configuration.App_Area_Name}_{className}_Create	= \"{Configuration.App_Area_Name}.{className}.Create\";");
+            sbAppPermissions_Here.AppendLine($"public const string Pages_{Configuration.App_Area_Name}_{className}_Edit		= \"{Configuration.App_Area_Name}.{className}.Edit\";");
+            sbAppPermissions_Here.AppendLine($"public const string Pages_{Configuration.App_Area_Name}_{className}_Delete	= \"{Configuration.App_Area_Name}.{className}.Delete\";");
             sbAppPermissions_Here.AppendLine(" #endregion");
             sbAppPermissions_Here.AppendLine("                         ");
             sbAppPermissions_Here.AppendLine(" //{{AppPermissions_Here}}");
@@ -584,11 +644,38 @@ namespace AbpCodeGenerator.Lib
             }
         }
 
+		public static void setLocalizationKeys(string className, List<MetaTableInfo> metaTableInfoList)
+		{
+			string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\LocalizationsTemplate.txt";
+			var templateContent = Read(appServiceIntercafeClassDirectory);
+
+			templateContent = templateContent.Replace("{{entity_Name_Here}}", GetFirstToLowerStr(className))
+											 .Replace("{{Entity_Name_Here}}", className)
+											 ;
+
+			
+			var LocalizationDictionaryTemplateContent = Read(Configuration.LocalizationDictionary_Path);
+			var sbFields = new StringBuilder();
+			foreach (var item in metaTableInfoList)
+			{
+				if (!LocalizationDictionaryTemplateContent.Contains($"<text name=\"{className}.{item.Name}\">"))
+				{
+
+					sbFields.Append($"<text name=\"{className}.{item.Name}\">{item.Name}</text>");
+					sbFields.Append($"<text name=\"{className}.{item.Name}.placeholder\">{item.Name}</text>"); 
+				}
+			}
+			sbFields.Insert(0, templateContent);
+			LocalizationDictionaryTemplateContent = LocalizationDictionaryTemplateContent.Replace("<!--LocalizationDictionary_Here-->", sbFields.ToString());
+			Write(Configuration.LocalizationDictionary_Path, LocalizationDictionaryTemplateContent);
+		}
+
         /// <summary>
         /// 生成本地化语言 xml 文档
         /// </summary>
         /// <param name="className"></param>
-        public static void SetZh_CN_LocalizationDictionary_Here(string className, string classAnnotation)
+        [Obsolete("See setLocalizationKeys")]
+		public static void SetZh_CN_LocalizationDictionary_Here(string className, string classAnnotation)
         {
             //zh_CN_LocalizationDictionary_Here
 
@@ -598,13 +685,15 @@ namespace AbpCodeGenerator.Lib
             sbzh_CN_LocalizationDictionary_Here.AppendLine($"<text name=\"CreatingNew{ className}\">创建{classAnnotation}</text>");
             sbzh_CN_LocalizationDictionary_Here.AppendLine($"<text name=\"Editing{className}\">编辑{classAnnotation}</text>");
             sbzh_CN_LocalizationDictionary_Here.AppendLine($"<text name=\"Deleting{className}\">删除{classAnnotation}</text>");
-            sbzh_CN_LocalizationDictionary_Here.AppendLine("<!--zh_CN_LocalizationDictionary_Here-->");
+			
 
-            var zh_CN_LocalizationDictionaryTemplateContent = Read(Configuration.Zh_CN_LocalizationDictionary_Path);
+			sbzh_CN_LocalizationDictionary_Here.AppendLine("<!--zh_CN_LocalizationDictionary_Here-->");
+
+            var zh_CN_LocalizationDictionaryTemplateContent = Read(Configuration.LocalizationDictionary_Path);
             if (!zh_CN_LocalizationDictionaryTemplateContent.Contains($"<text name=\"{className }\">"))
             {
                 zh_CN_LocalizationDictionaryTemplateContent = zh_CN_LocalizationDictionaryTemplateContent.Replace("<!--zh_CN_LocalizationDictionary_Here-->", sbzh_CN_LocalizationDictionary_Here.ToString());
-                Write(Configuration.Zh_CN_LocalizationDictionary_Path, zh_CN_LocalizationDictionaryTemplateContent);
+                Write(Configuration.LocalizationDictionary_Path, zh_CN_LocalizationDictionaryTemplateContent);
             }
         }
 

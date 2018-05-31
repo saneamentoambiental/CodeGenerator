@@ -1,0 +1,122 @@
+﻿using System;
+using System.Collections.Generic;
+using Abp.Application.Services.Dto;
+using Abp.Runtime.Validation;
+using System.Linq;
+using System.Threading.Tasks;
+namespace {{Namespace_Here}}.Web.DataTableNet
+{
+   
+	public class DataTableRequestModel : PagedAndSortedResultRequestDto, IShouldNormalize
+	{
+		public int draw { get; set; }
+		public int start { get; set; }
+		public int length { get; set; }
+		public List<Column> columns { get; set; }
+		public Search search { get; set; }
+		public List<Order> order { get; set; }
+
+		public string Filter
+		{
+			get => this.search == null ? null : this.search.value;
+			set
+			{
+				if (search == null)
+				{
+					this.search = new Search();
+				}
+				this.search.value = value;
+			}
+		}
+
+
+		public override int SkipCount
+		{
+			get => start;
+			set
+			{
+				base.SkipCount = value;
+				start = value;
+			}
+		}
+		public override int MaxResultCount
+		{
+			get => length;
+			set
+			{
+				base.MaxResultCount = value;
+				length = value;
+			}
+		}
+
+		public virtual void Normalize()
+		{
+			var columnName = this.columns[this.order[0].column].data;
+			if (string.IsNullOrEmpty(columnName))
+			{
+				Sorting = "Id";
+			}
+		}
+
+		public override string Sorting
+		{
+			get
+			{
+				Normalize();
+				if (this.order.Count > 0)
+				{
+					var columnName = this.columns[this.order[0].column].data;
+					if (columnName == null)
+						return base.Sorting;
+					return  columnName + " " + this.order[0].dir;
+				}
+				return base.Sorting;
+			}
+			set
+			{
+				if (!string.IsNullOrWhiteSpace(value))
+				{
+					var values = value.Split(" ");
+					var column = values[0];
+					var dir = values.Length > 1 ? values[1] : "asc";
+					var idxColumn = 0;
+					foreach (var c in this.columns)
+					{
+						if (c.data != null && c.data.Equals(column, StringComparison.InvariantCultureIgnoreCase)) break;
+						else idxColumn++;
+					}
+					this.order.Clear();
+					this.order.Add(new Order { column = idxColumn, dir = dir });
+				}
+				else
+				{
+					base.Sorting = value;
+				}
+			}
+		}
+	}
+
+
+
+
+	public class Column
+	{
+		public string data { get; set; }
+		public string name { get; set; }
+		public bool searchable { get; set; }
+		public bool orderable { get; set; }
+		public Search search { get; set; }
+	}
+
+	public class Order
+	{
+		public int column { get; set; }
+		public string dir { get; set; }
+	}
+
+	public class Search
+	{
+		public string value { get; set; }
+		public string regex { get; set; }
+	}
+}

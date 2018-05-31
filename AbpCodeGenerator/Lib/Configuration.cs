@@ -77,7 +77,7 @@ namespace AbpCodeGenerator.Lib
         /// <summary>
         ///本地化源 xml 文档（如：XinYunFen-zh-CN.xml）文件的绝对路径 （参考abp.zero.core 5.3.0）
         /// </summary>
-        public static string Zh_CN_LocalizationDictionary_Path = Path.Combine(SourceSolution, _configuration["Zh_CN_LocalizationDictionary_Path"]);
+        public static string LocalizationDictionary_Path = Path.Combine(SourceSolution, _configuration["Zh_CN_LocalizationDictionary_Path"]);
 
     }
 }

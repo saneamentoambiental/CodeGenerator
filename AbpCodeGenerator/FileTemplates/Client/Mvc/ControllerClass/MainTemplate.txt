@@ -2,12 +2,15 @@
 using System.Threading.Tasks;
 using Abp.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Abp.UI;
+using Abp.Web.Models;
+using Abp.Application.Services.Dto;
+
 using {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Models.{{Entity_Name_Plural_Here}}s;
 using {{Namespace_Here}}.Controllers;
 using {{Namespace_Here}}.Authorization;
 using {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s;
 using {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s.Dtos;
-using Abp.Application.Services.Dto;
 
 namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
 {
@@ -22,27 +25,53 @@ namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
             _{{entity_Name_Plural_Here}}AppService = {{entity_Name_Plural_Here}}AppService;
         }
 
+		[DontWrapResult]
+		public JsonResult GetAll(GetParametroInput input, string teste)
+		{
+			var result = _{{entity_Name_Plural_Here}}AppService.GetAll(input).Result;
+			var r = new
+			{
+				input.draw,			
+				recordsTotal = result.TotalCount,
+				recordsFiltered = result.TotalCount,
+				data = result.Items
+			};
+			return Json(r);
+		}
+
         public ActionResult Index()
         {
             // var model = new {{Entity_Name_Plural_Here}}ViewModel
 			//{
 			//	FilterText = ""
 			//};
-			var data = (_{{entity_Name_Plural_Here}}AppService.GetAll(new Get{{Entity_Name_Here}}Input())).Result.Items;
-			var model = new {{Entity_Name_Here}}ListViewModel(data);
+			//var data = (_{{entity_Name_Plural_Here}}AppService.GetAll(new Get{{Entity_Name_Here}}Input())).Result.Items;
+			//var model = new {{Entity_Name_Here}}ListViewModel(data);
 
-            return View(model);
+            //return View(model);
+			return View();
         }
 
-        [AbpMvcAuthorize(PermissionNames.{{Permission_Name_Here}}_Create, PermissionNames.{{Permission_Name_Here}}_Edit)]
-        public async Task<PartialViewResult> CreateOrEditModal({{Primary_Key_Here}}? id)
+        
+		/// <summary>
+		/// To use with modal, change To Task<PartialViewResult> and set return to  return PartialView("_CreateOrEditModal", viewModel);
+		/// </summary>
+		/// <param name="Id"></param>
+		/// <returns></returns>
+		[AbpMvcAuthorize(PermissionNames.{{Permission_Name_Here}}_Create, PermissionNames.{{Permission_Name_Here}}_Edit)]
+        public async Task<ViewResult> CreateOrEdit({{Primary_Key_Here}}? id)
         {
 			Get{{Entity_Name_Here}}ForEditOutput get{{Entity_Name_Here}}ForEditOutput;
 
 			if (id.HasValue){
 				get{{Entity_Name_Here}}ForEditOutput = await _{{entity_Name_Plural_Here}}AppService.Get{{Entity_Name_Here}}ForEdit(new EntityDto<{{Primary_Key_Here}}> { Id =  id.Value });
+				if (getParametroForEditOutput.Parametro == null)
+				{
+					throw new UserFriendlyException(404, L("ItemNotFound"));
+				}
 			}
-			else{
+			else
+			{
 				get{{Entity_Name_Here}}ForEditOutput = new Get{{Entity_Name_Here}}ForEditOutput{
 					{{Entity_Name_Here}} = new CreateOrEdit{{Entity_Name_Here}}Input()
 				};
@@ -53,9 +82,8 @@ namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
 				{{Entity_Name_Here}} = get{{Entity_Name_Here}}ForEditOutput.{{Entity_Name_Here}}
             };
 
-            return PartialView("_CreateOrEditModal", viewModel);
+            return View("_CreateOrEdit", viewModel);
         }
-
 
     }
 }

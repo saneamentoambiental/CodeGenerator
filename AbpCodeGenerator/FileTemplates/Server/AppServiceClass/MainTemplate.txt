@@ -51,7 +51,7 @@ namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s
                 .PageBy(input)
                 .ToListAsync();
 
-            var {{entity_Name_Here}}ListDtos =  ObjectMapper.Map<List<{{Entity_Name_Here}}ListDto>>(results);;
+            var {{entity_Name_Here}}ListDtos =  ObjectMapper.Map<List<{{Entity_Name_Here}}ListDto>>(results);
 
             return new PagedResultDto<{{Entity_Name_Here}}ListDto>(resultCount, {{entity_Name_Here}}ListDtos);
          }
@@ -107,7 +107,7 @@ namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s
                 .OrderBy(input.Sorting)
                 .ToListAsync();
 
-            var {{entity_Name_Here}}ListDtos =  ObjectMapper.Map<List<{{Entity_Name_Here}}ListDto>>(results);;
+            var {{entity_Name_Here}}ListDtos =  ObjectMapper.Map<List<{{Entity_Name_Here}}ListDto>>(results);
             return _{{entity_Name_Here}}ListExcelExporter.ExportToFile({{entity_Name_Here}}ListDtos);
          }
 */

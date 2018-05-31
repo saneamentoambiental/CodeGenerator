@@ -1,19 +1,12 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.Runtime.Validation;
-//using {{Namespace_Here}}.Dto;
+using {{Namespace_Here}}.Web.DataTableNet;
+using System.ComponentModel.DataAnnotations;
 
 namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s.Dtos
 {
-    public class Get{{Entity_Name_Here}}Input : PagedAndSortedResultRequestDto, IShouldNormalize
+    public class Get{{Entity_Name_Here}}Input : DataTableRequestModel
     {
-		public string Filter { get; set; }
-
-		public void Normalize()
-        {
-            if (string.IsNullOrEmpty(Sorting))
-            {
-                Sorting = "Id";
-            }
-        }
+		{{Property_Looped_Template_Here}}
     }
 }

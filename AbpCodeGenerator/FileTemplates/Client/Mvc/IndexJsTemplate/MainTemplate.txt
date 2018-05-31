@@ -1,82 +1,85 @@
 ﻿(function () {
 	$(function () {
 
+		var _$parametroTable = $('#MainTable');
 		var _parametroService = abp.services.app.{{Entity_Name_Here}};
-		var _$modal = $('#{{Entity_Name_Here}}CreateModal');
-		var _$form = _$modal.find('form');
 
-		_$form.validate({
-		});
+		var _permissions = {			
+			create: abp.auth.hasPermission('{{App_Area_Name_Here}}.{{Entity_Name_Here}}.Create'),
+			edit: abp.auth.hasPermission('{{App_Area_Name_Here}}.{{Entity_Name_Here}}.Edit'),
+			delete: abp.auth.hasPermission('{{App_Area_Name_Here}}.{{Entity_Name_Here}}.Delete')
+		};
 
-		$('#RefreshButton').click(function () {
-			refresh{{Entity_Name_Here}}List();
-		});
 
-		$('.delete-{{Entity_Name_Here}}').click(function () {
-			var {{Entity_Name_Here}}Id = $(this).attr("data-{{Entity_Name_Here}}-id");
-			//var roleName = $(this).attr('data-role-name');
-			delete{{Entity_Name_Here}}({{Entity_Name_Here}}Id);
-			//deleteRole(roleId, roleName);
-		});
+		var dataTable = _$parametroTable.DataTable({
+			paging: true, 
+			responsive: true,
+			serverSide: true,
+			processing: true,
+			"ajax": {
+				"url": abp.appPath + '{{App_Area_Name_Here}}/{{Entity_Name_Here}}/GetAll',
+				"type": "POST",				
+				"dataSrc": "data"
+			},
+			columnDefs: [
+				{
+					width: 8,
+					data: null,
+					"visible": _permissions.edit,
+					orderable: false,
+					"targets": 0,
+					"defaultContent":'<a href="#" class="waves-effect edit"><i class="material-icons">edit</i></a>'
 
-		$('.edit-{{Entity_Name_Here}}').click(function (e) {
-			var {{Entity_Name_Here}}Id = $(this).attr("data-{{Entity_Name_Here}}-id");
-			
-			e.preventDefault();
-			$.ajax({
-				url: abp.appPath + '{{App_Area_Name_Here}}/{{Entity_Name_Here}}/Edit{{Entity_Name_Here}}Modal?{{Entity_Name_Here}}Id=' + {{Entity_Name_Here}}Id,
-				type: 'POST',
-				contentType: 'application/html',
-				success: function (content) {
-					$('#{{Entity_Name_Here}}EditModal div.modal-content').html(content);
 				},
-				error: function (e) { }
-			});
+				{{Property_Looped_Template_Here}}
+				
+				{
+					width: 8,
+					targets: -1,
+					data: null,
+					orderable: false,
+					"visible": _permissions.delete,
+					"defaultContent": '<a href="#" class="waves-effect delete"><i class="material-icons">delete_sweep</i></a>'
+				}]
+		});
+		$('#MainTable tbody').on('click', '[class*=delete]', function () {
+			var data = dataTable.row($(this).parents('tr')).data();
+			var label = '#' + data.id;
+			deleteParametro(data.id, label);
+		});
+		$('#MainTable tbody').on('click', '[class*=edit]', function () {
+			var data = dataTable.row($(this).parents('tr')).data();
+			var label = 'Parametro #' + data.nome;
+			var _url = abp.appPath + '{{App_Area_Name_Here}}/{{Entity_Name_Here}}/CreateOrEdit/' + data.id;
+			location.href = _url;
 		});
 
-		_$form.find('button[type="submit"]').click(function (e) {
-			e.preventDefault();
 
-			if (!_$form.valid()) {
-				return;
-			}
-
-			var {{Entity_Name_Here}} = _$form.serializeFormToObject(); //serializeFormToObject is defined in main.js
-			{{Entity_Name_Here}}.permissions = [];
-			var _$permissionCheckboxes = $("input[name='permission']:checked");
-			if (_$permissionCheckboxes) {
-				for (var permissionIndex = 0; permissionIndex < _$permissionCheckboxes.length; permissionIndex++) {
-					var _$permissionCheckbox = $(_$permissionCheckboxes[permissionIndex]);
-					role.permissions.push(_$permissionCheckbox.val());
-				}
-			}
-
-			abp.ui.setBusy(_$modal);
-			_{{Entity_Name_Here}}Service.create({{Entity_Name_Here}}).done(function () {
-				_$modal.modal('hide');
-				location.reload(true); //reload page to see new {{Entity_Name_Here}}!
-			}).always(function () {
-				abp.ui.clearBusy(_$modal);
-			});
-		});
-
-		_$modal.on('shown.bs.modal', function () {
-			_$modal.find('input:not([type=hidden]):first').focus();
-		});
-
-		function refresh{{Entity_Name_Here}}List() {
-			location.reload(true); //reload page to see new {{Entity_Name_Here}}!
+		function refreshData() {
+			dataTable.ajax.reload();
 		}
 
-		function delete{{Entity_Name_Here}}({{Entity_Name_Here}}Id) {
+		$('#RefreshButton').click(function () {
+			refreshData();
+		});
+
+		$(document).keypress(function (e) {
+			if (e.which === 13) {
+				refreshData();
+			}
+		});
+
+
+		function delete{{Entity_Name_Here}}(id, label) {
 			abp.message.confirm(
-                abp.utils.formatString(abp.localization.localize('AreYouSureWantToDelete', 'ETESystem'), '{{Entity_Name_Here}} #' + {{Entity_Name_Here}}Id),
+                abp.utils.formatString(abp.localization.localize('AreYouSureWantToDelete', 'ETESystem'), label),
 				function (isConfirmed) {
 					if (isConfirmed) {
 						_{{Entity_Name_Here}}Service.delete({
-							id: {{Entity_Name_Here}}Id
+							id: id
 						}).done(function () {
-							refresh{{Entity_Name_Here}}List();
+							abp.notify.success(abp.localization.localize('{{Entity_Name_Here}}Deleted'));							
+							refreshData;
 						});
 					}
 				}

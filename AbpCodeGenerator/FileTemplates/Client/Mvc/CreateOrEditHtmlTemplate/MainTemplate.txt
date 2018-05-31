@@ -3,21 +3,37 @@
 @using {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Models.{{Entity_Name_Plural_Here}}s
 @model CreateOrEdit{{Entity_Name_Here}}ModalViewModel
 
-@Html.Partial("~/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("Editing{{Entity_Name_Here}}")) : L("CreatingNew{{Entity_Name_Here}}")))
+@section scripts
+	{
+	<environment names="Development">
+		<script src="~/view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Here}}/_CreateOrEdit.js" asp-append-version="true"></script>
+	</environment>
 
-<div class="modal-body">
-        <div id="{{Entity_Name_Here}}InformationsTab">
-            <form name="{{Entity_Name_Here}}InformationsForm" role="form" novalidate class="form-validation">
+	<environment names="Staging,Production">
+		<script src="~/view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Here}}/_CreateOrEdit.min.js" asp-append-version="true"></script>
+	</environment>
+}
 
-                @if (Model.IsEditMode)
-                {
-                    <input type="hidden" name="id" value="@Model.{{Entity_Name_Here}}.Id" />
-                }
+<div class="row clearfix">
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<div class="card">
+			@Html.Partial("~/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("Editing{{Entity_Name_Here}}")) : L("CreatingNew{{Entity_Name_Here}}")))
+	
+			<div class="modal-body">					
+				@*<form name="{{Entity_Name_Here}}InformationsForm" method="post" role="form" novalidate class="form-validation"> *@
+				<form name="{{Entity_Name_Here}}InformationsForm" method="post">
+					@if (Model.IsEditMode)
+					{
+						<input type="hidden" name="id" value="@Model.{{Entity_Name_Here}}.Id" />
+					}
 
-				{{Property_Looped_Template_Here}}
+					{{Property_Looped_Template_Here}}
 
-            </form>
-        </div>
+				</form>
+					
+			</div>
+
+			@Html.Partial("~/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+		</div>
+	</div>
 </div>
-
-@Html.Partial("~/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

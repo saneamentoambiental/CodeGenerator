@@ -1,45 +1,43 @@
 ﻿(function ($) {
-    app.modals.CreateOrEdit{{Entity_Name_Here}}Modal = function () {
+	this.back = function () {
+		location.href = abp.appPath + '/{{App_Area_Name_Here}}/{{Entity_Name_Here}}';
+	};
+	$(function () {
+		var _$form = $('#{{Entity_Name_Here}}InformationsForm');
+		_$form.find('input:first').focus();
 
-        var _{{entity_Name_Plural_Here}}Service = abp.services.app.{{entity_Name_Plural_Here}};
+		/*
+		$('.date-picker').datetimepicker({
+			locale: abp.localization.currentLanguage.name,
+			format: 'L'
+		});
+		*/
+		_$form.validate();
+		$('.close-button').click(function (e) { back() });
+		$('.save-button')
+			.click(function (e) {
+				e.preventDefault();
 
-        var _modalManager;
-        var _${{entity_Name_Here}}InformationForm = null;
+				if (!_$form.valid()) {
+					return; //Não está validando no lado do servidor. Pesquisar melhor esse problema... 
+					//https://github.com/aspnetboilerplate/aspnetboilerplate/blob/dev/src/Abp.AspNetCore/AspNetCore/Mvc/Validation/MvcActionInvocationValidator.cs
+					//https://forum.aspnetboilerplate.com/viewtopic.php?f=5&t=4947
+					//https://www.apress.com/us/blog/all-blog-posts/complex-validation-rules/15067980
+//https://valor-software.com/ngx-bootstrap/#/datepicker
 
-	
+//https://www.bricelam.net/2016/12/13/validation-in-efcore.html
 
-        this.init = function (modalManager) {
-            _modalManager = modalManager;
-
-			var modal = _modalManager.getModal();
-            modal.find('.date-picker').datetimepicker({
-                locale: abp.localization.currentLanguage.name,
-                format: 'L'
-            });
-
-            _${{entity_Name_Here}}InformationForm = _modalManager.getModal().find('form[name={{Entity_Name_Here}}InformationsForm]');
-            _${{entity_Name_Here}}InformationForm.validate();
-        };
-
-		 
-
-        this.save = function () {
-            if (!_${{entity_Name_Here}}InformationForm.valid()) {
-                return;
-            }
-
-            var {{entity_Name_Here}} = _${{entity_Name_Here}}InformationForm.serializeFormToObject();
-			
-			 _modalManager.setBusy(true);
-			 _{{entity_Name_Plural_Here}}Service.createOrEdit(
-				{{entity_Name_Here}}
-			 ).done(function () {
-               abp.notify.info(app.localize('SavedSuccessfully'));
-               _modalManager.close();
-               abp.event.trigger('app.createOrEdit{{Entity_Name_Here}}ModalSaved');
-			 }).always(function () {
-               _modalManager.setBusy(false);
+				}
+				var input = _$form.serializeFormToObject();
+				abp.ui.setBusy();
+				abp.services.app.{{entity_Name_Here}}.createOrEdit(input)
+					.done(function () {
+						back();
+					}).fail(function (response) {
+						abp.ajax.showError(response);
+					}).always(function () {
+						abp.ui.clearBusy();
+					});
 			});
-        };
-    };
+	});
 })(jQuery);
