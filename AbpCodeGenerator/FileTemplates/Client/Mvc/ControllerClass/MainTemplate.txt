@@ -19,10 +19,16 @@ namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
     public class {{Entity_Name_Plural_Here}}Controller : {{Project_Name_Here}}ControllerBase
     {
         private readonly I{{Entity_Name_Plural_Here}}AppService _{{entity_Name_Plural_Here}}AppService;
+		
+		{{AddLookup}}private readonly ILookupAppService _lookupAppService;
 
-        public {{Entity_Name_Plural_Here}}Controller(I{{Entity_Name_Plural_Here}}AppService {{entity_Name_Plural_Here}}AppService)
+
+        public {{Entity_Name_Plural_Here}}Controller(I{{Entity_Name_Plural_Here}}AppService {{entity_Name_Plural_Here}}AppService
+			{{AddLookup}},ILookupAppService lookupAppService
+			)
         {
             _{{entity_Name_Plural_Here}}AppService = {{entity_Name_Plural_Here}}AppService;
+			{{AddLookup}}_lookupAppService = lookupAppService;
         }
 
 		[DontWrapResult]
@@ -80,6 +86,17 @@ namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
             var viewModel = new CreateOrEdit{{Entity_Name_Here}}ModalViewModel()
             {
 				{{Entity_Name_Here}} = get{{Entity_Name_Here}}ForEditOutput.{{Entity_Name_Here}}
+				//Add Lookups here!
+				/* SAMPLE 
+				DataLookup = _lookupAppService.GetTipo<Entity>ComboboxItems().Items
+								.Select(p => {
+									var r = p.ToSelectListItem();
+									r.Selected = getParametroForEditOutput.<Entity>.Tipo.To<int>().ToString() == p.Value;
+									return r;
+									})
+								.ToList()
+				END SAMPLE */
+				
             };
 
             return View("_CreateOrEdit", viewModel);

@@ -34,6 +34,10 @@ namespace AbpCodeGenerator
 				var propertyType = metaTableInfoList.FirstOrDefault(m => m.Name == "Id").PropertyType;
 
 
+				if (options.CreateLookup)
+				{
+					CodeGeneratorHelper.AddLoockupMethodIntoService(className);
+				}
 
 				//break;
 				if (options.CreateNavigationMenu)
@@ -101,9 +105,10 @@ namespace AbpCodeGenerator
 				CreateNavigationMenu = false,
 				CreatePageConsts = false,
 				SetPermissions = false,
-				CreateDtos = true,
+				CreateDtos = false,
 				CreateServiceClass = false,
-				CreateClientControllerAndViews = false
+				CreateClientControllerAndViews = false,
+				CreateLookup = true
 			};
 		}
 	}

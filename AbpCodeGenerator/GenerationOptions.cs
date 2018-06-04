@@ -14,6 +14,6 @@ namespace AbpCodeGenerator
 		public bool CreateLoacalization { get; set; }
 		public bool CreateClientControllerAndViews { get; set; }
 
-
+		public bool CreateLookup { get; set; }
 	}
 }

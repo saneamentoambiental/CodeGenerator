@@ -8,6 +8,9 @@ namespace AbpCodeGenerator.Lib
 {
     public class CodeGeneratorHelper
     {
+
+		
+
 		#region Show data Grid 
 
 		/// <summary>
@@ -357,16 +360,95 @@ namespace AbpCodeGenerator.Lib
             Write(Path.Combine(Configuration.Web_Mvc_Directory, "wwwroot", "view-resources", "Areas", Configuration.App_Area_Name,"Views", className, "Index.js"), templateContent);
         }
 
-        #endregion
+		#endregion
 
 
-        #region Server
-        /// <summary>
-        /// 生成接口信息
-        /// </summary>
-        /// <param name="className"></param>
-        /// <param name="primary_Key_Inside_Tag_Here">主键类型</param>
-        public static void SetAppServiceIntercafeClass(string className, string primary_Key_Inside_Tag_Here)
+		#region Server
+
+		#region Lookup
+
+		private static string GetLookupServiceFilePath(string className, bool replace = false)
+		{
+			string templateFilePath = Configuration.RootDirectory + @"\Server\LookupService\TemplateMaster.txt";
+			var templateContent = Read(templateFilePath);
+			templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
+											 .Replace("{{Namespace_Relative_Full_Here}}", className)
+											 .Replace("{{Entity_Name_Plural_Here}}", className)
+											 .Replace("{{Entity_Name_Here}}", className)
+											 .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
+											 ;
+			var destPath = Path.Combine(Configuration.Application_Directory, "ILookupAppService.cs");
+			if (!File.Exists(destPath) || replace)
+				Write(destPath, templateContent);
+
+			return destPath;
+		}
+
+		public static void AddLoockupMethodIntoService(string className)
+		{
+			string keyMethod = $"Task<ListResultDto<ComboboxItemDto>> Get{className}ComboboxItems()";
+
+			StringBuilder sbIntefaceMethod = new StringBuilder();
+			sbIntefaceMethod.AppendLine($"{keyMethod};");
+			sbIntefaceMethod.Append("//{{Interface_Method_Lookup}}");
+
+			StringBuilder sbMethod = new StringBuilder();
+
+			sbMethod.AppendLine($"public async {keyMethod}");
+			sbMethod.AppendLine("{\n");
+			sbMethod.AppendLine($"\t var result = await {GetFirstToLowerStr(className)}Repository.GetAllListAsync();");
+			sbMethod.AppendLine("\t return new ListResultDto<ComboboxItemDto>(");
+			sbMethod.AppendLine("\t\t result.Select(r => new ComboboxItemDto(r.Id.ToString(), r.ToString())).ToList()");
+			sbMethod.AppendLine("\t\t );");
+			sbMethod.AppendLine("\t }");
+			sbMethod.Append("//{{Method}}");
+
+			StringBuilder sbRepositoryField = new StringBuilder();
+			sbRepositoryField.AppendFormat("private readonly IRepository<{0}, int> {1}Repository;", className, GetFirstToLowerStr(className));
+			sbRepositoryField.Append("\n//{{Repository_Field}}");
+
+			StringBuilder sbRepositoryConstructorParameter = new StringBuilder();
+			sbRepositoryConstructorParameter.AppendFormat(", IRepository<{0}, int> {1}Repository", className, GetFirstToLowerStr(className));
+			sbRepositoryConstructorParameter.Append("\n//{{Repository_Constructor_Parameter}}");
+
+
+			StringBuilder sbRepositoryConstructorBody = new StringBuilder();
+			sbRepositoryConstructorBody.AppendFormat("this.{1}Repository = {1}Repository;", className, GetFirstToLowerStr(className));
+			sbRepositoryConstructorBody.Append("\n//{{Repository_Constructor_Body}}");
+
+			var destPath = GetLookupServiceFilePath(className);
+			var templateContent = Read(destPath);
+			if (templateContent.Contains(keyMethod))
+			{
+				Console.WriteLine($"Não foi possível gerar o Lookup Service para o {className}, pois ele já existe.");
+			}
+			else
+			{
+				templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
+												 .Replace("{{Namespace_Relative_Full_Here}}", className)
+												 .Replace("{{Entity_Name_Plural_Here}}", className)
+												 .Replace("{{Entity_Name_Here}}", className)
+												 .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
+												 .Replace("//{{Interface_Method_Lookup}}", sbIntefaceMethod.ToString())
+												 .Replace("//{{Method}}", sbMethod.ToString())
+												 .Replace("//{{Repository_Field}}", sbRepositoryField.ToString())
+												 .Replace("//{{Repository_Constructor_Parameter}}", sbRepositoryConstructorParameter.ToString())
+												 .Replace("//{{Repository_Constructor_Body}}", sbRepositoryConstructorBody.ToString())
+												 ;
+				Write(destPath, templateContent);
+			}
+		}
+
+
+
+		#endregion Lookup
+
+		/// <summary>
+		/// 生成接口信息
+		/// </summary>
+		/// <param name="className"></param>
+		/// <param name="primary_Key_Inside_Tag_Here">主键类型</param>
+		public static void SetAppServiceIntercafeClass(string className, string primary_Key_Inside_Tag_Here)
         {
             string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\AppServiceIntercafeClass\MainTemplate.txt";
             var templateContent = Read(appServiceIntercafeClassDirectory);

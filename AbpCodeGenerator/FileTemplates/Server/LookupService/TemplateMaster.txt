@@ -1,0 +1,43 @@
+﻿using Abp.Application.Services;
+using Abp.Application.Services.Dto;
+using Abp.Domain.Repositories;
+using GPSA.ETESystem.Models.ETE;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace {{Namespace_Here}}
+{
+	public partial interface ILookupAppService : IApplicationService
+	{
+		
+		Task<ListResultDto<ComboboxItemDto>> GetParametroComboboxItems();
+		//{{Interface_Method_Lookup}}
+	}
+	public partial class LookupAppService : ETESystemAppServiceBase, ILookupAppService
+	{
+		//{{Repository_Field}}
+
+
+		public LookupAppService(
+			//{{Repository_Constructor_Parameter}}
+
+		)
+		{
+			//{{Repository_Constructor_Body}}
+		}
+		
+		//{{Method}}
+
+		/*
+		public async Task<ListResultDto<ComboboxItemDto>> GetParametroComboboxItems()
+		{
+			var result = await _parametroRepository.GetAllListAsync();
+			return new ListResultDto<ComboboxItemDto>(
+				result.Select(r => new ComboboxItemDto(r.Id.ToString(), r.Nome)).ToList()
+			);
+		}*/
+	}
+}

@@ -22,12 +22,10 @@ namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s
 		 private readonly IRepository<{{Entity_Name_Here}},{{Primary_Key_With_Comma_Here}}> _{{entity_Name_Here}}Repository;
 		 //private readonly I{{Entity_Name_Here}}ListExcelExporter _{{entity_Name_Here}}ListExcelExporter;
 		  public {{Entity_Name_Plural_Here}}AppService(
-				IRepository<{{Entity_Name_Here}},{{Primary_Key_With_Comma_Here}}> {{entity_Name_Here}}Repository
-				/* , I{{Entity_Name_Here}}ListExcelExporter {{entity_Name_Here}}ListExcelExporter */
+				IRepository<{{Entity_Name_Here}},{{Primary_Key_With_Comma_Here}}> {{entity_Name_Here}}Repository			
 			) :base()
 		  {
-			_{{entity_Name_Here}}Repository = {{entity_Name_Here}}Repository;
-			//_{{entity_Name_Here}}ListExcelExporter = {{entity_Name_Here}}ListExcelExporter;
+			_{{entity_Name_Here}}Repository = {{entity_Name_Here}}Repository;			
 		  }
 
 		private IQueryable<{{Entity_Name_Here}}> Create{{Entity_Name_Here}}Query(Get{{Entity_Name_Here}}Input input)
@@ -35,8 +33,8 @@ namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s
             var query = from {{entity_Name_Here}} in _{{entity_Name_Here}}Repository.GetAll()
                 select {{entity_Name_Here}};
 
-            //query = query
-            //    .WhereIf(!input.Filter.IsNullOrWhiteSpace(), item => item.Filter.Contains(input.Filter))
+            query = query
+                .WhereIf(!input.Filter.IsNullOrWhiteSpace(), item => item.Filter.Contains(input.Filter))
             return query;
         }
 
@@ -97,21 +95,7 @@ namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s
          {
             await _{{entity_Name_Here}}Repository.DeleteAsync(input.Id);
          }
-/*
-		 public async Task<FileDto> Get{{Entity_Name_Here}}ToExcel(Get{{Entity_Name_Here}}Input input)
-         {
-
-			var query = Create{{Entity_Name_Here}}Query(input);
-
-            var results = await query
-                .OrderBy(input.Sorting)
-                .ToListAsync();
-
-            var {{entity_Name_Here}}ListDtos =  ObjectMapper.Map<List<{{Entity_Name_Here}}ListDto>>(results);
-            return _{{entity_Name_Here}}ListExcelExporter.ExportToFile({{entity_Name_Here}}ListDtos);
-         }
-*/
-	  
+  
 
     }
 }
