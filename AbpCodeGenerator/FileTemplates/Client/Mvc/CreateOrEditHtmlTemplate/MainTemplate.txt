@@ -1,39 +1,30 @@
 ﻿@using Abp.Extensions
-@using {{Namespace_Here}}.Web.Models.Common.Modals
-@using {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Models.{{Entity_Name_Plural_Here}}s
+@using {{Namespace_Here}}.Startup
+@using {{Namespace_Here}}.Models.Common.Modals
+@using {{Namespace_Here}}.Areas.{{App_Area_Name_Here}}.Models.{{Entity_Name_Plural_Here}}s
 @model CreateOrEdit{{Entity_Name_Here}}ModalViewModel
 
 @section scripts
 	{
 	<environment names="Development">
-		<script src="~/view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Here}}/_CreateOrEdit.js" asp-append-version="true"></script>
+		<script src="~/view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Here}}/_CreateOrEdit.js"></script>
 	</environment>
 
 	<environment names="Staging,Production">
-		<script src="~/view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Here}}/_CreateOrEdit.min.js" asp-append-version="true"></script>
+		<script src="~/view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Here}}/_CreateOrEdit.js"></script>
 	</environment>
 }
 
-<div class="row clearfix">
-	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-		<div class="card">
-			@Html.Partial("~/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("Editing{{Entity_Name_Here}}")) : L("CreatingNew{{Entity_Name_Here}}")))
-	
-			<div class="modal-body">					
-				@*<form name="{{Entity_Name_Here}}InformationsForm" method="post" role="form" novalidate class="form-validation"> *@
-				<form name="{{Entity_Name_Here}}InformationsForm" method="post">
-					@if (Model.IsEditMode)
-					{
-						<input type="hidden" name="id" value="@Model.{{Entity_Name_Here}}.Id" />
-					}
-
-					{{Property_Looped_Template_Here}}
-
-				</form>
-					
-			</div>
-
-			@Html.Partial("~/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+<div class="card">
+	@Html.Partial("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("Editing{{Entity_Name_Here}}")) : L("CreatingNew{{Entity_Name_Here}}")))
+	<form id="{{Entity_Name_Here}}InformationsForm" method="post">
+		@if (Model.IsEditMode)
+		{
+			<input type="hidden" name="id" value="@Model.{{Entity_Name_Here}}.Id" />
+		}
+		<div class="row body clearfix">
+			{{Property_Looped_Template_Here}}			
 		</div>
-	</div>
+		@Html.Partial("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+	</form>
 </div>

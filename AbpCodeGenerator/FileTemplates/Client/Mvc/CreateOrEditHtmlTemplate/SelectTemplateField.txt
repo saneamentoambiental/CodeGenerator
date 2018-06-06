@@ -1,0 +1,10 @@
+﻿<div class="col-sm-12">
+	<div class="form-group form-float">
+		<label for="{{Field_Name}}" class="form-label">@L("{{Entity_Name_Here}}.{{Field_Name}}")</label>
+		<select name="{{Field_Name}}" asp-for="{{Entity_Name_Here}}.{{Field_Name}}" {{Field_Attributes}} asp-items="Model.{{Field_Name}}" class="form-control {{CSS}}">
+			@* 
+				<option>@L("SelectOneItem")</option> 
+			*@
+		</select>
+	</div>
+</div>

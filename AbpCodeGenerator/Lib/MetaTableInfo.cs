@@ -10,6 +10,7 @@ namespace AbpCodeGenerator.Lib
 {
     public class MetaTableInfo
     {
+		public PropertyInfo PropertyInfo { get; set; }
         /// <summary>
         /// 类的注释
         /// </summary>
@@ -115,6 +116,7 @@ namespace AbpCodeGenerator.Lib
                             metaTableInfo.Annotation = "";
                         }
                         metaTableInfo.Name = properties.Name;
+						metaTableInfo.PropertyInfo = properties;
                         if (properties.PropertyType == typeof(int))
                         {
                             metaTableInfo.PropertyType = "int";

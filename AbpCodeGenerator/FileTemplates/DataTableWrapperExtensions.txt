@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace {{Namespace_Here}}.Web.DataTableNet
 {
    
-	public class DataTableRequestModel : PagedAndSortedResultRequestDto, IShouldNormalize
+	public partial class DataTableRequestModel : PagedAndSortedResultRequestDto, IShouldNormalize
 	{
 		public int draw { get; set; }
 		public int start { get; set; }
@@ -99,7 +99,7 @@ namespace {{Namespace_Here}}.Web.DataTableNet
 
 
 
-	public class Column
+	public partial class Column
 	{
 		public string data { get; set; }
 		public string name { get; set; }
@@ -108,13 +108,13 @@ namespace {{Namespace_Here}}.Web.DataTableNet
 		public Search search { get; set; }
 	}
 
-	public class Order
+	public partial class Order
 	{
 		public int column { get; set; }
 		public string dir { get; set; }
 	}
 
-	public class Search
+	public partial class Search
 	{
 		public string value { get; set; }
 		public string regex { get; set; }

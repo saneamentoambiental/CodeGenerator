@@ -74,10 +74,11 @@ namespace AbpCodeGenerator
 				{
 					CodeGeneratorHelper.setLocalizationKeys(className, metaTableInfoList);
 				}
+				CodeGeneratorHelper.SetCreateOrEditHtmlTemplate(className, metaTableInfoList);
+
 				if (options.CreateClientControllerAndViews)
 				{
 					CodeGeneratorHelper.SetControllerClass(className, propertyType);
-					CodeGeneratorHelper.SetCreateOrEditHtmlTemplate(className, metaTableInfoList);
 					CodeGeneratorHelper.SetCreateOrEditJs(className);
 					CodeGeneratorHelper.SetCreateOrEditViewModelClass(className);
 					CodeGeneratorHelper.SetListViewModelClass(className);
@@ -108,7 +109,7 @@ namespace AbpCodeGenerator
 				CreateDtos = false,
 				CreateServiceClass = false,
 				CreateClientControllerAndViews = false,
-				CreateLookup = true
+				CreateLookup = false
 			};
 		}
 	}
