@@ -295,7 +295,7 @@ namespace AbpCodeGenerator.Lib
 			{
 				if (item.IsAuditableField)
 					continue;
-				var title = templateColumnTitle.Replace("{{Entity_Field_Name}}", (string.IsNullOrWhiteSpace(item.Annotation) ? item.Name : item.Annotation));
+				var title = templateColumnTitle.Replace("{{Entity_Field_Name}}", item.Name);
 				var field = templateColumnField.Replace("{{Entity_Field_Name}}", item.Name);
 				if (item.IsIdField)
 				{
@@ -342,7 +342,7 @@ namespace AbpCodeGenerator.Lib
 				//TODO: Verificar se o json é gerado na forma { target: i, data: "coluna" }
 				string column = Abp.Json.JsonExtensions.ToJsonString(new
 				{
-					target = i,
+					targets = i,
 					data = item.Name
 				});
 				sb.AppendLine(column + ",");
@@ -388,7 +388,7 @@ namespace AbpCodeGenerator.Lib
 		[Verb]
 		public static void AddLoockupMethodIntoService(string className)
 		{
-			string keyMethod = $"Task<ListResultDto<ComboboxItemDto>> Get{className}ComboboxItems()";
+			string keyMethod = $"Task<ListResultDto<ComboboxItemDto>> Get{{Entity_Name_Here}}ComboboxItems()";
 
 			StringBuilder sbIntefaceMethod = new StringBuilder();
 			sbIntefaceMethod.AppendLine($"{keyMethod};");
@@ -398,7 +398,7 @@ namespace AbpCodeGenerator.Lib
 
 			sbMethod.AppendLine($"public async {keyMethod}");
 			sbMethod.AppendLine("{\n");
-			sbMethod.AppendLine($"\t var result = await {GetFirstToLowerStr(className)}Repository.GetAllListAsync();");
+			sbMethod.AppendLine($"\t var result = await {{entity_Name_Here}}Repository.GetAllListAsync();");
 			sbMethod.AppendLine("\t return new ListResultDto<ComboboxItemDto>(");
 			sbMethod.AppendLine("\t\t result.Select(r => new ComboboxItemDto(r.Id.ToString(), r.ToString())).ToList()");
 			sbMethod.AppendLine("\t\t );");
@@ -406,16 +406,16 @@ namespace AbpCodeGenerator.Lib
 			sbMethod.Append("//{{Method}}");
 
 			StringBuilder sbRepositoryField = new StringBuilder();
-			sbRepositoryField.AppendFormat("private readonly IRepository<{0}, int> {1}Repository;", className, GetFirstToLowerStr(className));
+			sbRepositoryField.AppendFormat("private readonly IRepository<{{Entity_Name_Here}}, int> {{entity_Name_Here}}Repository;");
 			sbRepositoryField.Append("\n//{{Repository_Field}}");
 
 			StringBuilder sbRepositoryConstructorParameter = new StringBuilder();
-			sbRepositoryConstructorParameter.AppendFormat(", IRepository<{0}, int> {1}Repository", className, GetFirstToLowerStr(className));
+			sbRepositoryConstructorParameter.AppendFormat(", IRepository<{{Entity_Name_Here}}, int> {{entity_Name_Here}}Repository");
 			sbRepositoryConstructorParameter.Append("\n//{{Repository_Constructor_Parameter}}");
 
 
 			StringBuilder sbRepositoryConstructorBody = new StringBuilder();
-			sbRepositoryConstructorBody.AppendFormat("this.{1}Repository = {1}Repository;", className, GetFirstToLowerStr(className));
+			sbRepositoryConstructorBody.AppendFormat("this.{{entity_Name_Here}}Repository = {{entity_Name_Here}}Repository;");
 			sbRepositoryConstructorBody.Append("\n//{{Repository_Constructor_Body}}");
 
 			var destPath = GetLookupServiceFilePath(className);
@@ -430,6 +430,7 @@ namespace AbpCodeGenerator.Lib
 												 .Replace("{{Namespace_Relative_Full_Here}}", className)
 												 .Replace("{{Entity_Name_Plural_Here}}", className)
 												 .Replace("{{Entity_Name_Here}}", className)
+												 .Replace("{{entity_Name_Here}}", GetFirstToLowerStr(className))
 												 .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
 												 .Replace("//{{Interface_Method_Lookup}}", sbIntefaceMethod.ToString())
 												 .Replace("//{{Method}}", sbMethod.ToString())
@@ -628,11 +629,7 @@ namespace AbpCodeGenerator.Lib
 			{
 				if (item.IsAuditableField)
 					continue;
-				sb.AppendLine("/// <summary>");
-				sb.AppendLine("/// " + item.Annotation);
-				sb.AppendLine("/// </summary>");
 				sb.AppendLine("public " + item.PropertyType + " " + item.Name + " { get; set; }");
-				sb.AppendLine("     ");
 			}
 			var property_Looped_Template_Here = sb.ToString();
 			templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)

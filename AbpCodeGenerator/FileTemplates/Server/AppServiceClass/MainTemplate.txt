@@ -10,6 +10,8 @@ using Abp.Application.Services.Dto;
 using {{Namespace_Here}}.Authorization;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Abp.Extensions;
+
 //using {{Namespace_Here}}.Dto;
 //using {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s.Exporting;
 //using {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s.Entities;
@@ -17,7 +19,7 @@ using Microsoft.EntityFrameworkCore;
 namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s
 {
 	[AbpAuthorize(PermissionNames.{{Permission_Name_Here}})] 
-    public class {{Entity_Name_Plural_Here}}AppService : {{Application_AppServiceBase}}, I{{Entity_Name_Plural_Here}}AppService
+    public partial class {{Entity_Name_Plural_Here}}AppService : {{Application_AppServiceBase}}, I{{Entity_Name_Plural_Here}}AppService
     {
 		 private readonly IRepository<{{Entity_Name_Here}},{{Primary_Key_With_Comma_Here}}> _{{entity_Name_Here}}Repository;
 		 //private readonly I{{Entity_Name_Here}}ListExcelExporter _{{entity_Name_Here}}ListExcelExporter;
@@ -34,7 +36,7 @@ namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s
                 select {{entity_Name_Here}};
 
             query = query
-                .WhereIf(!input.Filter.IsNullOrWhiteSpace(), item => item.Filter.Contains(input.Filter))
+                .WhereIf(!input.Filter.IsNullOrWhiteSpace(), item => item.<<ChangeThisPropertyField>>.Contains(input.Filter));
             return query;
         }
 

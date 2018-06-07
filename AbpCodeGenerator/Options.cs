@@ -22,7 +22,7 @@ namespace AbpCodeGenerator
 	//[ArgExceptionBehavior(ArgExceptionPolicy.StandardExceptionHandling)]
 	[CommandLineManager(ApplicationName = "AspNetBoilerPlate Generator",
 	Copyright = "Copyright (c) GPSA")]
-	[CommandLineOptionGroup("c", Name ="Required")]
+	[CommandLineOptionGroup("c", Name = "Required")]
 	[CommandLineOptionGroup("o", Name = "Options")]
 	public class Options
 	{
@@ -35,23 +35,25 @@ namespace AbpCodeGenerator
 
 		[CommandLineOption(Aliases = "m", Description = "Add Menu Navigation", BoolFunction = ValueForBoolFunction, GroupId = "o")]
 		public bool CreateNavigationMenu { get; set; }
-		[CommandLineOption(Aliases = "s", Description = "Create Service", BoolFunction = ValueForBoolFunction, GroupId ="o")]
+		[CommandLineOption(Aliases = "s", Description = "Create Service", BoolFunction = ValueForBoolFunction, GroupId = "o")]
 		public bool CreateServiceClass { get; set; }
-		[CommandLineOption(Aliases = "d", Description = "Create DTO", BoolFunction = ValueForBoolFunction, GroupId ="o")]
+		[CommandLineOption(Aliases = "d", Description = "Create DTO", BoolFunction = ValueForBoolFunction, GroupId = "o")]
 		public bool CreateDtos { get; set; }
-		[CommandLineOption(Aliases = "c", Description = "Create Consts used into permissions and menu", BoolFunction = ValueForBoolFunction, GroupId ="o")]
+		[CommandLineOption(Aliases = "c", Description = "Create Consts used into permissions and menu", BoolFunction = ValueForBoolFunction, GroupId = "o")]
 		public bool CreatePageConsts { get; set; }
-		[CommandLineOption(Aliases = "p", Description = "Set permissions", BoolFunction = ValueForBoolFunction, GroupId ="o")]
+		[CommandLineOption(Aliases = "p", Description = "Set permissions", BoolFunction = ValueForBoolFunction, GroupId = "o")]
 		public bool SetPermissions { get; set; }
-		[CommandLineOption(Aliases = "l", Description = "Add localizations keys", BoolFunction = ValueForBoolFunction, GroupId ="o")]
+		[CommandLineOption(Aliases = "l", Description = "Add localizations keys", BoolFunction = ValueForBoolFunction, GroupId = "o")]
 		public bool CreateLoacalization { get; set; }
-		[CommandLineOption(Aliases = "w", Description = "Create Client Controller And Views", BoolFunction = ValueForBoolFunction, GroupId ="o")]
+		[CommandLineOption(Aliases = "w", Description = "Create Client Controller And Views", BoolFunction = ValueForBoolFunction, GroupId = "o")]
 		public bool CreateClientControllerAndViews { get; set; }
-		[CommandLineOption(Aliases = "k", Description = "Create Lookup", BoolFunction = ValueForBoolFunction, GroupId ="o")]
+		[CommandLineOption(Aliases = "k", Description = "Create Lookup", BoolFunction = ValueForBoolFunction, GroupId = "o")]
 		public bool CreateLookup { get; set; }
 		string entityName;
-		[CommandLineOption(Aliases = "e", Description = "Specifies the Entity to generate", MinOccurs =1, GroupId ="c")]
-		public string EntityName { get => entityName; set
+		[CommandLineOption(Aliases = "e", Description = "Specifies the Entity to generate", MinOccurs = 1, GroupId = "c")]
+		public string EntityName
+		{
+			get => entityName; set
 			{
 				this.entityName = value;
 				MetaTableInfoList = MetaTableInfo.GetMetaTableInfoListForAssembly(entityName);
@@ -61,12 +63,13 @@ namespace AbpCodeGenerator
 				}
 			}
 		}
-		
 
-		[CommandLineOption(Aliases = "h", Description = "Displays help text", BoolFunction = BoolFunction.TrueIfPresent, GroupId ="o")]
+
+		[CommandLineOption(Aliases = "h", Description = "Displays help text", BoolFunction = BoolFunction.TrueIfPresent, GroupId = "o")]
 		public bool Help { get; set; }
 		public void ExecuteCommand()
 		{
+			this.EntityName = this.EntityName.Trim();
 			Console.WriteLine("You entered string '{0}'", this.EntityName);
 			//Obter o tipo de chave primária
 			var propertyType = MetaTableInfoList.FirstOrDefault(m => m.Name == "Id").PropertyType;
@@ -77,7 +80,6 @@ namespace AbpCodeGenerator
 				CodeGeneratorHelper.AddLoockupMethodIntoService(EntityName);
 			}
 
-			//break;
 			if (this.CreateNavigationMenu)
 			{
 				CodeGeneratorHelper.AddNavigationMenu(EntityName);
@@ -100,9 +102,6 @@ namespace AbpCodeGenerator
 			{
 				CodeGeneratorHelper.GeneretePageNameConsts(EntityName);
 			}
-			//CodeGeneratorHelper.SetExportingIntercafeClass(EntityName);
-			//CodeGeneratorHelper.SetExportingClass(EntityName, metaTableInfoList);
-			//CodeGeneratorHelper.SetConstsClass(EntityName); Se você usa SetAppPermissions，SetAppAuthorizationProvider，SetZh_CN_LocalizationDictionary_Here, então pode usar este método
 			if (this.SetPermissions)
 			{
 				CodeGeneratorHelper.SetAppPermissions(EntityName);
@@ -112,10 +111,10 @@ namespace AbpCodeGenerator
 			{
 				CodeGeneratorHelper.setLocalizationKeys(EntityName, this.MetaTableInfoList);
 			}
-			CodeGeneratorHelper.SetCreateOrEditHtmlTemplate(EntityName, this.MetaTableInfoList);
 
 			if (this.CreateClientControllerAndViews)
 			{
+				CodeGeneratorHelper.SetCreateOrEditHtmlTemplate(EntityName, this.MetaTableInfoList);
 				CodeGeneratorHelper.SetControllerClass(EntityName, propertyType);
 				CodeGeneratorHelper.SetCreateOrEditJs(EntityName);
 				CodeGeneratorHelper.SetCreateOrEditViewModelClass(EntityName);

@@ -6,7 +6,7 @@ using Abp.AutoMapper;
 namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s.Dtos
 {
 	[AutoMap(typeof({{Entity_Name_Here}}))]
-    public class {{Entity_Name_Here}}ListDto : IEntityDto
+    public partial class {{Entity_Name_Here}}ListDto : IEntityDto
     {
        {{Property_Looped_Template_Here}}
     }

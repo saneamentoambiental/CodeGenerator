@@ -5,8 +5,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s.Dtos
 {
-    public class Get{{Entity_Name_Here}}Input : DataTableRequestModel
+    public partial class Get{{Entity_Name_Here}}Input : DataTableRequestModel
     {
-		{{Property_Looped_Template_Here}}
+		
     }
 }

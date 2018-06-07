@@ -2,7 +2,7 @@
 
 namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}.Dtos
 {
-    public class {{NP_Foreign_Entity_Name_Here}}LookupTableDto
+    public partial class {{NP_Foreign_Entity_Name_Here}}LookupTableDto
     {
 		public {{NP_Id_Type_NoGuid_Here}} Id { get; set; }
 

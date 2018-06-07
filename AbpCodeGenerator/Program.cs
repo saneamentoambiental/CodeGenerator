@@ -14,6 +14,7 @@ namespace AbpCodeGenerator
 			var options = new Options();
 			var parser = new CommandLineParser(options);
 			parser.Parse(args, false);
+			
 			Console.WriteLine(parser.UsageInfo.GetHeaderAsString(78));
 
 			if (options.Help)
@@ -33,7 +34,7 @@ namespace AbpCodeGenerator
 		}
 		static void Main(string[] args)
 		{
-			var r = "Pessoa -m";
+			var r = "Pessoa -h -m -p";
 			do
 			{
 				args = new string[] { $"-e {r}" };

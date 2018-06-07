@@ -1,7 +1,9 @@
 ﻿@using Abp.Extensions
-@using {{Namespace_Here}}.Startup
-@using {{Namespace_Here}}.Models.Common.Modals
-@using {{Namespace_Here}}.Areas.{{App_Area_Name_Here}}.Models.{{Entity_Name_Plural_Here}}s
+@using {{Namespace_Here}}.Web.Startup
+@using {{Namespace_Here}}.Web.Models.Common.Modals
+@using {{Namespace_Here}}.Web.Areas.ETESystem.Models.Parametros
+@using {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Models.{{Entity_Name_Plural_Here}}s
+@using {{Namespace_Here}}.Models
 @model CreateOrEdit{{Entity_Name_Here}}ModalViewModel
 
 @section scripts

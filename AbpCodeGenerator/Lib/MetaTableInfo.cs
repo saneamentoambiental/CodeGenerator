@@ -104,7 +104,19 @@ namespace AbpCodeGenerator.Lib
 							{
 								foreach (var attribute in customAttributes)
 								{
-									attr.Add(attribute.GetType().Name);
+									switch (attribute.GetType().Name)
+									{
+										case "StringLengthAttribute":
+											{
+												attr.Add($"{attribute.GetType().Name}({className}.{properties.Name}MaxLength)");
+											}
+											break;
+										default:
+											{
+												attr.Add(attribute.GetType().Name);
+												break;
+											}
+									}
 								}
 								metaTableInfo.Annotation += "["+String.Join("]\n[", attr.ToArray())+"]";
 							}

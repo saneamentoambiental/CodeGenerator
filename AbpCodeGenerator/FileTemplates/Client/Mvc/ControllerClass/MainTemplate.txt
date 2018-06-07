@@ -16,23 +16,23 @@ namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
 {
     [Area("{{App_Area_Name_Here}}")]
     [AbpMvcAuthorize(PermissionNames.{{Permission_Name_Here}})]
-    public class {{Entity_Name_Plural_Here}}Controller : {{Project_Name_Here}}ControllerBase
+    public partial class {{Entity_Name_Plural_Here}}Controller : {{Project_Name_Here}}ControllerBase
     {
         private readonly I{{Entity_Name_Plural_Here}}AppService _{{entity_Name_Plural_Here}}AppService;
 		
-		{{AddLookup}}private readonly ILookupAppService _lookupAppService;
+		private readonly ILookupAppService _lookupAppService;
 
 
         public {{Entity_Name_Plural_Here}}Controller(I{{Entity_Name_Plural_Here}}AppService {{entity_Name_Plural_Here}}AppService
-			{{AddLookup}},ILookupAppService lookupAppService
+			,ILookupAppService lookupAppService
 			)
         {
             _{{entity_Name_Plural_Here}}AppService = {{entity_Name_Plural_Here}}AppService;
-			{{AddLookup}}_lookupAppService = lookupAppService;
+			_lookupAppService = lookupAppService;
         }
 
 		[DontWrapResult]
-		public JsonResult GetAll(GetParametroInput input, string teste)
+		public JsonResult GetAll(Get{{Entity_Name_Here}}Input input, string teste)
 		{
 			var result = _{{entity_Name_Plural_Here}}AppService.GetAll(input).Result;
 			var r = new
@@ -71,7 +71,7 @@ namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
 
 			if (id.HasValue){
 				get{{Entity_Name_Here}}ForEditOutput = await _{{entity_Name_Plural_Here}}AppService.Get{{Entity_Name_Here}}ForEdit(new EntityDto<{{Primary_Key_Here}}> { Id =  id.Value });
-				if (getParametroForEditOutput.Parametro == null)
+				if (get{{Entity_Name_Here}}ForEditOutput.{{Entity_Name_Here}} == null)
 				{
 					throw new UserFriendlyException(404, L("ItemNotFound"));
 				}
@@ -91,7 +91,7 @@ namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
 				DataLookup = _lookupAppService.GetTipo<Entity>ComboboxItems().Items
 								.Select(p => {
 									var r = p.ToSelectListItem();
-									r.Selected = getParametroForEditOutput.<Entity>.Tipo.To<int>().ToString() == p.Value;
+									r.Selected = get{{Entity_Name_Here}}ForEditOutput.<Entity>.Tipo.To<int>().ToString() == p.Value;
 									return r;
 									})
 								.ToList()
