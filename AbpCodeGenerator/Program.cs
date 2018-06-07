@@ -33,12 +33,26 @@ namespace AbpCodeGenerator
 		}
 		static void Main(string[] args)
 		{
-			args = new string[] { "-h","-e Pessoa -m" };
-			//args = new string[] { "-h" };
-			//args = new string[] { "tar -x -v -z -f file.tar.gz" };
-			Plosson(args);
-			
-			Console.Read();
+			var r = "Pessoa -m";
+			do
+			{
+				args = new string[] { $"-e {r}" };
+				Plosson(args);
+				ShowHelp();
+				Console.WriteLine("");
+				Console.WriteLine("Press new Entity or Enter To Exit");
+				r = Console.ReadLine();
+				Console.Clear();
+			} while (!string.IsNullOrWhiteSpace(r));
+
+		}
+
+		private static void ShowHelp()
+		{
+			Console.WriteLine("");
+			var parser = new CommandLineParser(new Options());
+			Console.WriteLine(parser.UsageInfo.GetHeaderAsString(78));
+			Console.WriteLine(parser.UsageInfo.GetOptionsAsString(78));
 		}
 	}
 }
