@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Linq;
+using CLAP;
 
 namespace AbpCodeGenerator.Lib
 {
 	public class CodeGeneratorHelper
 	{
-
+		
 
 
 		#region Show data Grid 
@@ -17,6 +18,7 @@ namespace AbpCodeGenerator.Lib
 		/// 生成CreateOrEditViewModelClass
 		/// </summary>
 		/// <param name="className"></param>
+		[Verb]
 		public static void SetListViewModelClass(string className)
 		{
 			string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Client\Mvc\ViewModelClass\ListViewModel.txt";
@@ -34,6 +36,7 @@ namespace AbpCodeGenerator.Lib
 
 		#region client
 
+		[Verb]
 		public static void AddNavigationMenu(string className)
 		{
 			//{{Item_Menu_Template}
@@ -60,6 +63,7 @@ namespace AbpCodeGenerator.Lib
 		/// 生成ControllerClass
 		/// </summary>
 		/// <param name="className"></param>
+		[Verb]
 		public static void SetControllerClass(string className, string primary_Key_Here)
 		{
 			string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Client\Mvc\ControllerClass\MainTemplate.txt";
@@ -78,6 +82,7 @@ namespace AbpCodeGenerator.Lib
 			Write(Path.Combine(Configuration.Web_Mvc_Directory, "Areas", Configuration.App_Area_Name, "Controllers", className + "Controller.cs"), templateContent);
 		}
 
+		[Verb]
 		public static void CreateDataTableWrapper()
 		{
 			string dest = Path.Combine(Configuration.RootDirectory, "GPSA.ETESystem.Core", "Web", "DataTableNet", "DataTableWrapperExtensions.cs");
@@ -96,6 +101,7 @@ namespace AbpCodeGenerator.Lib
 		/// 生成CreateOrEditHtmlTemplate
 		/// </summary>
 		/// <param name="className"></param>
+		[Verb]
 		public static void SetCreateOrEditHtmlTemplate(string className, List<MetaTableInfo> metaTableInfoList)
 		{
 			var dir = Configuration.RootDirectory + @"\Client\Mvc\CreateOrEditHtmlTemplate\";
@@ -124,90 +130,9 @@ namespace AbpCodeGenerator.Lib
 					.Replace("{{Field_Attributes}}", required)
 					.Replace("{{CSS}}", cssClass)
 					);
-				//var fieldType = "text";
-				//var fieldClass = "form-control";
-				//switch (field.PropertyType)
-				//{
-				//	case "datetime":
-				//		{
-				//			fieldType = "date";
-				//			fieldClass = "date-picker";
-				//			break;
-				//		}
-
-
-				//}
-				//sb.Append("<div class=\"form-group\"> ");
-				//sb.Append($"	<label for=\"{field.Name}\">@L(\"{className}.{field.Name}\")</label>");
-				//sb.Append($"	<input type=\"{fieldType}\" class=\"{fieldClass}\" name=\"{field.Name}\" placeholder=\"@L(\"{className}.{field.Name}.placeholder\")\"  value=\"@Model.{className}.{field.Name}\" >");
-				//sb.Append("</div>");
 			}
 
-			sb.Append("<!-- ");
-			for (int i = 0; i < metaTableInfoList.Count; i++)
-			{
-				continue;
-				if (metaTableInfoList[i].IsAuditableField)
-					continue;
 
-				sb.AppendLine("<div class=\"form-group m-form__group row\">");
-				if (i % 2 == 0)
-				{
-					sb.AppendLine($"<label class=\"col-xl-1 col-lg-1 col-form-label\">{metaTableInfoList[i].Annotation}</label>");
-					sb.AppendLine(" <div class=\"col-xl-5 col-lg-5\">");
-					if (metaTableInfoList[i].PropertyType == "string")
-					{
-						sb.AppendLine("  <input class=\"form-control@(Model." + className + "." + metaTableInfoList[i].Name + ".IsNullOrEmpty() ? \"\" : \" edited\")\"");
-					}
-					else
-					{
-						sb.AppendLine("  <input class=\"form-control\"");
-					}
-					sb.AppendLine("type=\"text\" name=\"" + metaTableInfoList[i].Name + "\"");
-					sb.AppendLine("value=\"@Model." + className + "." + metaTableInfoList[i].Name + "\" />");
-					sb.AppendLine("</div>");
-
-					if (i + 1 < metaTableInfoList.Count)
-					{
-
-
-						sb.AppendLine($"<label class=\"col-xl-1 col-lg-1 col-form-label\">{metaTableInfoList[i + 1].Annotation}</label>");
-						sb.AppendLine(" <div class=\"col-xl-5 col-lg-5\">");
-						if (metaTableInfoList[i + 1].PropertyType == "string")
-						{
-							// <input type="datetime"  class="form-control date-picker">
-							sb.AppendLine("  <input type=\"text\" class=\"form-control@(Model." + className + "." + metaTableInfoList[i + 1].Name + ".IsNullOrEmpty() ? \"\" : \" edited\")\"");
-						}
-						else if (metaTableInfoList[i + 1].PropertyType.Equals("datetime", StringComparison.CurrentCultureIgnoreCase))
-						{
-							sb.AppendLine("<input type=\"datetime\"  class=\"form-control date-picker\">");
-						}
-						else
-						{
-							sb.AppendLine("  <input type=\"text\" class=\"form-control\" ");
-						}
-						sb.AppendLine("name=\"" + metaTableInfoList[i + 1].Name + "\"");
-						sb.AppendLine("value=\"@Model." + className + "." + metaTableInfoList[i + 1].Name + "\" />");
-						sb.AppendLine("</div>");
-					}
-				}
-
-
-				sb.AppendLine("</div>");
-			}
-			/*
-			sb.Append("-->");
-			sb.AppendLine("//Sample of lookup");
-			sb.AppendLine("\"<div class=\"form - group\">");
-			sb.AppendLine("@Html.Label(L(\"{{ReferenceEntity}}\"))");
-			sb.AppendLine("@Html.DropDownList(");
-			sb.AppendLine("\"{{ReferenceEntity}}Id\", Model.{ReferenceEntity}},");
-			sb.AppendLine("new");
-			sb.AppendLine("{");
-			sb.AppendLine("@class = \"form -control\",");
-			sb.AppendLine("	id = \"{{ReferenceEntity}}Combobox\"");
-			sb.AppendLine("})</ div >");
-			*/
 			var property_Looped_Template_Here = sb.ToString();
 
 			templateContent = templateContent.Replace("{{Property_Looped_Template_Here}}", property_Looped_Template_Here)
@@ -221,7 +146,7 @@ namespace AbpCodeGenerator.Lib
 			Write(Path.Combine(Configuration.Web_Mvc_Directory, "Areas", Configuration.App_Area_Name, "Views", className, "_CreateOrEdit.cshtml"), templateContent);
 		}
 
-		
+
 		private static string getCssClass(string className, MetaTableInfo field)
 		{
 			var type = field.PropertyInfo.PropertyType;
@@ -278,6 +203,7 @@ namespace AbpCodeGenerator.Lib
 		/// 生成CreateOrEditJs
 		/// </summary>
 		/// <param name="className"></param>
+		[Verb]
 		public static void SetCreateOrEditJs(string className)
 		{
 			string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Client\Mvc\CreateOrEditJs\MainTemplate.txt";
@@ -300,6 +226,7 @@ namespace AbpCodeGenerator.Lib
 		/// 生成CreateOrEditViewModelClass
 		/// </summary>
 		/// <param name="className"></param>
+		[Verb]
 		public static void SetCreateOrEditViewModelClass(string className)
 		{
 			string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Client\Mvc\CreateOrEditViewModelClass\MainTemplate.txt";
@@ -314,6 +241,7 @@ namespace AbpCodeGenerator.Lib
 		}
 
 
+		[Verb]
 		public static void GeneretePageNameConsts(string className)
 		{
 			var path = Path.Combine(Configuration.Web_Mvc_Directory, "Areas", Configuration.App_Area_Name, "Startup", "PageNames.cs");
@@ -350,6 +278,7 @@ namespace AbpCodeGenerator.Lib
 		/// 生成IndexHtmlTemplate
 		/// </summary>
 		/// <param name="className"></param>
+		[Verb]
 		public static void SetIndexHtmlTemplate(string className, List<MetaTableInfo> metaTableInfoList)
 		{
 			var directory = Configuration.RootDirectory + @"\Client\Mvc\IndexHtmlTemplate\";
@@ -398,6 +327,7 @@ namespace AbpCodeGenerator.Lib
 		/// 生成IndexJsTemplate
 		/// </summary>
 		/// <param name="className"></param>
+		[Verb]
 		public static void SetIndexJsTemplate(string className, List<MetaTableInfo> metaTableInfoList)
 		{
 			string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Client\Mvc\IndexJsTemplate\MainTemplate.txt";
@@ -455,6 +385,7 @@ namespace AbpCodeGenerator.Lib
 			return destPath;
 		}
 
+		[Verb]
 		public static void AddLoockupMethodIntoService(string className)
 		{
 			string keyMethod = $"Task<ListResultDto<ComboboxItemDto>> Get{className}ComboboxItems()";
@@ -519,6 +450,7 @@ namespace AbpCodeGenerator.Lib
 		/// </summary>
 		/// <param name="className"></param>
 		/// <param name="primary_Key_Inside_Tag_Here">主键类型</param>
+		[Verb]
 		public static void SetAppServiceIntercafeClass(string className, string primary_Key_Inside_Tag_Here)
 		{
 			string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\AppServiceIntercafeClass\MainTemplate.txt";
@@ -538,6 +470,7 @@ namespace AbpCodeGenerator.Lib
 		/// </summary>
 		/// <param name="className"></param>
 		/// <param name="Primary_Key_Inside_Tag_Here">主键类型</param>
+		[Verb]
 		public static void SetAppServiceClass(string className, string Primary_Key_Inside_Tag_Here)
 		{
 			string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\AppServiceClass\MainTemplate.txt";
@@ -566,6 +499,7 @@ namespace AbpCodeGenerator.Lib
 		/// </summary>
 		/// <param name="className"></param>
 		/// <param name="primary_Key_Inside_Tag_Here">主键类型</param>
+		[Verb]
 		public static void SetExportingIntercafeClass(string className)
 		{
 			string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\ExportingIntercafeClass\MainTemplate.txt";
@@ -585,6 +519,7 @@ namespace AbpCodeGenerator.Lib
 		/// </summary>
 		/// <param name="className"></param>
 		/// <param name="Primary_Key_Inside_Tag_Here">主键类型</param>
+		[Verb]
 		public static void SetExportingClass(string className, List<MetaTableInfo> metaTableInfoList)
 		{
 			string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\ExportingClass\MainTemplate.txt";
@@ -645,6 +580,7 @@ namespace AbpCodeGenerator.Lib
 		/// 生成GetInputClass
 		/// </summary>
 		/// <param name="className"></param>
+		[Verb]
 		public static void SetGetInputClass(string className, List<MetaTableInfo> metaTableInfoList)
 		{
 			string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\Dtos\GetInputClass\MainTemplate.txt";
@@ -662,6 +598,7 @@ namespace AbpCodeGenerator.Lib
 		/// 生成GetForEditOutputClass
 		/// </summary>
 		/// <param name="className"></param>
+		[Verb]
 		public static void SetGetForEditOutputClass(string className)
 		{
 			string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\Dtos\GetForEditOutputClass\MainTemplate.txt";
@@ -680,6 +617,7 @@ namespace AbpCodeGenerator.Lib
 		/// </summary>
 		/// <param name="className"></param>
 		/// <param name="metaTableInfoList"></param>
+		[Verb]
 		public static void SetListDtoClass(string className, List<MetaTableInfo> metaTableInfoList)
 		{
 			string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\Dtos\ListDtoClass\MainTemplate.txt";
@@ -711,6 +649,7 @@ namespace AbpCodeGenerator.Lib
 		/// </summary>
 		/// <param name="className"></param>
 		/// <param name="metaTableInfoList"></param>
+		[Verb]
 		public static void SetCreateOrEditInputClass(string className, List<MetaTableInfo> metaTableInfoList)
 		{
 			string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\Dtos\CreateOrEditInputClass\MainTemplate.txt";
@@ -733,6 +672,7 @@ namespace AbpCodeGenerator.Lib
 		/// </summary>
 		/// <param name="className"></param>
 		[Obsolete("See GeneretePageNameConsts Method")]
+		[Verb]
 		public static void SetConstsClass(string className)
 		{
 
@@ -749,6 +689,7 @@ namespace AbpCodeGenerator.Lib
 		/// 生成AppPermissions
 		/// </summary>
 		/// <param name="className"></param>
+		[Verb]
 		public static void SetAppPermissions(string className)
 		{
 			StringBuilder sbAppPermissions_Here = new StringBuilder();
@@ -774,6 +715,7 @@ namespace AbpCodeGenerator.Lib
 		/// 生成AppPermissions
 		/// </summary>
 		/// <param name="className"></param>
+		[Verb]
 		public static void SetAppAuthorizationProvider(string className)
 		{
 			StringBuilder sbAppAuthorizationProvider_Here = new StringBuilder();
@@ -797,6 +739,7 @@ namespace AbpCodeGenerator.Lib
 			}
 		}
 
+		[Verb]
 		public static void setLocalizationKeys(string className, List<MetaTableInfo> metaTableInfoList)
 		{
 			string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\LocalizationsTemplate.txt";
@@ -828,6 +771,7 @@ namespace AbpCodeGenerator.Lib
 		/// </summary>
 		/// <param name="className"></param>
 		[Obsolete("See setLocalizationKeys")]
+		[Verb]
 		public static void SetZh_CN_LocalizationDictionary_Here(string className, string classAnnotation)
 		{
 			//zh_CN_LocalizationDictionary_Here
@@ -873,6 +817,7 @@ namespace AbpCodeGenerator.Lib
 		/// <param name="filePath">文件保存路径</param>
 		/// <param name="fileName">文件名</param>
 		/// <param name="templateContent">模板内容</param>
+		[Verb]
 		public static void Write(string filePath, string fileName, string templateContent)
 		{
 			Console.WriteLine($"Saving {filePath}...");
@@ -898,6 +843,7 @@ namespace AbpCodeGenerator.Lib
 		/// </summary>
 		/// <param name="filePath">文件保存路径</param>
 		/// <param name="templateContent">模板内容</param>
+		[Verb]
 		public static void Write(string filePath, string templateContent)
 		{
 			Console.WriteLine($"Saving {filePath}...");
