@@ -13,7 +13,7 @@
 	</environment>
 
 	<environment names="Staging,Production">
-		<script src="~/view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Here}}/_CreateOrEdit.js"></script>
+		<script src="~/view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Here}}/_CreateOrEdit.min.js"></script>
 	</environment>
 }
 
