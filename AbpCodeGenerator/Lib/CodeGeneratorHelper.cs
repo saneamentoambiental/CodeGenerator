@@ -388,17 +388,17 @@ namespace AbpCodeGenerator.Lib
 		[Verb]
 		public static void AddLoockupMethodIntoService(string className)
 		{
-			string keyMethod = $"Task<ListResultDto<ComboboxItemDto>> Get{{Entity_Name_Here}}ComboboxItems()";
+			string keyMethod = "Task<ListResultDto<ComboboxItemDto>> Get{{Entity_Name_Here}}ComboboxItems()";
 
 			StringBuilder sbIntefaceMethod = new StringBuilder();
-			sbIntefaceMethod.AppendLine($"{keyMethod};");
+			sbIntefaceMethod.AppendLine(keyMethod + ";");
 			sbIntefaceMethod.Append("//{{Interface_Method_Lookup}}");
 
 			StringBuilder sbMethod = new StringBuilder();
 
-			sbMethod.AppendLine($"public async {keyMethod}");
+			sbMethod.AppendLine($"public async "+keyMethod);
 			sbMethod.AppendLine("{\n");
-			sbMethod.AppendLine($"\t var result = await {{entity_Name_Here}}Repository.GetAllListAsync();");
+			sbMethod.AppendLine("\t var result = await {{entity_Name_Here}}Repository.GetAllListAsync();");
 			sbMethod.AppendLine("\t return new ListResultDto<ComboboxItemDto>(");
 			sbMethod.AppendLine("\t\t result.Select(r => new ComboboxItemDto(r.Id.ToString(), r.ToString())).ToList()");
 			sbMethod.AppendLine("\t\t );");
@@ -406,17 +406,17 @@ namespace AbpCodeGenerator.Lib
 			sbMethod.Append("//{{Method}}");
 
 			StringBuilder sbRepositoryField = new StringBuilder();
-			sbRepositoryField.AppendFormat("private readonly IRepository<{{Entity_Name_Here}}, int> {{entity_Name_Here}}Repository;");
-			sbRepositoryField.Append("\n//{{Repository_Field}}");
+			sbRepositoryField.AppendLine("private readonly IRepository<{{Entity_Name_Here}}, int> {{entity_Name_Here}}Repository;");
+			sbRepositoryField.Append("//{{Repository_Field}}");
 
 			StringBuilder sbRepositoryConstructorParameter = new StringBuilder();
-			sbRepositoryConstructorParameter.AppendFormat(", IRepository<{{Entity_Name_Here}}, int> {{entity_Name_Here}}Repository");
-			sbRepositoryConstructorParameter.Append("\n//{{Repository_Constructor_Parameter}}");
+			sbRepositoryConstructorParameter.AppendLine(", IRepository<{{Entity_Name_Here}}, int> {{entity_Name_Here}}Repository");
+			sbRepositoryConstructorParameter.Append("//{{Repository_Constructor_Parameter}}");
 
 
 			StringBuilder sbRepositoryConstructorBody = new StringBuilder();
-			sbRepositoryConstructorBody.AppendFormat("this.{{entity_Name_Here}}Repository = {{entity_Name_Here}}Repository;");
-			sbRepositoryConstructorBody.Append("\n//{{Repository_Constructor_Body}}");
+			sbRepositoryConstructorBody.AppendLine("this.{{entity_Name_Here}}Repository = {{entity_Name_Here}}Repository;");
+			sbRepositoryConstructorBody.Append("//{{Repository_Constructor_Body}}");
 
 			var destPath = GetLookupServiceFilePath(className);
 			var templateContent = Read(destPath);
@@ -426,17 +426,19 @@ namespace AbpCodeGenerator.Lib
 			}
 			else
 			{
+				templateContent = templateContent.Replace("//{{Interface_Method_Lookup}}", sbIntefaceMethod.ToString())
+												 .Replace("//{{Method}}", sbMethod.ToString())
+												 .Replace("//{{Repository_Field}}", sbRepositoryField.ToString())
+												 .Replace("//{{Repository_Constructor_Parameter}}", sbRepositoryConstructorParameter.ToString())
+												 .Replace("//{{Repository_Constructor_Body}}", sbRepositoryConstructorBody.ToString())
+												 ;
+
 				templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
 												 .Replace("{{Namespace_Relative_Full_Here}}", className)
 												 .Replace("{{Entity_Name_Plural_Here}}", className)
 												 .Replace("{{Entity_Name_Here}}", className)
 												 .Replace("{{entity_Name_Here}}", GetFirstToLowerStr(className))
-												 .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
-												 .Replace("//{{Interface_Method_Lookup}}", sbIntefaceMethod.ToString())
-												 .Replace("//{{Method}}", sbMethod.ToString())
-												 .Replace("//{{Repository_Field}}", sbRepositoryField.ToString())
-												 .Replace("//{{Repository_Constructor_Parameter}}", sbRepositoryConstructorParameter.ToString())
-												 .Replace("//{{Repository_Constructor_Body}}", sbRepositoryConstructorBody.ToString())
+												 .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)												 
 												 ;
 				Write(destPath, templateContent);
 			}
