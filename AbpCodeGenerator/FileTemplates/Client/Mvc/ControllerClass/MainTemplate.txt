@@ -12,6 +12,9 @@ using {{Namespace_Here}}.Authorization;
 using {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s;
 using {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s.Dtos;
 
+using System.Linq;
+using Abp.Extensions;
+
 namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
 {
     [Area("{{App_Area_Name_Here}}")]
@@ -88,10 +91,10 @@ namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
 				{{Entity_Name_Here}} = get{{Entity_Name_Here}}ForEditOutput.{{Entity_Name_Here}}
 				//Add Lookups here!
 				/* SAMPLE 
-				DataLookup = _lookupAppService.GetTipo<Entity>ComboboxItems().Items
+				DataLookup = _lookupAppService.GetTipo<Entity>ComboboxItems().Result.Items
 								.Select(p => {
 									var r = p.ToSelectListItem();
-									r.Selected = get{{Entity_Name_Here}}ForEditOutput.<Entity>.Tipo.To<int>().ToString() == p.Value;
+									r.Selected = get{{Entity_Name_Here}}ForEditOutput.{{Entity_Name_Here}}.Field.To<int>().ToString() == p.Value;
 									return r;
 									})
 								.ToList()
