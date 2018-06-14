@@ -1,6 +1,6 @@
 ﻿(function ($) {
 	this.back = function () {
-		location.href = abp.appPath + '/{{App_Area_Name_Here}}/{{Entity_Name_Here}}';
+		location.href = '/{{App_Area_Name_Here}}/{{Entity_Name_Here}}';
 	};
 	$(function () {
 		var _$form = $('#{{Entity_Name_Here}}InformationsForm');

@@ -85,7 +85,7 @@ namespace AbpCodeGenerator.Lib
 		[Verb]
 		public static void CreateDataTableWrapper()
 		{
-			string dest = Path.Combine(Configuration.RootDirectory, "GPSA.ETESystem.Core", "Web", "DataTableNet", "DataTableWrapperExtensions.cs");
+			string dest = Path.Combine(Configuration.SourceSolution, "GPSA.ETESystem.Core", "Web", "DataTableNet", "DataTableWrapperExtensions.cs");
 			string templatePath = Path.Combine(Configuration.RootDirectory, "DataTableWrapperExtensions.txt");
 			var templateContent = Read(templatePath);
 
@@ -342,8 +342,8 @@ namespace AbpCodeGenerator.Lib
 				//TODO: Verificar se o json é gerado na forma { target: i, data: "coluna" }
 				string column = Abp.Json.JsonExtensions.ToJsonString(new
 				{
-					targets = i,
-					data = item.Name
+					targets = item.IsIdField? 1: i,
+					data = item.Name.ToLower()
 				});
 				sb.AppendLine(column + ",");
 				i++;
@@ -756,8 +756,8 @@ namespace AbpCodeGenerator.Lib
 				if (!LocalizationDictionaryTemplateContent.Contains($"<text name=\"{className}.{item.Name}\">"))
 				{
 
-					sbFields.Append($"<text name=\"{className}.{item.Name}\">{item.Name}</text>");
-					sbFields.Append($"<text name=\"{className}.{item.Name}.placeholder\">{item.Name}</text>");
+					sbFields.Append($"<text name=\"{className}.{item.Name}\">{item.Name}</text>\n");
+					sbFields.Append($"<text name=\"{className}.{item.Name}.placeholder\">{item.Name}</text>\n");
 				}
 			}
 			sbFields.Insert(0, templateContent);
