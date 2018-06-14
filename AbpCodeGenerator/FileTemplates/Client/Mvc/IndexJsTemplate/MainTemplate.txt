@@ -2,7 +2,7 @@
 	$(function () {
 
 		var _${{entity_Name_Here}}Table = $('#MainTable');
-		var _{{entity_Name_Here}}Service = abp.services.app.{{Entity_Name_Here}};
+		var _{{entity_Name_Here}}Service = abp.services.app.{{entity_Name_Here}};
 
 		var _permissions = {			
 			create: abp.auth.hasPermission('{{App_Area_Name_Here}}.{{Entity_Name_Here}}.Create'),
@@ -79,7 +79,7 @@
 							id: id
 						}).done(function () {
 							abp.notify.success(abp.localization.localize('{{Entity_Name_Here}}Deleted'));							
-							refreshData;
+							refreshData();
 						});
 					}
 				}
