@@ -175,7 +175,7 @@ namespace AbpCodeGenerator.Lib
 		{
 			List<String> validation = new List<string>();
 			var keys = new String[] { "Required", "MinLength", "MaxLength", "EmailAddress", "Phone", "StringLength" };
-			var values = new String[] { "required", "min=\"@{0}.{1}MinLength\"", "max=\"@{0}.{1}MaxLength\"", "email", "phone", "max=\"@{0}.{1}MaxLength\"" };
+			var values = new String[] { "required", "min=\"@{0}.{1}MinLength\"", "max=\"@{0}.{1}MaxLength\"", "email", "phone", "maxlength=\"@{0}.{1}MaxLength\"" };
 			for (int i = 0; i < keys.Length; i++)
 			{
 				if (field.Annotation.Contains(keys[i]))
