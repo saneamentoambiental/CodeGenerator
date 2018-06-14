@@ -104,6 +104,7 @@ O executável da aplicação orienta o processo da geração dos arquivos, entre
 * Configure os DbSets necessários
 * Execute o código conforme as instruções da tela ou -h para exibir a ajuda. 
 * Para cada Entity que foi gerada faça:
+
    - No Service criado, substitua *<<ChangeThisPropertyField>>* pelo campo de busca
    - Adicione o namespace que contém o Model (entity) (Usar a compilação para detectar as ocorrências)
    - Ajuste o *@using* do *_CreateOrEdit* gerado
