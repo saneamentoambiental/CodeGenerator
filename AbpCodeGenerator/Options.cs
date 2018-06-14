@@ -24,6 +24,7 @@ namespace AbpCodeGenerator
 	Copyright = "Copyright (c) GPSA")]
 	[CommandLineOptionGroup("c", Name = "Required")]
 	[CommandLineOptionGroup("o", Name = "Options")]
+	[CommandLineOptionGroup("u", Name = "Util")]
 	public class Options
 	{
 #if DEBUG
@@ -32,8 +33,10 @@ namespace AbpCodeGenerator
 		const BoolFunction ValueForBoolFunction = BoolFunction.FalseIfPresent;
 #endif
 
+		[CommandLineOption(Aliases = "all", Description = "Create all objects", BoolFunction = ValueForBoolFunction, GroupId = "o")]
+		public bool AllOptions { get; set; }
 
-		[CommandLineOption(Aliases = "t", Description = "Create DataTable Extensions", BoolFunction = ValueForBoolFunction, GroupId = "o")]
+		[CommandLineOption(Aliases = "t", Description = "Create DataTable Extensions", BoolFunction = ValueForBoolFunction, GroupId = "u")]
 		public bool CreateDataTable { get; set; }
 
 		[CommandLineOption(Aliases = "m", Description = "Add Menu Navigation", BoolFunction = ValueForBoolFunction, GroupId = "o")]
@@ -81,44 +84,44 @@ namespace AbpCodeGenerator
 			{
 				CodeGeneratorHelper.CreateDataTableWrapper();
 			}
-			if (this.CreateLookup)
+			if (this.AllOptions || this.CreateLookup)
 			{
 				CodeGeneratorHelper.AddLoockupMethodIntoService(EntityName);
 			}
 
-			if (this.CreateNavigationMenu)
+			if (this.AllOptions || this.CreateNavigationMenu)
 			{
 				CodeGeneratorHelper.AddNavigationMenu(EntityName);
 			}
 
-			if (this.CreateServiceClass)
+			if (this.AllOptions || this.CreateServiceClass)
 			{
 				// Geração do lado do servidor  
 				CodeGeneratorHelper.SetAppServiceIntercafeClass(EntityName, propertyType);
 				CodeGeneratorHelper.SetAppServiceClass(EntityName, propertyType);
 			}
-			if (this.CreateDtos)
+			if (this.AllOptions || this.CreateDtos)
 			{
 				CodeGeneratorHelper.SetListDtoClass(EntityName, this.MetaTableInfoList);
 				CodeGeneratorHelper.SetCreateOrEditInputClass(EntityName, this.MetaTableInfoList);
 				CodeGeneratorHelper.SetGetForEditOutputClass(EntityName);
 				CodeGeneratorHelper.SetGetInputClass(EntityName, this.MetaTableInfoList);
 			}
-			if (this.CreatePageConsts)
+			if (this.AllOptions || this.CreatePageConsts)
 			{
 				CodeGeneratorHelper.GeneretePageNameConsts(EntityName);
 			}
-			if (this.SetPermissions)
+			if (this.AllOptions || this.SetPermissions)
 			{
 				CodeGeneratorHelper.SetAppPermissions(EntityName);
 				CodeGeneratorHelper.SetAppAuthorizationProvider(EntityName);
 			}
-			if (this.CreateLoacalization)
+			if (this.AllOptions || this.CreateLoacalization)
 			{
 				CodeGeneratorHelper.setLocalizationKeys(EntityName, this.MetaTableInfoList);
 			}
 
-			if (this.CreateClientControllerAndViews)
+			if (this.AllOptions || this.CreateClientControllerAndViews)
 			{
 				CodeGeneratorHelper.SetCreateOrEditHtmlTemplate(EntityName, this.MetaTableInfoList);
 				CodeGeneratorHelper.SetControllerClass(EntityName, propertyType);

@@ -34,7 +34,7 @@ namespace AbpCodeGenerator
 		}
 		static void Main(string[] args)
 		{
-			var r = "Pessoa -h -m -p";
+			var r = "";// "Pessoa -h -m -p";
 			do
 			{
 				args = new string[] { $"-e {r}" };
