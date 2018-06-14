@@ -1,5 +1,5 @@
 ﻿@using {{Namespace_Here}}.Authorization
-@using {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Startup
+@using {{Namespace_Here}}.Web.Startup
 
 @model {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Models.{{Entity_Name_Here}}s.{{Entity_Name_Here}}ListViewModel
 @{
