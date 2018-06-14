@@ -49,7 +49,8 @@ O executável da aplicação orienta o processo da geração dos arquivos, entre
 
 ```csharp
 
-	public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
+	public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, 
+			CancellationToken cancellationToken = default(CancellationToken))
 	{
 		ValidateEntries();
 		return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
@@ -59,8 +60,6 @@ O executável da aplicação orienta o processo da geração dos arquivos, entre
 	{
 		ValidateEntries();
 		return base.SaveChanges(acceptAllChangesOnSuccess);
-
-
 	}
 
 	public void ValidateEntries()
@@ -102,13 +101,13 @@ O executável da aplicação orienta o processo da geração dos arquivos, entre
  
 ## Geração de código
 
-- Configure os DbSets necessários
-- Execute o código conforme as instruções da tela ou -h para exibir a ajuda. 
-- Para cada Entity que foi gerada faça:
-   > No Service criado, substitua *<<ChangeThisPropertyField>>* pelo campo de busca
-   > Adicione o namespace que contém o Model (entity) (Usar a compilação para detectar as ocorrências)
-   > Ajuste o *@using* do *_CreateOrEdit* gerado
-   > Ajuste o Entity para criar as constantes de validação, principalmente em relação ao tamanho do campo
+* Configure os DbSets necessários
+* Execute o código conforme as instruções da tela ou -h para exibir a ajuda. 
+* Para cada Entity que foi gerada faça:
+   - No Service criado, substitua *<<ChangeThisPropertyField>>* pelo campo de busca
+   - Adicione o namespace que contém o Model (entity) (Usar a compilação para detectar as ocorrências)
+   - Ajuste o *@using* do *_CreateOrEdit* gerado
+   - Ajuste o Entity para criar as constantes de validação, principalmente em relação ao tamanho do campo
   
  
 ## Outros ajustes interessantes
