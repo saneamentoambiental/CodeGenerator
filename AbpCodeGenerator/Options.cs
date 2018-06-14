@@ -33,6 +33,9 @@ namespace AbpCodeGenerator
 #endif
 
 
+		[CommandLineOption(Aliases = "t", Description = "Create DataTable Extensions", BoolFunction = ValueForBoolFunction, GroupId = "o")]
+		public bool CreateDataTable { get; set; }
+
 		[CommandLineOption(Aliases = "m", Description = "Add Menu Navigation", BoolFunction = ValueForBoolFunction, GroupId = "o")]
 		public bool CreateNavigationMenu { get; set; }
 		[CommandLineOption(Aliases = "s", Description = "Create Service", BoolFunction = ValueForBoolFunction, GroupId = "o")]
@@ -74,7 +77,10 @@ namespace AbpCodeGenerator
 			//Obter o tipo de chave primária
 			var propertyType = MetaTableInfoList.FirstOrDefault(m => m.Name == "Id").PropertyType;
 
-
+			if (this.CreateDataTable)
+			{
+				CodeGeneratorHelper.CreateDataTableWrapper();
+			}
 			if (this.CreateLookup)
 			{
 				CodeGeneratorHelper.AddLoockupMethodIntoService(EntityName);
