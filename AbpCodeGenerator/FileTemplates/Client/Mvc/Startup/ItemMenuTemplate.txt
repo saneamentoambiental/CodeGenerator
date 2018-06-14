@@ -1,5 +1,5 @@
 ﻿.AddItem(new MenuItemDefinition(
-					 PermissionNames.Pages_{{App_Area_Name_Here}}_{{Entity_Name_Here}},					
+					 PageNames.{{Entity_Name_Here}}.Index,					
                     L("{{Entity_Name_Here}}"),
 					url: "/{{App_Area_Name_Here}}/{{Entity_Name_Here}}",
 					icon: "local_offer",

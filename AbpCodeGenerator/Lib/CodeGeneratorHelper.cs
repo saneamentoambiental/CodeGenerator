@@ -244,7 +244,7 @@ namespace AbpCodeGenerator.Lib
 		[Verb]
 		public static void GeneretePageNameConsts(string className)
 		{
-			var path = Path.Combine(Configuration.Web_Mvc_Directory, "Areas", Configuration.App_Area_Name, "Startup", "PageNames.cs");
+			var path = Path.Combine(Configuration.Web_Mvc_Directory, "Startup", "PageNames.cs");
 			if (!File.Exists(path))
 			{
 				if (!Directory.Exists(Path.GetDirectoryName(path))) Directory.CreateDirectory(Path.GetDirectoryName(path));
