@@ -1,6 +1,6 @@
 ﻿<!--LocalizationDictionary_Here-->
 
-<!-- {{Entity_Name_Here}}-->");
+<!-- {{Entity_Name_Here}}-->
 <text name="{{Entity_Name_Here}}">{{Entity_Name_Here}}</text>
 <text name="CreatingNew{{Entity_Name_Here}}">Cadastrar {{Entity_Name_Here}}</text>
 <text name="Creating new {{entity_Name_Here}}">Cadastrar {{Entity_Name_Here}}</text>

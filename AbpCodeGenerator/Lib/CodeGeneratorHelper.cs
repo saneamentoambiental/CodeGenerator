@@ -310,14 +310,14 @@ namespace AbpCodeGenerator.Lib
 			}
 			var property_Looped_Template_Here = sbColumnTitle.ToString();
 
-			templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
+			templateContent = templateContent.Replace("{{Show_Columns_Title_Here}}", sbColumnTitle.ToString())
+                                             .Replace("{{Show_Columns_Field_Here}}", sbColumnField.ToString())
+                                             .Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
 											 .Replace("{{Entity_Name_Plural_Here}}", className)
 											 .Replace("{{Entity_Name_Here}}", className)
 											 .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
 											 .Replace("{{Property_Looped_Template_Here}}", property_Looped_Template_Here)
 											 .Replace("{{Permission_Name_Here}}", $"Pages_{Configuration.App_Area_Name}_{className}")
-											 .Replace("{{Show_Columns_Title_Here}}", sbColumnTitle.ToString())
-											 .Replace("{{Show_Columns_Field_Here}}", sbColumnField.ToString())
 											 ;
 			Write(Path.Combine(Configuration.Web_Mvc_Directory, "Areas", Configuration.App_Area_Name, "Views", className, "Index.cshtml"), templateContent);
 		}

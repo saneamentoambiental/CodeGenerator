@@ -43,9 +43,9 @@ O executável da aplicação orienta o processo da geração dos arquivos, entre
 	}
 ```
 
- 1. No arquivo de localização adicionar a marca *<!--LocalizationDictionary_Here-->*
+1. No arquivo de localização adicionar a marca ````<!--LocalizationDictionary_Here-->````
  1. Executar o aplicativo de gerar código com a opção de criar data table
- 1. No arquivo de contexto adicione o código abaixo para que a validação seja realizada:
+ 2. No arquivo de contexto adicione o código abaixo para que a validação seja realizada:
 
 ```csharp
 
