@@ -12,12 +12,11 @@ Nesta página você encontrará:
 
 <!-- code_chunk_output -->
 
-- [Sobre o CodeGenerator](#sobre-o-codegenerator)
-	- [Como utilizar](#como-utilizar)
-		- [Passo-a-passo](#passo-a-passo)
-	- [Geração de código](#geração-de-código)
-	- [Outros ajustes interessantes](#outros-ajustes-interessantes)
-	- [FAQ](#faq)
+* [Como utilizar](#como-utilizar)
+	* [Passo-a-passo](#passo-a-passo)
+* [Geração de código](#geração-de-código)
+* [Outros ajustes interessantes](#outros-ajustes-interessantes)
+* [FAQ](#faq)
 
 <!-- /code_chunk_output -->
 
