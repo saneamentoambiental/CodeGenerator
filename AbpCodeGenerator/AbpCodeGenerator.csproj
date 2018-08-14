@@ -22,6 +22,114 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="FileTemplates\Client\Mvc\ControllerClass\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\CreateOrEditHtmlTemplate\FieldTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\CreateOrEditHtmlTemplate\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\CreateOrEditHtmlTemplate\MainTemplate1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\CreateOrEditHtmlTemplate\SelectTemplateField.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\CreateOrEditJs\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\CreateOrEditJs\ModalTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\CreateOrEditViewModelClass\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\IndexHtmlTemplate\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\IndexHtmlTemplate\MainTemplateWithModal.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\IndexHtmlTemplate\Show_Columns_Field_Template.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\IndexHtmlTemplate\Show_Columns_Title_Template.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\IndexJsTemplate\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\LookupTables\LookupTableHtmlTemplate\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\LookupTables\LookupTableJs\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\LookupTables\LookupViewModelClass\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\Startup\ItemMenuTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\Startup\PagaNames_CreateClassTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\Startup\PageNames_ItemPageTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\ViewModelClass\ListViewModel.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Client\Mvc\ViewModelClass\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\DataTableWrapperExtensions.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\LocalizationsTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Server\AppServiceClass\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Server\AppServiceIntercafeClass\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Server\ConstsClass\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Server\Dtos\CreateOrEditInputClass\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Server\Dtos\EntityDtoClass - SemUso\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Server\Dtos\GetAllOutputClass\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Server\Dtos\GetForEditOutputClass\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Server\Dtos\GetInputClass\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Server\Dtos\ListDtoClass\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Server\Dtos\LookupDto\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Server\ExportingClass\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Server\ExportingIntercafeClass\MainTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FileTemplates\Server\LookupService\TemplateMaster.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

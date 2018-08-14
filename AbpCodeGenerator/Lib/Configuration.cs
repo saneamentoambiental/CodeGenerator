@@ -20,7 +20,7 @@ namespace AbpCodeGenerator.Lib
         /// <summary>
         /// 根目录 读取模板的绝对路径
         /// </summary>
-        public static string RootDirectory = _configuration["RootDirectory"];
+        public static string RootDirectory = Path.Combine(Directory.GetCurrentDirectory(), "FileTemplates");
 
         /// <summary>
         /// 生产的类的命名空间，也可以在模板里面写死 模板都在 FileTemplates文件夹下面

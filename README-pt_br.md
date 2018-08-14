@@ -47,14 +47,23 @@ O executável da aplicação orienta o processo da geração dos arquivos, entre
    * *App_Area_Name*: Nome da área
    * *Controller_Base_Class*: Nome do controller base
 
-3. Adicionar a chave *//{{AppPermissions_Here}}* no arquivo *AppPermissions_Path* 
+3. Adicionar a chave *//{{AppPermissions_Here}}* no arquivo _``<Namespace>.Core\Authorization\PermissionNames.cs``_
 
-4. Adicionar a chave *//{{Item_Menu_Template}* na classe que implementa *NavigationProvider*, disponível no projeto *Web/Startup*
-5. Adicionar a chave *//{{Template_Page_Name_Consts}}* no arquivo PageNames que fica dentro do projeto *Web/Startup*
-6. No arquivo AppAuthorizationProvider_Path incluir no *SetPermission*:
+4. Adicionar a chave *//{{Item_Menu_Template}* na classe que implementa *NavigationProvider*, disponível em _``<Namespace>.Web\Startup\<Namespace>NavigationProvider.cs``_, dentro da função _``SetNavigation()``_, como no exemplo abaixo:
+
+	```csharp
+		public override void SetNavigation(INavigationProviderContext context)
+        {
+            context.Manager.MainMenu
+			//{{Item_Menu_Template}
+			...
+		}	
+	```
+	
+5. Adicionar a chave *//{{Template_Page_Name_Consts}}* no arquivo localizado em _``<Namespace>.Web\Startup\PageNames.cs``_
+6. No arquivo localizado em _``<Namespace>.Core\Authorization\<Namespace>AuthorizationProvider.cs``_ incluir na função *SetPermission()*:
 
    ```csharp
-
 	public override void SetPermissions(IPermissionDefinitionContext context)
 	{
 		//Código omitido...
@@ -63,13 +72,13 @@ O executável da aplicação orienta o processo da geração dos arquivos, entre
 	}
    ```
 
-1. No arquivo de localização adicionar a marca ````<!--LocalizationDictionary_Here-->````
+1. No arquivo de localização adicionar a marca _``<!--LocalizationDictionary_Here-->``_, localizado em _``<Namespace>.Core\Localization\<Namespace>-pt-BR.xml``_. Caso este arquivo não exista, copiar um dos xmls existentes e modificar o seu nome
  1. Executar o aplicativo de gerar código com a opção de criar data table
  2. No arquivo de contexto adicione o código abaixo para que a validação seja realizada:
 
     ```csharp
 
-	``````public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, 
+	public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, 
 			CancellationToken cancellationToken = default(CancellationToken))
 	{
 		ValidateEntries();
