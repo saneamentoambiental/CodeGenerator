@@ -26,7 +26,7 @@ Para corrigir este erro atualize as referências do _Abp_ no projeto do gerador 
 
 Outro erro comum de acontecer é a incompatibilidade entre as versões do _.NET Framework_.
 
-O gerador de código foi concebido com a versão ``.NET CORE 2.0 `` do _.NET Framework_. Caso necessário, realize a mudança da versão do _framework_.
+O gerador de código foi concebido com a versão ``.NET CORE 2.1 `` do _.NET Framework_. Caso necessário, realize a mudança da versão do _framework_.
 
 ![VersaoFramework](img/ErroVersaoDotnet.png)
 

@@ -1,8 +1,8 @@
 # Sobre o CodeGenerator
 
-Gerador de código para o [AspNetBoilerPlate](http://aspnetboilerplate.com) v.3.7.2.
+Gerador de código para o [AspNetBoilerPlate](http://aspnetboilerplate.com) v.3.8.2.
 
-Esta versão é um Fork do [CodeGenerator de HisKingdom](https://github.com/HisKingdom/CodeGenerator)  e trabalha com a versão gratuita do AspNetBoilerPlate (v.3.7.2) para auxiliar na construção telas não modais para visualização e edição de dados.
+Esta versão é um Fork do [CodeGenerator de HisKingdom](https://github.com/HisKingdom/CodeGenerator)  e trabalha com a versão gratuita do AspNetBoilerPlate para auxiliar na construção telas não modais para visualização e edição de dados.
 
 -------
 
@@ -12,11 +12,12 @@ Nesta página você encontrará:
 
 <!-- code_chunk_output -->
 
-* [Como utilizar](#como-utilizar)
-	* [Passo-a-passo](#passo-a-passo)
-* [Geração de código](#geração-de-código)
-* [Outros ajustes interessantes](#outros-ajustes-interessantes)
-* [FAQ](#faq)
+- [Sobre o CodeGenerator](#sobre-o-codegenerator)
+	- [Como utilizar](#como-utilizar)
+		- [Passo-a-passo](#passo-a-passo)
+	- [Geração de código](#geração-de-código)
+	- [Outros ajustes interessantes](#outros-ajustes-interessantes)
+	- [FAQ](#faq)
 
 <!-- /code_chunk_output -->
 
@@ -33,9 +34,7 @@ O executável da aplicação orienta o processo da geração dos arquivos, entre
 2. Modificar o arquivo de configurações *appsettings.json*
 
    * *SourceSolution*: Diretório báse da aplicação;
-   * *SourceAssembly*: DLL que contém as entidades (devem ser definidas utilizando o EntityFramework);
-   * *RootDirectory*: Pasta que contém os templates a serem lidos
-      > Em uma versão futura a chave será alterada para *TemplateDirectory*
+   * *SourceAssembly*: DLL que contém as entidades (devem ser definidas utilizando o EntityFramework);  
    * *Namespace_Here*: Namespace utilizado no projeto
    * *Application_AppServiceBase*: Classe base e abstrata que disponibiliza o *Service* para a aplicação, localizado em ``<Namespace>.Application``
    * *Application_Directory*: Diretório que contém a camada de aplicação, geralmente o nome do diretório é ``<Namespace>.Application``
@@ -78,7 +77,7 @@ O executável da aplicação orienta o processo da geração dos arquivos, entre
 
     ```csharp
 
-	public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, 
+	public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,
 			CancellationToken cancellationToken = default(CancellationToken))
 	{
 		ValidateEntries();
