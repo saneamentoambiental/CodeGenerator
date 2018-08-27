@@ -119,7 +119,8 @@ namespace AbpCodeGenerator.Lib
 				var fieldTemplatePath = "SelectTemplateField.txt";
 				if (field.PropertyInfo.PropertyType.IsSimpleType())
 				{
-					fieldTemplatePath = "FieldTemplate.txt";
+                    if ( field.PropertyInfo.PropertyType == typeof(bool))
+					    fieldTemplatePath = "CheckBoxTemplate.txt";
 				}
 				fieldTemplatePath = Path.Combine(dir, fieldTemplatePath);
 				var fieldTemplate = Read(fieldTemplatePath);

@@ -25,6 +25,9 @@
     <None Update="FileTemplates\Client\Mvc\ControllerClass\MainTemplate.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="FileTemplates\Client\Mvc\CreateOrEditHtmlTemplate\CheckBoxTemplate.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="FileTemplates\Client\Mvc\CreateOrEditHtmlTemplate\FieldTemplate.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
