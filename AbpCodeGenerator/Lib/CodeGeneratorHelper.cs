@@ -570,11 +570,13 @@ namespace AbpCodeGenerator.Lib
 			StringBuilder sb = new StringBuilder();
 			foreach (var item in metaTableInfoList)
 			{
+                if (item.PropertyInfo.PropertyType.IsNotPublic)
+                    continue;
 				if (!addAuditableField && item.IsAuditableField)
 					continue;
 				if (!addIdField && item.IsIdField)
 					continue;
-				sb.AppendLine(item.Annotation);
+				sb.AppendLine(item.Annotation);                
 				sb.AppendLine("public " + item.PropertyType + " " + item.Name + " { get; set; }");
 			}
 			return sb.ToString();

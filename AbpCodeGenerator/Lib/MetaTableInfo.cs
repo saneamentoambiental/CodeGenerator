@@ -44,6 +44,15 @@ namespace AbpCodeGenerator.Lib
 			get { return Name == "Id"; }
 		}
 
+        public bool IsNullable
+        {
+            get
+            {
+                return this.PropertyInfo.PropertyType.IsGenericType && this.PropertyInfo.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>);
+            }
+        }
+
+
         public static List<MetaTableInfo> GetMetaTableInfoListForMysql(string tableName)
         {
             var mysqlEntity = MysqlEntity.GetMysqlEntityByTableName(tableName);
@@ -61,6 +70,7 @@ namespace AbpCodeGenerator.Lib
 
             return metaTableInfoList;
         }
+
 
         /// <summary>
         /// 根据类名 反射得到类的信息
@@ -148,6 +158,14 @@ namespace AbpCodeGenerator.Lib
                         else if (properties.PropertyType == typeof(DateTime?))
                         {
                             metaTableInfo.PropertyType = "DateTime?";
+                        }
+                        else if (properties.PropertyType == typeof(float))
+                        {
+                            metaTableInfo.PropertyType = "float";
+                        }
+                        else if (properties.PropertyType == typeof(float?))
+                        {
+                            metaTableInfo.PropertyType = "float?";
                         }
                         else if (properties.PropertyType == typeof(decimal))
                         {
