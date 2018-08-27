@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using CLAP;
+using System.Reflection;
 
 namespace AbpCodeGenerator.Lib
 {
@@ -833,7 +834,7 @@ namespace AbpCodeGenerator.Lib
 			using (FileStream fs = new FileStream(Path.Combine(filePath, fileName), FileMode.Create))
 			{
 				//获得字节数组
-				byte[] data = Encoding.Default.GetBytes(templateContent);
+				byte[] data = Encoding.Default.GetBytes(VersionInfo() + templateContent);
 				//开始写入
 				fs.Write(data, 0, data.Length);
 			}
@@ -860,22 +861,45 @@ namespace AbpCodeGenerator.Lib
 			using (FileStream fs = new FileStream(filePath, FileMode.Create))
 			{
 				//获得字节数组
-				byte[] data = Encoding.Default.GetBytes(templateContent);
+				byte[] data = Encoding.Default.GetBytes(VersionInfo() + templateContent);
 				//开始写入
 				fs.Write(data, 0, data.Length);
 			}
 			Console.WriteLine($"\t Finished with sucess.");
 
 		}
-		#endregion
+        #endregion
 
-		#region 首字母小写
-		/// <summary>
-		/// 首字母小写
-		/// </summary>
-		/// <param name="s"></param>
-		/// <returns></returns>
-		public static string GetFirstToLowerStr(string str)
+        public static string VersionInfo()
+        {
+            var info = new StringBuilder();
+            info.AppendLine("#region Info");
+            info.AppendLine("/*#".PadRight(20, '#'));
+            // Get the version of the current assembly.
+            Assembly assem = Assembly.GetEntryAssembly();
+            AssemblyName assemName = assem.GetName();
+            var ver = assemName.Version;
+            info.AppendLine($"{assemName.Name}, Version {ver.ToString()}");
+            OperatingSystem os = Environment.OSVersion;
+            ver = os.Version;
+            info.AppendLine($"Operating System: {os.VersionString} ({ver.ToString()})");
+            ver = Environment.Version;
+            info.AppendLine($"CLR Version {ver.ToString()}");
+            info.AppendLine("#".PadLeft(20, '#'));
+            info.AppendLine($"Created in {DateTime.Now.ToString("r")} by {Environment.UserName}");
+            info.AppendLine("#*/".PadLeft(20, '#'));
+            info.AppendLine("#endregion Info");
+            return info.ToString();
+
+        }
+
+        #region 首字母小写
+        /// <summary>
+        /// 首字母小写
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static string GetFirstToLowerStr(string str)
 		{
 			if (!string.IsNullOrEmpty(str))
 			{
