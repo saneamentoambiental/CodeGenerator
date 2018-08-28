@@ -2,7 +2,7 @@
 	<div class="form-group form-float">
 		<div>
 			<input name="{{Field_Name}}" asp-for="{{Entity_Name_Here}}.{{Field_Name}}" {{Field_Attributes}} class="validate form-control {{CSS}}">
-			<label for="{{Field_Name}}" class="form-label">@L("{{Entity_Name_Here}}.{{Field_Name}}")</label>
+			<label for="{{Entity_Name_Here}}.{{Field_Name}}" class="form-label">@L("{{Entity_Name_Here}}.{{Field_Name}}")</label>
 		</div>
 	</div>
 </div>
