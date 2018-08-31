@@ -36,11 +36,11 @@ O executável da aplicação orienta o processo da geração dos arquivos, entre
    * *SourceSolution*: Diretório báse da aplicação;
    * *SourceAssembly*: DLL que contém as entidades (devem ser definidas utilizando o EntityFramework);  
    * *Namespace_Here*: Namespace utilizado no projeto
-   * *Application_AppServiceBase*: Classe base e abstrata que disponibiliza o *Service* para a aplicação
-   * *Application_Directory*: Diretório que contém a camada de aplicação
+   * *Application_AppServiceBase*: Classe base e abstrata que disponibiliza o *Service* para a aplicação, localizado em ``<Namespace>.Application``
+   * *Application_Directory*: Diretório que contém a camada de aplicação, geralmente o nome do diretório é ``<Namespace>.Application``
    * *AppPermissions_Path*: Caminho da classe que disponibiliza os nomes utilizados no modelo de permissão. Geralmente _``<Namespace>.Core\\Authorization\\PermissionNames.cs``_
-   * *AppAuthorizationProvider_Path*: Caminho da classe que disponibiliza o SystemAuthorizationProvider.cs
-   * *Zh_CN_LocalizationDictionary_Path*: Arquivo de idioma base
+   * *AppAuthorizationProvider_Path*: Caminho da classe que disponibiliza o SystemAuthorizationProvider.cs, localizado em ``<Namespace>.Core\\Authorization\\``
+   * *Zh_CN_LocalizationDictionary_Path*: Arquivo de idioma base, geralmente localizado em ``<Namespace>.Core\\Localization\\SourceFiles\\``
       > Em uma versão futura a chave será alterada para *LocalizationDictionary_Path*
    * *Web_Mvc_Directory*: Diretório da solução Web.MVC
    * *App_Area_Name*: Nome da área
