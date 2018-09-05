@@ -1,8 +1,8 @@
 ﻿<div class="col-sm-12">
 	<div class="form-group form-float">
 		<div class="form-line">
-			<input name="{{Field_Name}}" asp-for="{{Entity_Name_Here}}.{{Field_Name}}" {{Field_Attributes}} class="validate form-control {{CSS}}">
-			<label for="{{Field_Name}}" class="form-label">@L("{{Entity_Name_Here}}.{{Field_Name}}")</label>
+			<input name="{{Field_Name}}" id="{{Entity_Name_Here}}_{{Field_Name}}" asp-for="{{Entity_Name_Here}}.{{Field_Name}}" {{Field_Attributes}} class="validate form-control {{CSS}}">
+			<label id="label_{{Entity_Name_Here}}_{{Field_Name}}" for="{{Entity_Name_Here}}_{{Field_Name}}" class="form-label">@L("{{Entity_Name_Here}}.{{Field_Name}}")</label>
 		</div>
 	</div>
 </div>
