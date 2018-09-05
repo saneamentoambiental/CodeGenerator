@@ -1,59 +1,44 @@
-﻿using System;
-using System.IO;
-using System.Text;
+﻿using CommandLine;
+using System;
 using System.Linq;
-using AbpCodeGenerator.Lib;
-using Plossum.CommandLine;
+using System.Text;
 
 namespace AbpCodeGenerator
 {
-	class Program
-	{
-		private static void Plosson(string[] args)
-		{
-			var options = new Options();
-			var parser = new CommandLineParser(options);
-			parser.Parse(args, false);
-			
-			Console.WriteLine(parser.UsageInfo.GetHeaderAsString(78));
+    class Program
+    {
+        class Programa
+        {
+            public string[] args = new string[] { };
+            public Programa(params string[] args) { } 
+            public void ShowMenu()
+            {
 
-			if (options.Help)
-			{
-				Console.WriteLine(parser.UsageInfo.GetOptionsAsString(78));
-				return;
-			}
-			else if (parser.HasErrors)
-			{
-				Console.WriteLine(parser.UsageInfo.GetErrorsAsString(78));
-				return;
-			}
-			else
-			{
-				options.ExecuteCommand();
-			}
-		}
-		static void Main(string[] args)
-		{
-			var r = "";// "Pessoa -h -m -p";
-			do
-			{
-				args = new string[] { $"-e {r}" };
-				Plosson(args);
-				ShowHelp();
-				Console.WriteLine("");
-				Console.WriteLine("Press new Entity or Enter To Exit");
-				r = Console.ReadLine();
-				Console.Clear();
-			} while (!string.IsNullOrWhiteSpace(r));
+                var parser = new Parser(with => { with.EnableDashDash = false; with.HelpWriter = Console.Out; });
+                do
+                {
+                    var result = parser.ParseArguments<Options>(args)
+                        .WithParsed(options =>
+                        {
+                            options.ExecuteCommand();
+                        });
 
-		}
 
-		private static void ShowHelp()
-		{
-			Console.WriteLine("");
-			var parser = new CommandLineParser(new Options());
-			Console.WriteLine(parser.UsageInfo.GetHeaderAsString(78));
-			Console.WriteLine(parser.UsageInfo.GetOptionsAsString(78));
-		}
-	}
+
+                } while (!Quit());
+            }
+            private bool Quit()
+            {
+                Console.WriteLine("Prompt your command or q to quit");
+                args = Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                return args.Count() == 1 && "q".Equals(args[0], StringComparison.InvariantCultureIgnoreCase);
+            }
+        }
+        private static void Main(params string[] args)
+        {
+            new Programa(args).ShowMenu();
+            
+        }
+       
+    }
 }

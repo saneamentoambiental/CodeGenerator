@@ -1,5 +1,5 @@
 ﻿using AbpCodeGenerator.Lib;
-using CLAP;
+using CommandLine;
 using PowerArgs;
 using System;
 using System.Collections.Generic;
@@ -16,21 +16,20 @@ namespace AbpCodeGenerator
 	[ArgExceptionBehavior(ArgExceptionPolicy.StandardExceptionHandling)]
 	public class Menu
 	{
-		[Help(Aliases = "h")]
-		[Verb] public static void Help(string help)
+		public static void Help(string help)
 		{
 			Console.WriteLine(help);
 		}
-		[Verb] public static void Lookup(string EntityName)
+		public static void Lookup(string EntityName)
 		{
 			CodeGeneratorHelper.AddLoockupMethodIntoService(EntityName);
 		}
 		
-		[Verb] public static void CreateNavigationMenu(string EntityName)
+		public static void CreateNavigationMenu(string EntityName)
 		{
 			CodeGeneratorHelper.AddNavigationMenu(EntityName);
 		}
-		[Verb] public static void CreateServiceClass(string EntityName)
+		public static void CreateServiceClass(string EntityName)
 		{
 			var MetaTableInfoList = MetaTableInfo.GetMetaTableInfoListForAssembly(EntityName);
 
@@ -41,7 +40,7 @@ namespace AbpCodeGenerator
 			CodeGeneratorHelper.SetAppServiceIntercafeClass(EntityName, propertyType);
 			CodeGeneratorHelper.SetAppServiceClass(EntityName, propertyType);
 		}
-		[Verb] public static void CreateDtos(string EntityName)
+		public static void CreateDtos(string EntityName)
 		{
 			var MetaTableInfoList = MetaTableInfo.GetMetaTableInfoListForAssembly(EntityName);
 			CodeGeneratorHelper.SetListDtoClass(EntityName, MetaTableInfoList);
@@ -50,7 +49,6 @@ namespace AbpCodeGenerator
 			CodeGeneratorHelper.SetGetInputClass(EntityName, MetaTableInfoList);
 		}
 
-		[Verb]
 		public static void CreatePageConsts(string EntityName)
 		{
 			CodeGeneratorHelper.GeneretePageNameConsts(EntityName);
@@ -58,20 +56,17 @@ namespace AbpCodeGenerator
 		//CodeGeneratorHelper.SetExportingIntercafeClass(EntityName);
 		//CodeGeneratorHelper.SetExportingClass(EntityName, metaTableInfoList);
 		//CodeGeneratorHelper.SetConstsClass(EntityName); Se você usa SetAppPermissions，SetAppAuthorizationProvider，SetZh_CN_LocalizationDictionary_Here, então pode usar este método
-		[Verb]
 		public static void SetPermissions(string EntityName)
 		{
 			CodeGeneratorHelper.SetAppPermissions(EntityName);
 			CodeGeneratorHelper.SetAppAuthorizationProvider(EntityName);
 		}
-		[Verb]
 		public static void CreateLocalization(string EntityName)
 		{
 			var MetaTableInfoList = MetaTableInfo.GetMetaTableInfoListForAssembly(EntityName);
 			CodeGeneratorHelper.setLocalizationKeys(EntityName, MetaTableInfoList);
 		}
 
-		[Verb]
 		[ArgActionMethod, ArgDescription("Create client objects"), ArgShortcut("lookup")]
 		public static void CreateClientControllerAndViews(EntityName EntityName)
 		{
@@ -82,12 +77,6 @@ namespace AbpCodeGenerator
 			CodeGeneratorHelper.SetCreateOrEditHtmlTemplate(EntityName.Name, MetaTableInfoList);
 			return; 
 
-			//CodeGeneratorHelper.SetControllerClass(EntityName, propertyType);
-			//CodeGeneratorHelper.SetCreateOrEditJs(EntityName);
-			//CodeGeneratorHelper.SetCreateOrEditViewModelClass(EntityName);
-			//CodeGeneratorHelper.SetListViewModelClass(EntityName);
-			//CodeGeneratorHelper.SetIndexHtmlTemplate(EntityName, MetaTableInfoList);
-			//CodeGeneratorHelper.SetIndexJsTemplate(EntityName, MetaTableInfoList);
 		}
 
 		public void Main()
@@ -97,7 +86,7 @@ namespace AbpCodeGenerator
 			CreateClientControllerAndViews(new EntityName { Name = "Pessoa" });
 		}
 
-		[Empty, Verb(Aliases = "all", IsDefault=true, Description = "Generate all itens to work with an Entity")]
+		//[Verb("all", HelpText = "Generate all itens to work with an Entity")]
 		public static void All(
 			//[System.ComponentModel.DataAnnotations.Required]
 			//[Aliases("e")]
