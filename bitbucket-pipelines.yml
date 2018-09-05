@@ -12,4 +12,4 @@ pipelines:
         caches:
           - dotnetcore
         script: # Modify the comma`nds below to build your repository.          
-          - dotnet build
+          - dotnet build 
