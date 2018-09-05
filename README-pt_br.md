@@ -27,6 +27,12 @@ Nesta página você encontrará:
 
 O executável da aplicação orienta o processo da geração dos arquivos, entretanto, para que ele consiga gerar o código é necessário que sejam adicionadas algumas *tags* na solução para que sejam incluídos os códigos e ajustado o arquivo de configuração, informando os diretórios que possuem os *códigos base*.
 
+Comando:
+
+```
+dotnet AbpCodeGenerator.dll
+```
+
 ### Passo-a-passo
 
 1. Criar o site/projeto ABP utilizando o _template_ disponível [aqui](https://aspnetboilerplate.com/Templates);
