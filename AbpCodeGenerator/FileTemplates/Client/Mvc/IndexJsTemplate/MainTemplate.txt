@@ -72,13 +72,13 @@
 
 		function delete{{Entity_Name_Here}}(id, label) {
 			abp.message.confirm(
-                abp.utils.formatString(abp.localization.localize('AreYouSureWantToDelete', 'ETESystem'), label),
+                abp.utils.formatString(abp.localization.localize('AreYouSureWantToDelete', '{{App_Area_Name_Here}}'), label),
 				function (isConfirmed) {
 					if (isConfirmed) {
 						_{{entity_Name_Here}}Service.delete({
 							id: id
 						}).done(function () {
-							abp.notify.success(abp.localization.localize('{{entity_Name_Here}}Deleted'));							
+							abp.notify.success(abp.localization.localize('{{entity_Name_Here}}Deleted', , '{{App_Area_Name_Here}}'));							
 							refreshData();
 						});
 					}
