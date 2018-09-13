@@ -9,10 +9,10 @@
             {{entity_Name_Here}}.CreateChildPermission(PermissionNames.Pages_Administration_{{Entity_Name_Here}}_Edit, L("Editing{{Entity_Name_Here}}"));
             {{entity_Name_Here}}.CreateChildPermission(PermissionNames.Pages_Administration_{{Entity_Name_Here}}_Delete, L("Deleting{{Entity_Name_Here}}"));
 
-	<text name="{{Entity_Name_Here}}"></text>
-    <text name="CreatingNew{{Entity_Name_Here}}">Criar</text>
-	<text name="Editing{{Entity_Name_Here}}">Alterar</text>
-    <text name="Deleting{{Entity_Name_Here}}">Excluir</text>
+		<text name="{{Entity_Name_Here}}"></text>
+		<text name="CreatingNew{{Entity_Name_Here}}">Criar</text>
+		<text name="Editing{{Entity_Name_Here}}">Alterar</text>
+		<text name="Deleting{{Entity_Name_Here}}">Excluir</text>
 
 	    public static class {{Entity_Name_Here}}
         {

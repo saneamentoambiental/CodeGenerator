@@ -3,7 +3,7 @@ using {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s.Dtos;
 
 namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Models.{{Entity_Name_Plural_Here}}s 
 {
-	public class {{Entity_Name_Here}}ListViewModel
+	public partial class {{Entity_Name_Here}}ListViewModel
 	{
 		public IReadOnlyList<{{Entity_Name_Here}}ListDto> {{Entity_Name_Here}}s { get; }
 

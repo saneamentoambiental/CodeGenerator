@@ -4,6 +4,6 @@
     {
 		public {{Entity_Name_Here}}Dto {{Entity_Name_Here}} { get; set; }
 
-{{Navigation_Property_Looped_Template_Here}}
+		{{Navigation_Property_Looped_Template_Here}}
     }
 }

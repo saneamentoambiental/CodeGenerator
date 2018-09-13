@@ -1,7 +1,7 @@
 ﻿<div class="col-sm-12">
 	<div class="form-group form-float">
 		<label for="{{Entity_Name_Here}}_{{Field_Name}}" id="label_{{Entity_Name_Here}}_{{Field_Name}}" class="form-label">@L("{{Entity_Name_Here}}.{{Field_Name}}")</label>
-		<select id ="{{Entity_Name_Here}}_{{Field_Name}}" name="{{Field_Name}}" asp-for="{{Entity_Name_Here}}.{{Field_Name}}" {{Field_Attributes}} asp-items="Model.{{Field_Name}}" class="form-control {{CSS}}">
+		<select id ="{{Entity_Name_Here}}_{{Field_Name}}" name="{{Field_Name}}" asp-for="{{Entity_Name_Here}}.{{Field_Name}}" {{Field_Attributes}} asp-items="Model.{{Field_Name}}" class="form-control selectpicker {{CSS}}">
 			@* 
 				<option>@L("SelectOneItem")</option> 
 			*@

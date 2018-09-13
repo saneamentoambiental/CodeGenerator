@@ -29,7 +29,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Entity_Name_Here}}", className)
                                              .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
                                              ;
-            Write(Path.Combine(Configuration.Web_Mvc_Directory, "Areas", Configuration.App_Area_Name, "Models", className + "s", className + "ListViewModel.cs"), templateContent);
+            Write(Path.Combine(Configuration.Web_Mvc_Directory, "Areas", Configuration.App_Area_Name, "Models", className + "s", className + "ListViewModel.Designer.cs"), templateContent);
         }
 
         #endregion
@@ -79,13 +79,13 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Project_Name_Here}}", Configuration.Controller_Base_Class)
                                              .Replace("{{entity_Name_Plural_Here}}", GetFirstToLowerStr(className))
                                              ;
-            Write(Path.Combine(Configuration.Web_Mvc_Directory, "Areas", Configuration.App_Area_Name, "Controllers", className + "Controller.cs"), templateContent);
+            Write(Path.Combine(Configuration.Web_Mvc_Directory, "Areas", Configuration.App_Area_Name, "Controllers", className + "Controller.Designer.cs"), templateContent);
         }
 
 
         public static void CreateDataTableWrapper()
         {
-            string dest = Path.Combine(Configuration.SourceSolution, "GPSA.ETESystem.Core", "Web", "DataTableNet", "DataTableWrapperExtensions.cs");
+            string dest = Path.Combine(Configuration.SourceSolution, "GPSA.ETESystem.Core", "Web", "DataTableNet", "DataTableWrapperExtensions.Designer.cs");
             string templatePath = Path.Combine(Configuration.RootDirectory, "DataTableWrapperExtensions.txt");
             var templateContent = Read(templatePath);
 
@@ -238,7 +238,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Entity_Name_Here}}", className)
                                              .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
                                              ;
-            Write(Path.Combine(Configuration.Web_Mvc_Directory, "Areas", Configuration.App_Area_Name, "Models", className + "s", "CreateOrEdit" + className + "ModalViewModel.cs"), templateContent);
+            Write(Path.Combine(Configuration.Web_Mvc_Directory, "Areas", Configuration.App_Area_Name, "Models", className + "s", "CreateOrEdit" + className + "ModalViewModel.Designer.cs"), templateContent);
         }
 
 
@@ -379,7 +379,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Entity_Name_Here}}", className)
                                              .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
                                              ;
-            var destPath = Path.Combine(Configuration.Application_Directory, "ILookupAppService.cs");
+            var destPath = Path.Combine(Configuration.Application_Directory, "ILookupAppService.Designer.cs");
             if (!File.Exists(destPath) || replace)
                 Write(destPath, templateContent);
 
@@ -466,7 +466,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Entity_Name_Here}}", className)
                                              .Replace("{{Primary_Key_Inside_Tag_Here}}", primary_Key_Inside_Tag_Here)
                                              ;
-            Write(Path.Combine(Configuration.Application_Directory, className + "s"), "I" + className + "AppService.cs", templateContent);
+            Write(Path.Combine(Configuration.Application_Directory, className + "s"), "I" + className + "AppService.Designer.cs", templateContent);
         }
 
         /// <summary>
@@ -495,7 +495,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Application_AppServiceBase}}", Configuration.Application_AppServiceBase)
                                              .Replace("{{Primary_Key_With_Comma_Here}}", Primary_Key_With_Comma_Here)
                                              ;
-            Write(Path.Combine(Configuration.Application_Directory, className + "s"), className + "AppService.cs", templateContent);
+            Write(Path.Combine(Configuration.Application_Directory, className + "s"), className + "AppService.Designer.cs", templateContent);
         }
 
         /// <summary>
@@ -596,7 +596,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
                                              .Replace("{{Entity_Name_Here}}", className)
                                              ;
-            Write(Path.Combine(Configuration.Application_Directory, className + "s", "Dtos"), "Get" + className + "Input.cs", templateContent);
+            Write(Path.Combine(Configuration.Application_Directory, className + "s", "Dtos"), "Get" + className + "Input.Designer.cs", templateContent);
         }
 
 
@@ -614,7 +614,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
                                              .Replace("{{Entity_Name_Here}}", className)
                                              ;
-            Write(Path.Combine(Configuration.Application_Directory, className + "s", "Dtos"), "Get" + className + "ForEditOutput.cs", templateContent);
+            Write(Path.Combine(Configuration.Application_Directory, className + "s", "Dtos"), "Get" + className + "ForEditOutput.Designer.cs", templateContent);
         }
 
 
@@ -642,7 +642,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Entity_Name_Here}}", className)
                                              .Replace("{{Property_Looped_Template_Here}}", property_Looped_Template_Here)
                                              ;
-            Write(Path.Combine(Configuration.Application_Directory, className + "s\\Dtos"), className + "ListDto.cs", templateContent);
+            Write(Path.Combine(Configuration.Application_Directory, className + "s\\Dtos"), className + "ListDto.Designer.cs", templateContent);
         }
 
 
@@ -665,7 +665,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Entity_Name_Here}}", className)
                                              .Replace("{{Property_Looped_Template_Here}}", property_Looped_Template_Here)
                                              ;
-            Write(Path.Combine(Configuration.Application_Directory, className + "s", "Dtos"), "CreateOrEdit" + className + "Input.cs", templateContent);
+            Write(Path.Combine(Configuration.Application_Directory, className + "s", "Dtos"), "CreateOrEdit" + className + "Input.Designer.cs", templateContent);
         }
 
 
