@@ -17,6 +17,7 @@ Nesta página você encontrará:
 		- [Passo-a-passo](#passo-a-passo)
 	- [Geração de código](#geração-de-código)
 	- [Outros ajustes interessantes](#outros-ajustes-interessantes)
+	- [Exibição de grids](#exibição-de-grids)
 	- [FAQ](#faq)
 
 <!-- /code_chunk_output -->
@@ -148,6 +149,36 @@ dotnet AbpCodeGenerator.dll
 * Modificar a ``DefaultPassPhrase`` em ``Application.AppConsts.DefaultPassPhrase``
 * Copiar o arquivo ``_ViewImports.cshtml`` e ``_ViewStart.cshtml`` para a pasta da área, caso não exista.
 
+## Exibição de grids
+  
+As telas que necessitam de `grid` deverão indicar na `ViewBag`, através da propriedade `HasGrid`, que há necessidade dos arquivos do [Jquery DataTable](https://www.datatables.net). Assim, nas telas é indicado que a  ```ViewBag.HasGrid = true``` seja declarada próxima ao título, como abaixo:
+
+```cs
+@using GPSA.ETESystem.Authorization
+@using GPSA.ETESystem.Web.Startup
+
+@model GPSA.ETESystem.Web.Areas.ETESystem.Models.CaracteristicaMonitoramentos.CaracteristicaMonitoramentoListViewModel
+@{
+    ViewBag.ActiveMenu = PageNames.CaracteristicaMonitoramento.Index;
+    ViewBag.Title = L("CaracteristicaMonitoramento");
+    ViewBag.CurrentPageName = PageNames.CaracteristicaMonitoramento.Index; // The menu item will be active for this page.
+    ViewBag.HasGrid = true;
+}
+@section scripts{
+	....
+}
+```
+
+O arquivo de layout verifica, então, a necessidade dos `scripts` e faz a inclusão dos elementos necessários.
+
+```cs
+@if (ViewBag.HasGrid != null && ViewBag.HasGrid == true)
+{
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+	<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+	<script src="~/js/script.js" asp-append-version="true"></script>
+}
+```
 ## FAQ
 
 Caso sua dúvida ainda persista, consulte nosso [FAQ](faq.md).

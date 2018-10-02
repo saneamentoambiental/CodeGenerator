@@ -6,12 +6,10 @@
     ViewBag.ActiveMenu = PageNames.{{Entity_Name_Here}}.Index;
 	ViewBag.Title = L("{{Entity_Name_Here}}");
     ViewBag.CurrentPageName = PageNames.{{Entity_Name_Here}}.Index;
+	ViewBag.HasGrid = true;
 }
 @section scripts
 {
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
-	<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-
     <environment names="Development">
 		<script src="~/view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Plural_Here}}/Index.js" asp-append-version="true"></script>		
     </environment>
