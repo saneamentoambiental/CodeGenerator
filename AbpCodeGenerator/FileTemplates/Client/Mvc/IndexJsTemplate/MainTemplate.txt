@@ -3,19 +3,14 @@
 
 		var _${{entity_Name_Here}}Table = $('#MainTable');
 		var _{{entity_Name_Here}}Service = abp.services.app.{{entity_Name_Here}};
-
+		var _view = '{{App_Area_Name_Here}}.{{Entity_Name_Here}}.';
 		var _permissions = {			
-			create: abp.auth.isGranted('{{App_Area_Name_Here}}.{{Entity_Name_Here}}.Create'),
-			edit: abp.auth.isGranted('{{App_Area_Name_Here}}.{{Entity_Name_Here}}.Edit'),
-			delete: abp.auth.isGranted('{{App_Area_Name_Here}}.{{Entity_Name_Here}}.Delete')
+			create: abp.auth.isGranted(_view+'Create'),
+			edit: abp.auth.isGranted(_view+'Edit'),
+			delete: abp.auth.isGranted(_view+'Delete')
 		};
 
-
 		var dataTable = _${{entity_Name_Here}}Table.DataTable({
-			paging: true, 
-			responsive: true,
-			serverSide: true,
-			processing: true,
 			"ajax": {
 				"url": abp.appPath + '{{App_Area_Name_Here}}/{{Entity_Name_Here}}/GetAll',
 				"type": "POST",				
