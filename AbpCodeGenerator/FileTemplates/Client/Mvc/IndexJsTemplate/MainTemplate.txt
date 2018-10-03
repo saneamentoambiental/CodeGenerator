@@ -4,6 +4,7 @@
 		var _${{entity_Name_Here}}Table = $('#MainTable');
 		var _{{entity_Name_Here}}Service = abp.services.app.{{entity_Name_Here}};
 		var _view = '{{App_Area_Name_Here}}.{{Entity_Name_Here}}.';
+		var _controller = '{{App_Area_Name_Here}}/{{Entity_Name_Here}}/';
 		var _permissions = {			
 			create: abp.auth.isGranted(_view+'Create'),
 			edit: abp.auth.isGranted(_view+'Edit'),
@@ -12,7 +13,7 @@
 
 		var dataTable = _${{entity_Name_Here}}Table.DataTable({
 			"ajax": {
-				"url": abp.appPath + '{{App_Area_Name_Here}}/{{Entity_Name_Here}}/GetAll',
+				"url": abp.appPath + _controller + 'GetAll',
 				"type": "POST",				
 				"dataSrc": "data"
 			},
@@ -44,8 +45,7 @@
 		});
 		$('#MainTable tbody').on('click', '[class*=edit]', function () {
 			var data = dataTable.row($(this).parents('tr')).data();
-			var label = '{{Entity_Name_Here}} #' + data.id;
-			var _url = abp.appPath + '{{App_Area_Name_Here}}/{{Entity_Name_Here}}/CreateOrEdit/' + data.id;
+			var _url = abp.appPath + _controller + 'CreateOrEdit/' + data.id;
 			location.href = _url;
 		});
 
