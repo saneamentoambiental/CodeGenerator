@@ -179,6 +179,26 @@ O arquivo de layout verifica, então, a necessidade dos `scripts` e faz a inclus
 	<script src="~/js/script.js" asp-append-version="true"></script>
 }
 ```
+
+O conteúdo do arquivo `script.js` deve ter o seguinte comando:
+
+```JS
+(function ($) {
+    if ($.fn.dataTable != null && $.fn.dataTable.defaults != null) {
+        $.extend($.fn.dataTable.defaults, {
+            paging: true,
+            responsive: true,
+            serverSide: true,
+            processing: true,
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
+            }
+        }); 
+    }
+})(jQuery);
+
+```
+
 ## FAQ
 
 Caso sua dúvida ainda persista, consulte nosso [FAQ](faq.md).
