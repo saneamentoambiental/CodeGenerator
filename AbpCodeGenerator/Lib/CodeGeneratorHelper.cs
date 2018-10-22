@@ -832,7 +832,7 @@ namespace AbpCodeGenerator.Lib
             using (FileStream fs = new FileStream(Path.Combine(filePath, fileName), FileMode.Create))
             {
                 //获得字节数组
-                byte[] data = Encoding.Default.GetBytes(VersionInfo() + templateContent);
+                byte[] data = Encoding.Default.GetBytes(VersionInfo(fileName) + templateContent);
                 //开始写入
                 fs.Write(data, 0, data.Length);
             }
@@ -859,7 +859,7 @@ namespace AbpCodeGenerator.Lib
             using (FileStream fs = new FileStream(filePath, FileMode.Create))
             {
                 //获得字节数组
-                byte[] data = Encoding.Default.GetBytes(VersionInfo() + templateContent);
+                byte[] data = Encoding.Default.GetBytes(VersionInfo(filePath) + templateContent);
                 //开始写入
                 fs.Write(data, 0, data.Length);
             }
@@ -867,12 +867,52 @@ namespace AbpCodeGenerator.Lib
 
         }
         #endregion
+        protected static string ConvertToComment(string fileName, StringBuilder info)
+        {
+            var extension = Path.GetExtension(fileName);
+            string begin = "", end = "";
+            string newLine = Environment.NewLine;
+            switch (extension.ToLower())
+            {
+                case ".cshtml":
+                    {
+                        begin = "@{ /*";
+                        end = "*/ }";
+                    }
+                    break;
+                case ".html":
+                    {
+                        begin = "<!--";
+                        end = "-->";
+                    }
+                    break;
+                case ".cs":
+                case ".js":
+                    {
+                        begin = "/*" ;
+                        end = "*/";
+                    }
+                    break;
+                case ".xml":
+                    {
+                        newLine = begin = end = "";
+                        info = new StringBuilder();
+                    }
+                    break;
+            }
 
-        public static string VersionInfo()
+            info.Insert(0, begin + newLine);
+            info.Append(newLine + end + newLine);
+            return info.ToString();
+        
+        }
+        public static string VersionInfo(string fileName)
         {
             var info = new StringBuilder();
+            
+            info.AppendLine("*#".PadRight(20, '#'));
             info.AppendLine("#region Info");
-            info.AppendLine("/*#".PadRight(20, '#'));
+            info.AppendLine("#".PadLeft(20, '#'));
             // Get the version of the current assembly.
             Assembly assem = Assembly.GetEntryAssembly();
             AssemblyName assemName = assem.GetName();
@@ -885,9 +925,10 @@ namespace AbpCodeGenerator.Lib
             info.AppendLine($"CLR Version {ver.ToString()}");
             info.AppendLine("#".PadLeft(20, '#'));
             info.AppendLine($"Created in {DateTime.Now.ToString("r")} by {Environment.UserName}");
-            info.AppendLine("#*/".PadLeft(20, '#'));
+            info.AppendLine("#".PadLeft(20, '#'));
             info.AppendLine("#endregion Info");
-            return info.ToString();
+            info.AppendLine("#".PadLeft(20, '#'));
+            return ConvertToComment(fileName, info);
 
         }
 
