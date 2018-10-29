@@ -100,7 +100,7 @@ namespace AbpCodeGenerator
             if (AllOptions || CreateServiceClass)
             {
                 // Geração do lado do servidor  
-                CodeGeneratorHelper.SetAppServiceIntercafeClass(EntityName, propertyType);
+                CodeGeneratorHelper.SetAppServiceInterfaceClass(EntityName, propertyType);
                 CodeGeneratorHelper.SetAppServiceClass(EntityName, propertyType);
             }
             if (AllOptions || CreateDtos)

@@ -70,21 +70,19 @@ namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
 		[AbpMvcAuthorize(PermissionNames.{{Permission_Name_Here}}_Create, PermissionNames.{{Permission_Name_Here}}_Edit)]
         public async Task<ViewResult> CreateOrEdit({{Primary_Key_Here}}? id)
         {
-			Get{{Entity_Name_Here}}ForEditOutput get{{Entity_Name_Here}}ForEditOutput;
+			Get{{Entity_Name_Here}}ForEditOutput get{{Entity_Name_Here}}ForEditOutput = new Get{{Entity_Name_Here}}ForEditOutput{
+					{{Entity_Name_Here}} = new CreateOrEdit{{Entity_Name_Here}}Input()
+			};
 
 			if (id.HasValue){
-				get{{Entity_Name_Here}}ForEditOutput = await _{{entity_Name_Plural_Here}}AppService.Get{{Entity_Name_Here}}ForEdit(new EntityDto<{{Primary_Key_Here}}> { Id =  id.Value });
-				if (get{{Entity_Name_Here}}ForEditOutput.{{Entity_Name_Here}} == null)
+				var entity =  get{{Entity_Name_Here}}ForEditOutput = await _{{entity_Name_Plural_Here}}AppService.Get(new EntityDto<{{Primary_Key_Here}}> { Id =  id.Value });
+				if (entity == null)
 				{
 					throw new UserFriendlyException(404, L("ItemNotFound"));
 				}
+				get{{Entity_Name_Here}}ForEditOutput.{{Entity_Name_Here}} = ObjectMapper.Map<CreateOrEdit{{Entity_Name_Here}}Input>(entity);
 			}
-			else
-			{
-				get{{Entity_Name_Here}}ForEditOutput = new Get{{Entity_Name_Here}}ForEditOutput{
-					{{Entity_Name_Here}} = new CreateOrEdit{{Entity_Name_Here}}Input()
-				};
-			}
+			
 
             var viewModel = new CreateOrEdit{{Entity_Name_Here}}ModalViewModel()
             {

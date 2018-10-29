@@ -6,6 +6,6 @@ namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Models.{{Entity_Na
     {
        public CreateOrEdit{{Entity_Name_Here}}Input {{Entity_Name_Here}} { get; set; }
 
-	   public bool IsEditMode => {{Entity_Name_Here}} != null && {{Entity_Name_Here}}.Id != null;
+	   public bool IsEditMode => {{Entity_Name_Here}} != null && {{Entity_Name_Here}}.Id != 0;
     }
 }

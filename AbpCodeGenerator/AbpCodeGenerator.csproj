@@ -110,7 +110,7 @@
     <None Update="FileTemplates\Server\AppServiceClass\MainTemplate.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="FileTemplates\Server\AppServiceIntercafeClass\MainTemplate.txt">
+    <None Update="FileTemplates\Server\AppServiceInterfaceClass\MainTemplate.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="FileTemplates\Server\ConstsClass\MainTemplate.txt">

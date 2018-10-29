@@ -12,8 +12,6 @@ namespace {{Namespace_Here}}
 {
 	public partial interface ILookupAppService : IApplicationService
 	{
-		
-		Task<ListResultDto<ComboboxItemDto>> GetParametroComboboxItems();
 		//{{Interface_Method_Lookup}}
 	}
 	public partial class LookupAppService : ETESystemAppServiceBase, ILookupAppService
