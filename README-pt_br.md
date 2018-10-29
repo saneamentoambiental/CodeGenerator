@@ -65,9 +65,24 @@ dotnet AbpCodeGenerator.dll
 			...
 		}	
 	```
+1. Adicionar as chaves `//{{JS_index}}` e `//{{JS_CreateOrEdit}}` no final do arquivo `bundle.config` localizado na pasta raíz do projeto Web, como exibido abaixo.
 	
-5. Adicionar a chave *//{{Template_Page_Name_Consts}}* no arquivo localizado em _``<Namespace>.Web\Startup\PageNames.cs``_
-6. No arquivo localizado em _``<Namespace>.Core\Authorization\<Namespace>AuthorizationProvider.cs``_ incluir na função *SetPermission()*:
+	```Json
+	[ 
+	...,
+	{
+		"outputFileName": "wwwroot/view-resources/Views/Shared/Components/TenantChange/Default.min.js",
+		"inputFiles": [
+		"wwwroot/view-resources/Views/Shared/Components/TenantChange/Default.js"
+		]
+	},  
+	//{{JS_Index}}
+	//{{JS_CreateOrEdit}}
+	]
+	```
+
+1. Adicionar a chave `//{{Template_Page_Name_Consts}}` no arquivo localizado em _``<Namespace>.Web\Startup\PageNames.cs``_
+2. No arquivo localizado em _``<Namespace>.Core\Authorization\<Namespace>AuthorizationProvider.cs``_ incluir na função *SetPermission()*:
 
    ```csharp
 	public override void SetPermissions(IPermissionDefinitionContext context)

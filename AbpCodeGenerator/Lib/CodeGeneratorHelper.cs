@@ -221,7 +221,32 @@ namespace AbpCodeGenerator.Lib
                                              ;
             Write(Path.Combine(Configuration.Web_Mvc_Directory, "wwwroot\\view-resources\\Areas", Configuration.App_Area_Name, "Views", className, "_CreateOrEdit.js"), templateContent);
         }
+        public static void SetBundleCreateOrEditJs(string className)
+        {
+            SetBundleJs(className, "CreateOrEdit");
+        }
+        public static void SetBundleViewJs(string className)
+        {
+            SetBundleJs(className, "Index");
+        }
+        private static void SetBundleJs(string className, string templateFile)
+        {
+            string templateFilePath = Configuration.RootDirectory + $@"\Client\Mvc\BundleJs\{templateFile}.txt";
+            var templateContent = Read(templateFilePath);
 
+            templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
+                                             .Replace("{{Namespace_Relative_Full_Here}}", className)
+                                             .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
+                                             .Replace("{{Entity_Name_Plural_Here}}", className)
+                                             .Replace("{{Entity_Name_Here}}", className)
+                                             .Replace("{{entity_Name_Here}}", GetFirstToLowerStr(className))
+                                             .Replace("{{entity_Name_Plural_Here}}", GetFirstToLowerStr(className))
+                                             ;
+            var bundleFilePath = Path.Combine(Configuration.Web_Mvc_Directory, "bundleconfig.json");
+            var bundleFileContent = Read(bundleFilePath);
+            bundleFileContent = bundleFileContent.Replace("//{{JS_"+ templateFile + "}}", templateContent);
+            Write(bundleFilePath, bundleFileContent);
+        }
 
 
         /// <summary>
@@ -888,6 +913,7 @@ namespace AbpCodeGenerator.Lib
                     break;
                 case ".cs":
                 case ".js":
+                case ".json":
                     {
                         begin = "/*" ;
                         end = "*/";

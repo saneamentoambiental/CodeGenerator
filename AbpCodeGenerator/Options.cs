@@ -34,6 +34,8 @@ namespace AbpCodeGenerator
 
             }
         }
+        [Option('b', HelpText = "Add Bundles for JS")]
+        public bool Bundles { get; set; }
 
         [Option('a', HelpText = "Create all objects")]
         public bool AllOptions { get; set; }
@@ -122,9 +124,14 @@ namespace AbpCodeGenerator
                 CodeGeneratorHelper.setLocalizationKeys(EntityName, MetaTableInfoList);
             }
 
+            if ( AllOptions || Bundles)
+            {
+                CodeGeneratorHelper.SetBundleCreateOrEditJs(EntityName);
+                CodeGeneratorHelper.SetBundleViewJs(EntityName);
+            }
             if (AllOptions || CreateClientControllerAndViews)
             {
-                CodeGeneratorHelper.SetCreateOrEditHtmlTemplate(EntityName, MetaTableInfoList);
+                CodeGeneratorHelper.SetCreateOrEditHtmlTemplate(EntityName, MetaTableInfoList);                
                 CodeGeneratorHelper.SetControllerClass(EntityName, propertyType);
                 CodeGeneratorHelper.SetCreateOrEditJs(EntityName);
                 CodeGeneratorHelper.SetCreateOrEditViewModelClass(EntityName);

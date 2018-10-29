@@ -1,0 +1,7 @@
+﻿, {
+	"outputFileName":  "wwwroot/view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Here}}/Index.min.js",
+	"inputFiles": [
+		"wwwroot/view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Here}}/Index.js"
+	]
+}
+//{{JS_Index}}

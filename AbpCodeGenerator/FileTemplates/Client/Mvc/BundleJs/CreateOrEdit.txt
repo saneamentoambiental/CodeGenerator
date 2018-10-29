@@ -1,0 +1,7 @@
+﻿,{
+	"outputFileName":  "wwwroot/view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Here}}/_CreateOrEdit.min.js",
+	"inputFiles": [
+		"wwwroot/view-resources/Areas/{{App_Area_Name_Here}}/Views/{{Entity_Name_Here}}/_CreateOrEdit.js"
+	]
+}
+//{{JS_CreateOrEdit}}
