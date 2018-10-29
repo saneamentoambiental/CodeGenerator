@@ -30,7 +30,7 @@ namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s
 			_{{entity_Name_Here}}Repository = {{entity_Name_Here}}Repository;			
 		  }
 
-		private IQueryable<{{Entity_Name_Here}}> Create{{Entity_Name_Here}}Query(Get{{Entity_Name_Here}}Input input)
+		private IQueryable<{{Entity_Name_Here}}> Create{{Entity_Name_Here}}Query(GetAll{{Entity_Name_Here}}Input input)
         {
             var query = from {{entity_Name_Here}} in _{{entity_Name_Here}}Repository.GetAll()
                 select {{entity_Name_Here}};
@@ -40,7 +40,7 @@ namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s
             return query;
         }
 
-		 public async Task<PagedResultDto<{{Entity_Name_Here}}Dto>> GetAll(Get{{Entity_Name_Here}}Input input)
+		 public async Task<PagedResultDto<{{Entity_Name_Here}}Dto>> GetAll(GetAll{{Entity_Name_Here}}Input input)
          {
 
 			var query = Create{{Entity_Name_Here}}Query(input);

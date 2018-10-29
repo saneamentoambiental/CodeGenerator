@@ -108,7 +108,7 @@ namespace AbpCodeGenerator
                 CodeGeneratorHelper.SetDtoClass(EntityName, MetaTableInfoList);
                 CodeGeneratorHelper.SetCreateOrEditInputClass(EntityName, MetaTableInfoList);
                 CodeGeneratorHelper.SetGetForEditOutputClass(EntityName);
-                CodeGeneratorHelper.SetGetInputClass(EntityName, MetaTableInfoList);
+                CodeGeneratorHelper.SetGetAllInputClass(EntityName, MetaTableInfoList);
             }
             if (AllOptions || CreatePageConsts)
             {

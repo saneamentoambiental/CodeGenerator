@@ -35,7 +35,7 @@ namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
         }
 
 		[DontWrapResult]
-		public JsonResult GetAll(Get{{Entity_Name_Here}}Input input, string teste)
+		public JsonResult GetAll(GetAll{{Entity_Name_Here}}Input input)
 		{
 			var result = _{{entity_Name_Plural_Here}}AppService.GetAll(input).Result;
 			var r = new
@@ -54,7 +54,7 @@ namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
 			//{
 			//	FilterText = ""
 			//};
-			//var data = (_{{entity_Name_Plural_Here}}AppService.GetAll(new Get{{Entity_Name_Here}}Input())).Result.Items;
+			//var data = (_{{entity_Name_Plural_Here}}AppService.GetAll(new GetAll{{Entity_Name_Here}}Input())).Result.Items;
 			//var model = new {{Entity_Name_Here}}ListViewModel(data);
 
             //return View(model);

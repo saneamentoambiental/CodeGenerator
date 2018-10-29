@@ -613,16 +613,16 @@ namespace AbpCodeGenerator.Lib
         /// </summary>
         /// <param name="className"></param>
 
-        public static void SetGetInputClass(string className, List<MetaTableInfo> metaTableInfoList)
+        public static void SetGetAllInputClass(string className, List<MetaTableInfo> metaTableInfoList)
         {
-            string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\Dtos\GetInputClass\MainTemplate.txt";
+            string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\Dtos\GetAllInputClass\MainTemplate.txt";
             var templateContent = Read(appServiceIntercafeClassDirectory);
 
             templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
                                              .Replace("{{Entity_Name_Here}}", className)
                                              ;
-            Write(Path.Combine(Configuration.Application_Directory, className + "s", "Dtos"), "Get" + className + "Input.Designer.cs", templateContent);
+            Write(Path.Combine(Configuration.Application_Directory, className + "s", "Dtos"), "GetAll" + className + "Input.Designer.cs", templateContent);
         }
 
 
@@ -913,12 +913,12 @@ namespace AbpCodeGenerator.Lib
                     break;
                 case ".cs":
                 case ".js":
-                case ".json":
                     {
                         begin = "/*" ;
                         end = "*/";
                     }
                     break;
+                case ".json":
                 case ".xml":
                     {
                         newLine = begin = end = "";
