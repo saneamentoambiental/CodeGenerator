@@ -16,9 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Abp" Version="3.8.2" />
-    <PackageReference Include="Abp.Zero.Ldap" Version="3.8.2" />
-    <PackageReference Include="Abp.ZeroCore" Version="3.8.2" />
+    <PackageReference Include="Abp" Version="3.9.0" />
+    <PackageReference Include="Abp.Zero.Ldap" Version="3.9.0" />
+    <PackageReference Include="Abp.ZeroCore" Version="3.9.0" />
     <PackageReference Include="CommandLineParser" Version="2.3.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.2" />

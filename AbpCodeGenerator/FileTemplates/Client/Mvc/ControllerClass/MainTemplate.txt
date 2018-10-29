@@ -75,7 +75,7 @@ namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
 			};
 
 			if (id.HasValue){
-				var entity =  get{{Entity_Name_Here}}ForEditOutput = await _{{entity_Name_Plural_Here}}AppService.Get(new EntityDto<{{Primary_Key_Here}}> { Id =  id.Value });
+				var entity = await _{{entity_Name_Plural_Here}}AppService.Get(new EntityDto<{{Primary_Key_Here}}> { Id =  id.Value });
 				if (entity == null)
 				{
 					throw new UserFriendlyException(404, L("ItemNotFound"));

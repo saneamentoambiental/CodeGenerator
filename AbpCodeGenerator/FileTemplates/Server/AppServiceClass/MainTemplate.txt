@@ -37,7 +37,7 @@ namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s
 		 protected override IQueryable<{{Entity_Name_Here}}> CreateFilteredQuery(GetAll{{Entity_Name_Here}}Input input)
          {
             return base.CreateFilteredQuery(input)
-                .WhereIf(!input.Filter.IsNullOrWhiteSpace(), item => item.<<Campo>>.Contains(input.Filter));
+                .WhereIf(!input.Filter.IsNullOrWhiteSpace(), item => item.<<ChangeThisPropertyField>>.Contains(input.Filter));
 
          }
     }

@@ -685,8 +685,8 @@ namespace AbpCodeGenerator.Lib
             string templateFile = Configuration.RootDirectory + @"\Server\Dtos\CreateOrEditInputClass\MainTemplate.txt";
             var templateContent = Read(templateFile);
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("public int? Id { get; set; }");
-            sb.Append(GetPropertiesForDTO(metaTableInfoList, false, false));
+            //sb.AppendLine("public int Id { get; set; }");
+            sb.Append(GetPropertiesForDTO(metaTableInfoList, true, false));
             var property_Looped_Template_Here = sb.ToString();
             templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
