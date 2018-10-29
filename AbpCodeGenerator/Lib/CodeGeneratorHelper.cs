@@ -645,14 +645,14 @@ namespace AbpCodeGenerator.Lib
 
 
         /// <summary>
-        /// 生成ListDtoClass
+        /// DtoClass
         /// </summary>
         /// <param name="className"></param>
         /// <param name="metaTableInfoList"></param>
 
-        public static void SetListDtoClass(string className, List<MetaTableInfo> metaTableInfoList)
+        public static void SetDtoClass(string className, List<MetaTableInfo> metaTableInfoList)
         {
-            string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\Dtos\ListDtoClass\MainTemplate.txt";
+            string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\Dtos\DtoClass\MainTemplate.txt";
             var templateContent = Read(appServiceIntercafeClassDirectory);
             StringBuilder sb = new StringBuilder();
 
@@ -668,7 +668,7 @@ namespace AbpCodeGenerator.Lib
                                              .Replace("{{Entity_Name_Here}}", className)
                                              .Replace("{{Property_Looped_Template_Here}}", property_Looped_Template_Here)
                                              ;
-            Write(Path.Combine(Configuration.Application_Directory, className + "s\\Dtos"), className + "ListDto.Designer.cs", templateContent);
+            Write(Path.Combine(Configuration.Application_Directory, className + "s\\Dtos"), className + "Dto.Designer.cs", templateContent);
         }
 
 

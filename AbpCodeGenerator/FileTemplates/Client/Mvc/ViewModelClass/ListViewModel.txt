@@ -5,9 +5,9 @@ namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Models.{{Entity_Na
 {
 	public partial class {{Entity_Name_Here}}ListViewModel
 	{
-		public IReadOnlyList<{{Entity_Name_Here}}ListDto> {{Entity_Name_Here}}s { get; }
+		public IReadOnlyList<{{Entity_Name_Here}}Dto> {{Entity_Name_Here}}s { get; }
 
-		public {{Entity_Name_Here}}ListViewModel(IReadOnlyList<{{Entity_Name_Here}}ListDto> {{Entity_Name_Here}}s)
+		public {{Entity_Name_Here}}ListViewModel(IReadOnlyList<{{Entity_Name_Here}}Dto> {{Entity_Name_Here}}s)
 		{
 			this.{{Entity_Name_Here}}s = {{Entity_Name_Here}}s;
 		}

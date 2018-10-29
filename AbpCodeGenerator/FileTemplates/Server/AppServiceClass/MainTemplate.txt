@@ -40,7 +40,7 @@ namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s
             return query;
         }
 
-		 public async Task<PagedResultDto<{{Entity_Name_Here}}ListDto>> GetAll(Get{{Entity_Name_Here}}Input input)
+		 public async Task<PagedResultDto<{{Entity_Name_Here}}Dto>> GetAll(Get{{Entity_Name_Here}}Input input)
          {
 
 			var query = Create{{Entity_Name_Here}}Query(input);
@@ -51,9 +51,9 @@ namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s
                 .PageBy(input)
                 .ToListAsync();
 
-            var {{entity_Name_Here}}ListDtos =  ObjectMapper.Map<List<{{Entity_Name_Here}}ListDto>>(results);
+            var {{entity_Name_Here}}Dtos =  ObjectMapper.Map<List<{{Entity_Name_Here}}Dto>>(results);
 
-            return new PagedResultDto<{{Entity_Name_Here}}ListDto>(resultCount, {{entity_Name_Here}}ListDtos);
+            return new PagedResultDto<{{Entity_Name_Here}}Dto>(resultCount, {{entity_Name_Here}}Dtos);
          }
 		 
 		 [AbpAuthorize(PermissionNames.{{Permission_Name_Here}}_Edit)]

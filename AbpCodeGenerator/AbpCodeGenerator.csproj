@@ -131,7 +131,7 @@
     <None Update="FileTemplates\Server\Dtos\GetInputClass\MainTemplate.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="FileTemplates\Server\Dtos\ListDtoClass\MainTemplate.txt">
+    <None Update="FileTemplates\Server\Dtos\DtoClass\MainTemplate.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="FileTemplates\Server\Dtos\LookupDto\MainTemplate.txt">
