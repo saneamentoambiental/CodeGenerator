@@ -21,8 +21,8 @@ namespace AbpCodeGenerator.Lib
 
         public static void SetListViewModelClass(string className)
         {
-            string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Client\Mvc\ViewModelClass\ListViewModel.txt";
-            var templateContent = Read(appServiceIntercafeClassDirectory);
+            string templateFile = Configuration.RootDirectory + @"\Client\Mvc\ViewModelClass\ListViewModel.txt";
+            var templateContent = Read(templateFile);
             templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
                                              .Replace("{{Entity_Name_Plural_Here}}", className)
@@ -66,8 +66,8 @@ namespace AbpCodeGenerator.Lib
 
         public static void SetControllerClass(string className, string primary_Key_Here)
         {
-            string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Client\Mvc\ControllerClass\MainTemplate.txt";
-            var templateContent = Read(appServiceIntercafeClassDirectory);
+            string templateFile = Configuration.RootDirectory + @"\Client\Mvc\ControllerClass\MainTemplate.txt";
+            var templateContent = Read(templateFile);
 
             templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
@@ -208,8 +208,8 @@ namespace AbpCodeGenerator.Lib
 
         public static void SetCreateOrEditJs(string className)
         {
-            string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Client\Mvc\CreateOrEditJs\MainTemplate.txt";
-            var templateContent = Read(appServiceIntercafeClassDirectory);
+            string templateFile = Configuration.RootDirectory + @"\Client\Mvc\CreateOrEditJs\MainTemplate.txt";
+            var templateContent = Read(templateFile);
 
             templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
@@ -256,8 +256,8 @@ namespace AbpCodeGenerator.Lib
 
         public static void SetCreateOrEditViewModelClass(string className)
         {
-            string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Client\Mvc\CreateOrEditViewModelClass\MainTemplate.txt";
-            var templateContent = Read(appServiceIntercafeClassDirectory);
+            string templateFile = Configuration.RootDirectory + @"\Client\Mvc\CreateOrEditViewModelClass\MainTemplate.txt";
+            var templateContent = Read(templateFile);
             templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
                                              .Replace("{{Entity_Name_Plural_Here}}", className)
@@ -357,8 +357,8 @@ namespace AbpCodeGenerator.Lib
 
         public static void SetIndexJsTemplate(string className, List<MetaTableInfo> metaTableInfoList)
         {
-            string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Client\Mvc\IndexJsTemplate\MainTemplate.txt";
-            var templateContent = Read(appServiceIntercafeClassDirectory);
+            string templateFile = Configuration.RootDirectory + @"\Client\Mvc\IndexJsTemplate\MainTemplate.txt";
+            var templateContent = Read(templateFile);
 
             StringBuilder sb = new StringBuilder();
             var i = 2;
@@ -481,15 +481,16 @@ namespace AbpCodeGenerator.Lib
         /// <param name="className"></param>
         /// <param name="primary_Key_Inside_Tag_Here">主键类型</param>
 
-        public static void SetAppServiceIntercafeClass(string className, string primary_Key_Inside_Tag_Here)
+        public static void SetAppServiceInterfaceClass(string className, string primary_Key_Inside_Tag_Here)
         {
-            string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\AppServiceIntercafeClass\MainTemplate.txt";
-            var templateContent = Read(appServiceIntercafeClassDirectory);
+            string templateFile = Configuration.RootDirectory + @"\Server\AppServiceInterfaceClass\MainTemplate.txt";
+            var templateContent = Read(templateFile);
 
             templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
                                              .Replace("{{Entity_Name_Plural_Here}}", className)
                                              .Replace("{{Entity_Name_Here}}", className)
+                                             .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
                                              .Replace("{{Primary_Key_Inside_Tag_Here}}", primary_Key_Inside_Tag_Here)
                                              ;
             Write(Path.Combine(Configuration.Application_Directory, className + "s"), "I" + className + "AppService.Designer.cs", templateContent);
@@ -513,6 +514,7 @@ namespace AbpCodeGenerator.Lib
             templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
                                              .Replace("{{Entity_Name_Plural_Here}}", className)
+                                             .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
                                              .Replace("{{Entity_Name_Here}}", className)
                                              .Replace("{{Primary_Key_Inside_Tag_Here}}", Primary_Key_Inside_Tag_Here)
                                              .Replace("{{entity_Name_Here}}", GetFirstToLowerStr(className))
@@ -633,8 +635,8 @@ namespace AbpCodeGenerator.Lib
 
         public static void SetGetForEditOutputClass(string className)
         {
-            string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\Dtos\GetForEditOutputClass\MainTemplate.txt";
-            var templateContent = Read(appServiceIntercafeClassDirectory);
+            string templateFile = Configuration.RootDirectory + @"\Server\Dtos\GetForEditOutputClass\MainTemplate.txt";
+            var templateContent = Read(templateFile);
 
             templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
@@ -652,8 +654,8 @@ namespace AbpCodeGenerator.Lib
 
         public static void SetDtoClass(string className, List<MetaTableInfo> metaTableInfoList)
         {
-            string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\Dtos\DtoClass\MainTemplate.txt";
-            var templateContent = Read(appServiceIntercafeClassDirectory);
+            string templateFile = Configuration.RootDirectory + @"\Server\Dtos\DtoClass\MainTemplate.txt";
+            var templateContent = Read(templateFile);
             StringBuilder sb = new StringBuilder();
 
             foreach (var item in metaTableInfoList)
@@ -680,11 +682,11 @@ namespace AbpCodeGenerator.Lib
 
         public static void SetCreateOrEditInputClass(string className, List<MetaTableInfo> metaTableInfoList)
         {
-            string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\Dtos\CreateOrEditInputClass\MainTemplate.txt";
-            var templateContent = Read(appServiceIntercafeClassDirectory);
+            string templateFile = Configuration.RootDirectory + @"\Server\Dtos\CreateOrEditInputClass\MainTemplate.txt";
+            var templateContent = Read(templateFile);
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("public int? Id { get; set; }");
-            sb.Append(GetPropertiesForDTO(metaTableInfoList, false, false));
+            //sb.AppendLine("public int Id { get; set; }");
+            sb.Append(GetPropertiesForDTO(metaTableInfoList, true, false));
             var property_Looped_Template_Here = sb.ToString();
             templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
                                              .Replace("{{Namespace_Relative_Full_Here}}", className)
@@ -768,8 +770,8 @@ namespace AbpCodeGenerator.Lib
 
         public static void setLocalizationKeys(string className, List<MetaTableInfo> metaTableInfoList)
         {
-            string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\LocalizationsTemplate.txt";
-            var templateContent = Read(appServiceIntercafeClassDirectory);
+            string templateFile = Configuration.RootDirectory + @"\LocalizationsTemplate.txt";
+            var templateContent = Read(templateFile);
 
             templateContent = templateContent.Replace("{{entity_Name_Here}}", GetFirstToLowerStr(className))
                                              .Replace("{{Entity_Name_Here}}", className)

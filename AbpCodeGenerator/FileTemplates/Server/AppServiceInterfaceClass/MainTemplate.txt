@@ -1,0 +1,15 @@
+﻿using System;
+using System.Threading.Tasks;
+using Abp.Application.Services;
+using Abp.Application.Services.Dto;
+using {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s.Dtos;
+//using {{Namespace_Here}}.Dto;
+
+namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s
+{
+    public partial interface I{{Entity_Name_Plural_Here}}AppService : I{{App_Area_Name_Here}}AsyncCrudAppService<CreateOrEdit{{Entity_Name_Here}}Input, GetAll{{Entity_Name_Here}}Input> 
+    {
+        
+
+    }
+}

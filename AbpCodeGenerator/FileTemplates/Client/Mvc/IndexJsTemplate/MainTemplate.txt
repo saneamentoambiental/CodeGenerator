@@ -73,7 +73,7 @@
 						_{{entity_Name_Here}}Service.delete({
 							id: id
 						}).done(function () {
-							abp.notify.success(abp.localization.localize('{{entity_Name_Here}}Deleted', , '{{App_Area_Name_Here}}'));							
+							abp.notify.success(abp.localization.localize('{{entity_Name_Here}}Deleted', '{{App_Area_Name_Here}}'));							
 							refreshData();
 						});
 					}

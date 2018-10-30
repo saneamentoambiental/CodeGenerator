@@ -1,6 +1,6 @@
 # Sobre o CodeGenerator
 
-Gerador de código para o [AspNetBoilerPlate](http://aspnetboilerplate.com) v.3.8.2.
+Gerador de código para o [AspNetBoilerPlate](http://aspnetboilerplate.com) v.3.9.0.
 
 Esta versão é um Fork do [CodeGenerator de HisKingdom](https://github.com/HisKingdom/CodeGenerator)  e trabalha com a versão gratuita do AspNetBoilerPlate para auxiliar na construção telas não modais para visualização e edição de dados.
 
@@ -53,9 +53,81 @@ dotnet AbpCodeGenerator.dll
    * *App_Area_Name*: Nome da área
    * *Controller_Base_Class*: Nome do controller base
 
-3. Adicionar a chave *//{{AppPermissions_Here}}* no arquivo _``<Namespace>.Core\Authorization\PermissionNames.cs``_
+1. Criar a classe base para a geração de `CRUD` chamada `<App_Area_Name>AsyncCrudAppServiceBase.cs`
+	* Substituir o * <App_Area_Name> pelo nome da área
+	* Colocar o código abaixo realizando os devidos ajustes de `namespace` e nomes de classes
+	```cs
+	using Abp.Application.Services;
+	using Abp.Application.Services.Dto;
+	using Abp.Domain.Entities;
+	using Abp.Domain.Repositories;
+	using System;
+	using System.Threading.Tasks;
+	using Microsoft.AspNetCore.Identity;
+	using Abp.IdentityFramework;
+	using Abp.Runtime.Session;
 
-4. Adicionar a chave *//{{Item_Menu_Template}* na classe que implementa *NavigationProvider*, disponível em _``<Namespace>.Web\Startup\<Namespace>NavigationProvider.cs``_, dentro da função _``SetNavigation()``_, como no exemplo abaixo:
+	using GPSA.ETESystem.Authorization.Users;
+	using GPSA.ETESystem.MultiTenancy;
+
+	namespace GPSA.ETESystem
+	{
+		public partial interface IETESystemAsyncCrudAppService<TCreateOrEditInput, TGetAllInputDto> : IAsyncCrudAppService<TCreateOrEditInput, int, TGetAllInputDto>
+			where TCreateOrEditInput : IEntityDto<int>
+			where TGetAllInputDto : PagedAndSortedResultRequestDto
+		{}
+
+		public partial class ETESystemAsyncCrudAppServiceBase<TEntity, TCreateOrEditInput, TGetAllInput> : AsyncCrudAppService<TEntity, TCreateOrEditInput, int, TGetAllInput>
+			, IETESystemAsyncCrudAppService<TCreateOrEditInput, TGetAllInput>
+			where TEntity : class, IEntity<int>
+			where TCreateOrEditInput : IEntityDto<int>
+			where TGetAllInput : PagedAndSortedResultRequestDto
+		{
+			public ETESystemAsyncCrudAppServiceBase(IRepository<TEntity, int> repository, string CreatePermission, string EditPermission,
+				string DeletePermission, string ViewPermission
+				) : this(repository)
+			{
+				this.CreatePermissionName = CreatePermissionName;
+				this.DeletePermissionName = DeletePermissionName;
+				this.UpdatePermissionName = UpdatePermissionName;
+				this.GetPermissionName = ViewPermission;
+				this.GetAllPermissionName = ViewPermission;
+				this.LocalizationSourceName = ETESystemConsts.LocalizationSourceName;
+			}
+
+			public ETESystemAsyncCrudAppServiceBase(IRepository<TEntity, int> repository) : base(repository){}
+
+			public async Task CreateOrEdit(TCreateOrEditInput input)
+			{
+				if (input.Id == 0){ await Create(input); }
+				else{await Update(input);}
+			}
+			public TenantManager TenantManager { get; set; }
+			public UserManager UserManager { get; set; }
+			protected virtual Task<User> GetCurrentUserAsync()
+			{
+				var user = UserManager.FindByIdAsync(AbpSession.GetUserId().ToString());
+				if (user == null)
+				{
+					throw new Exception("There is no current user!");
+				}
+				return user;
+			}
+			protected virtual Task<Tenant> GetCurrentTenantAsync()
+			{
+				return TenantManager.GetByIdAsync(AbpSession.GetTenantId());
+			}
+			protected virtual void CheckErrors(IdentityResult identityResult)
+			{
+				identityResult.CheckErrors(LocalizationManager);
+			}
+		}
+	}
+	```
+
+2. Adicionar a chave *//{{AppPermissions_Here}}* no arquivo _``<Namespace>.Core\Authorization\PermissionNames.cs``_
+
+3. Adicionar a chave *//{{Item_Menu_Template}* na classe que implementa *NavigationProvider*, disponível em _``<Namespace>.Web\Startup\<Namespace>NavigationProvider.cs``_, dentro da função _``SetNavigation()``_, como no exemplo abaixo:
 
 	```csharp
 		public override void SetNavigation(INavigationProviderContext context)
