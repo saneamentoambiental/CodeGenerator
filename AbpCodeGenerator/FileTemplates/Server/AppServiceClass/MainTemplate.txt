@@ -12,26 +12,22 @@ using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Abp.Extensions;
 
-//using {{Namespace_Here}}.Dto;
-//using {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s.Exporting;
-//using {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s.Entities;
 
 namespace {{Namespace_Here}}.{{Namespace_Relative_Full_Here}}s
 {
 	[AbpAuthorize(PermissionNames.{{Permission_Name_Here}})] 
     public partial class {{Entity_Name_Plural_Here}}AppService : 
-		{{App_Area_Name_Here}}AsyncCrudAppServiceBase<{{Entity_Name_Here}}, CreateOrEdit{{Entity_Name_Here}}Input, GetAll{{Entity_Name_Here}}Input>
+		{{App_Area_Name_Here}}AsyncCrudAppServiceBase<{{Entity_Name_Here}}, {{Entity_Name_Here}}Dto, CreateOrEdit{{Entity_Name_Here}}Input, GetAll{{Entity_Name_Here}}Input>
 		, I{{Entity_Name_Plural_Here}}AppService
     {
 		 public {{Entity_Name_Plural_Here}}AppService(
 				IRepository<{{Entity_Name_Here}},{{Primary_Key_With_Comma_Here}}> {{entity_Name_Here}}Repository			
-			) :base({{entity_Name_Here}}Repository)
-		  {
-			CreatePermissionName = PermissionNames.{{Permission_Name_Here}}_Create;
-            UpdatePermissionName = PermissionNames.{{Permission_Name_Here}}_Edit;
-            GetPermissionName = PermissionNames.{{Permission_Name_Here}};
-            GetAllPermissionName = GetPermissionName;
-			DeletePermissionName = PermissionNames.{{Permission_Name_Here}}_Delete;
+			) :base({{entity_Name_Here}}Repository,
+			PermissionNames.{{Permission_Name_Here}}_Create,
+			PermissionNames.{{Permission_Name_Here}}_Edit,
+			PermissionNames.{{Permission_Name_Here}}_Delete
+			)
+		  {			
 		  }
 
 		 protected override IQueryable<{{Entity_Name_Here}}> CreateFilteredQuery(GetAll{{Entity_Name_Here}}Input input)

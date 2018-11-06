@@ -1,0 +1,85 @@
+﻿using Abp.Application.Services;
+using Abp.Application.Services.Dto;
+using Abp.Domain.Entities;
+using Abp.Domain.Repositories;
+using Abp.IdentityFramework;
+using Abp.Runtime.Session;
+using {{Namespace_Here}}.Authorization.Users;
+using {{Namespace_Here}}.MultiTenancy;
+using Microsoft.AspNetCore.Identity;
+using System;
+using System.Threading.Tasks;
+
+namespace {{Namespace_Here}}
+{
+    public partial interface I{{App_Area_Name_Here}}AsyncCrudAppService<TEntityDto, TCreateOrEditInput, TGetAllInputDto> : IAsyncCrudAppService<TEntityDto, int, TGetAllInputDto, TCreateOrEditInput>
+        where TCreateOrEditInput : IEntityDto
+        where TEntityDto : IEntityDto<int>
+        where TGetAllInputDto : PagedAndSortedResultRequestDto
+    {
+    }
+    public partial class ETESystemAsyncCrudAppServiceBase<TEntity, TEntityDto, TCreateOrEditInput, TGetAllInput> : AsyncCrudAppService<TEntity, TEntityDto, int, TGetAllInput, TCreateOrEditInput>
+        , IETESystemAsyncCrudAppService<TEntityDto, TCreateOrEditInput, TGetAllInput>
+        where TEntity : class, IEntity<int>
+        where TEntityDto : IEntityDto<int>
+        where TCreateOrEditInput : IEntityDto
+        where TGetAllInput : PagedAndSortedResultRequestDto
+    {
+        public ETESystemAsyncCrudAppServiceBase(IRepository<TEntity, int> repository,
+            string CreatePermission,
+            string EditPermission,
+            string DeletePermission,
+            string ViewPermission
+
+            ) : base(repository)
+        {
+            CreatePermissionName = CreatePermissionName;
+            DeletePermissionName = DeletePermissionName;
+            UpdatePermissionName = UpdatePermissionName;
+            GetPermissionName = ViewPermission;
+            GetAllPermissionName = ViewPermission;
+
+        }
+
+
+        public async Task CreateOrEdit(TCreateOrEditInput input)
+        {
+            if (input.Id == 0)
+            {
+                await Create(input);
+            }
+            else
+            {
+                await Update(input);
+            }
+        }
+
+
+        public TenantManager TenantManager { get; set; }
+
+        public UserManager UserManager { get; set; }
+
+        protected virtual Task<User> GetCurrentUserAsync()
+        {
+            var user = UserManager.FindByIdAsync(AbpSession.GetUserId().ToString());
+            if (user == null)
+            {
+                throw new Exception("There is no current user!");
+
+            }
+
+            return user;
+        }
+
+        protected virtual Task<Tenant> GetCurrentTenantAsync()
+        {
+            return TenantManager.GetByIdAsync(AbpSession.GetTenantId());
+        }
+
+        protected virtual void CheckErrors(IdentityResult identityResult)
+        {
+            identityResult.CheckErrors(LocalizationManager);
+        }
+
+    }
+}

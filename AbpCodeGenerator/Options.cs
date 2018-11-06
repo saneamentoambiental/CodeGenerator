@@ -47,6 +47,8 @@ namespace AbpCodeGenerator
         public bool CreateNavigationMenu { get; set; }
         [Option('s', HelpText = "Create Service")]
         public bool CreateServiceClass { get; set; }
+        [Option("ca", HelpText = "Create Async Crud App Service Base")]
+        public bool CreateAsyncCrudAppServiceBase { get; set; }
         [Option('d', HelpText = "Create DTO")]
         public bool CreateDtos { get; set; }
         [Option('c', HelpText = "Create Consts used into permissions and menu")]
@@ -86,6 +88,10 @@ namespace AbpCodeGenerator
             if (CreateDataTable)
             {
                 CodeGeneratorHelper.CreateDataTableWrapper();
+            }
+            if (CreateAsyncCrudAppServiceBase)
+            {
+                CodeGeneratorHelper.CreateAsyncCrudAppServiceBase();
             }
             if (AllOptions || CreateLookup)
             {
