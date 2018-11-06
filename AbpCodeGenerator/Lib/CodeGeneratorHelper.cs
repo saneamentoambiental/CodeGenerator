@@ -390,6 +390,22 @@ namespace AbpCodeGenerator.Lib
 
         #endregion
 
+        public static string CreateAsyncCrudAppServiceBase()
+        {
+            string templateFilePath = Configuration.RootDirectory + @"\Server\AppServiceClass\AsyncCrudAppServiceBase.txt";
+            var templateContent = Read(templateFilePath);
+            templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
+                                             .Replace("{{App_Area_Name_Here}}", Configuration.App_Area_Name)
+                                             ;
+            var destPath = Path.Combine(Configuration.Application_Directory, $"{Configuration.App_Area_Name}AsyncCrudAppServiceBase.desinger.cs");
+            if (!File.Exists(destPath))
+                Write(destPath, templateContent);
+            else
+            {
+                throw new Exception($"The '{destPath}' file already exists");
+            }
+            return destPath;
+        }
 
         #region Server
 
@@ -685,7 +701,6 @@ namespace AbpCodeGenerator.Lib
             string templateFile = Configuration.RootDirectory + @"\Server\Dtos\CreateOrEditInputClass\MainTemplate.txt";
             var templateContent = Read(templateFile);
             StringBuilder sb = new StringBuilder();
-            //sb.AppendLine("public int Id { get; set; }");
             sb.Append(GetPropertiesForDTO(metaTableInfoList, true, false));
             var property_Looped_Template_Here = sb.ToString();
             templateContent = templateContent.Replace("{{Namespace_Here}}", Configuration.Namespace_Here)
@@ -705,8 +720,8 @@ namespace AbpCodeGenerator.Lib
         public static void SetConstsClass(string className)
         {
 
-            string appServiceIntercafeClassDirectory = Configuration.RootDirectory + @"\Server\ConstsClass\MainTemplate.txt";
-            var templateContent = Read(appServiceIntercafeClassDirectory);
+            string templatePath = Configuration.RootDirectory + @"\Server\ConstsClass\MainTemplate.txt";
+            var templateContent = Read(templatePath);
 
             templateContent = templateContent.Replace("{{entity_Name_Here}}", GetFirstToLowerStr(className))
                                              .Replace("{{Entity_Name_Here}}", className)

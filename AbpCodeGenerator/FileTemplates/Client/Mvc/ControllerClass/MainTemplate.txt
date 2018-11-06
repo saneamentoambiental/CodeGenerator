@@ -45,7 +45,17 @@ namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
 				recordsFiltered = result.TotalCount,
 				data = result.Items
 			};
-			return Json(r);
+			var jsettings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.None,
+                MaxDepth =1,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                PreserveReferencesHandling = PreserveReferencesHandling.None,
+                TypeNameHandling = TypeNameHandling.None
+            };
+
+            var json = Json(r, jsettings);
+            return json;
 		}
 
         public ActionResult Index()
@@ -71,33 +81,21 @@ namespace {{Namespace_Here}}.Web.Areas.{{App_Area_Name_Here}}.Controllers
         public async Task<ViewResult> CreateOrEdit({{Primary_Key_Here}}? id)
         {
 			Get{{Entity_Name_Here}}ForEditOutput get{{Entity_Name_Here}}ForEditOutput = new Get{{Entity_Name_Here}}ForEditOutput{
-					{{Entity_Name_Here}} = new CreateOrEdit{{Entity_Name_Here}}Input()
+					{{Entity_Name_Here}} = new {{Entity_Name_Here}}Dto()
 			};
 
 			if (id.HasValue){
-				var entity = await _{{entity_Name_Plural_Here}}AppService.Get(new EntityDto<{{Primary_Key_Here}}> { Id =  id.Value });
-				if (entity == null)
+				get{{Entity_Name_Here}}ForEditOutput.{{Entity_Name_Here}} = await _{{entity_Name_Plural_Here}}AppService.Get(new EntityDto<{{Primary_Key_Here}}> { Id =  id.Value });
+				if (get{{Entity_Name_Here}}ForEditOutput.{{Entity_Name_Here}} == null)
 				{
 					throw new UserFriendlyException(404, L("ItemNotFound"));
-				}
-				get{{Entity_Name_Here}}ForEditOutput.{{Entity_Name_Here}} = ObjectMapper.Map<CreateOrEdit{{Entity_Name_Here}}Input>(entity);
+				}				
 			}
 			
 
             var viewModel = new CreateOrEdit{{Entity_Name_Here}}ModalViewModel()
             {
-				{{Entity_Name_Here}} = get{{Entity_Name_Here}}ForEditOutput.{{Entity_Name_Here}}
-				//Add Lookups here!
-				/* SAMPLE 
-				DataLookup = _lookupAppService.GetTipo<Entity>ComboboxItems().Result.Items
-								.Select(p => {
-									var r = p.ToSelectListItem();
-									r.Selected = get{{Entity_Name_Here}}ForEditOutput.{{Entity_Name_Here}}.Field.To<int>().ToString() == p.Value;
-									return r;
-									})
-								.ToList()
-				END SAMPLE */
-				
+				{{Entity_Name_Here}} = get{{Entity_Name_Here}}ForEditOutput.{{Entity_Name_Here}}								
             };
 
             return View("_CreateOrEdit", viewModel);
