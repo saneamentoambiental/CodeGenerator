@@ -2,6 +2,11 @@
 
 Gerador de código para o [AspNetBoilerPlate](http://aspnetboilerplate.com) v.3.9.0.
 
+| Repositorio |  Status                                                     |
+| :---------: | :---------------------------------------------------------: |
+|   GitHub    | [![Build status](https://ci.appveyor.com/api/projects/status/tv4ap6797k4nmtfh?svg=true)](https://ci.appveyor.com/project/saneamentoambiental/codegenerator) |
+
+
 Esta versão é um Fork do [CodeGenerator de HisKingdom](https://github.com/HisKingdom/CodeGenerator)  e trabalha com a versão gratuita do AspNetBoilerPlate para auxiliar na construção telas não modais para visualização e edição de dados.
 
 -------
@@ -53,7 +58,7 @@ dotnet AbpCodeGenerator.dll
    * *App_Area_Name*: Nome da área
    * *Controller_Base_Class*: Nome do controller base
 
-1. Criar a classe base para a geração de `CRUD` chamada `<App_Area_Name>AsyncCrudAppServiceBase.cs`
+3. Criar a classe base para a geração de `CRUD` chamada `<App_Area_Name>AsyncCrudAppServiceBase.cs`
 	* Substituir o * <App_Area_Name> pelo nome da área
 	* Colocar o código abaixo realizando os devidos ajustes de `namespace` e nomes de classes
 	```cs
