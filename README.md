@@ -15,9 +15,9 @@ Nesta página você encontrará:
 - [Sobre o CodeGenerator](#sobre-o-codegenerator)
 	- [Como utilizar](#como-utilizar)
 		- [Passo-a-passo](#passo-a-passo)
-	- [Geração de código](#geração-de-código)
+	- [Geração de código](#gera%C3%A7%C3%A3o-de-c%C3%B3digo)
 	- [Outros ajustes interessantes](#outros-ajustes-interessantes)
-	- [Exibição de grids](#exibição-de-grids)
+	- [Exibição de grids](#exibi%C3%A7%C3%A3o-de-grids)
 	- [FAQ](#faq)
 
 <!-- /code_chunk_output -->
@@ -43,11 +43,11 @@ dotnet AbpCodeGenerator.dll
    * *SourceSolution*: Diretório báse da aplicação;
    * *SourceAssembly*: DLL que contém as entidades (devem ser definidas utilizando o EntityFramework);  
    * *Namespace_Here*: Namespace utilizado no projeto
-   * *Application_AppServiceBase*: Classe base e abstrata que disponibiliza o *Service* para a aplicação, localizado em ``<Namespace>.Application``
-   * *Application_Directory*: Diretório que contém a camada de aplicação, geralmente o nome do diretório é ``<Namespace>.Application``
-   * *AppPermissions_Path*: Caminho da classe que disponibiliza os nomes utilizados no modelo de permissão. Geralmente _``<Namespace>.Core\\Authorization\\PermissionNames.cs``_
-   * *AppAuthorizationProvider_Path*: Caminho da classe que disponibiliza o SystemAuthorizationProvider.cs, localizado em ``<Namespace>.Core\\Authorization\\``
-   * *Zh_CN_LocalizationDictionary_Path*: Arquivo de idioma base, geralmente localizado em ``<Namespace>.Core\\Localization\\SourceFiles\\``
+   * *Application_AppServiceBase*: Classe base e abstrata que disponibiliza o *Service* para a aplicação, localizado em `<Namespace>.Application`
+   * *Application_Directory*: Diretório que contém a camada de aplicação, geralmente o nome do diretório é `<Namespace>.Application`
+   * *AppPermissions_Path*: Caminho da classe que disponibiliza os nomes utilizados no modelo de permissão. Geralmente `<Namespace>.Core\\Authorization\\PermissionNames.cs`
+   * *AppAuthorizationProvider_Path*: Caminho da classe que disponibiliza o SystemAuthorizationProvider.cs, localizado em `<Namespace>.Core\\Authorization\\`
+   * *Zh_CN_LocalizationDictionary_Path*: Arquivo de idioma base, geralmente localizado em `<Namespace>.Core\\Localization\\SourceFiles\\`
       > Em uma versão futura a chave será alterada para *LocalizationDictionary_Path*
    * *Web_Mvc_Directory*: Diretório da solução Web.MVC
    * *App_Area_Name*: Nome da área
@@ -125,22 +125,22 @@ dotnet AbpCodeGenerator.dll
 	}
 	```
 
-2. Adicionar a chave *//{{AppPermissions_Here}}* no arquivo _``<Namespace>.Core\Authorization\PermissionNames.cs``_
+2. Adicionar a chave *`//{{AppPermissions_Here}}`* no arquivo `<Namespace>.Core\Authorization\PermissionNames.cs`
 
-3. Adicionar a chave *//{{Item_Menu_Template}* na classe que implementa *NavigationProvider*, disponível em _``<Namespace>.Web\Startup\<Namespace>NavigationProvider.cs``_, dentro da função _``SetNavigation()``_, como no exemplo abaixo:
+3. Adicionar a chave *`//{{Item_Menu_Template}}`* na classe que implementa *NavigationProvider*, disponível em `<Namespace>.Web\Startup\<Namespace>NavigationProvider.cs`, dentro da função `SetNavigation()`, como no exemplo abaixo:
 
 	```csharp
-		public override void SetNavigation(INavigationProviderContext context)
-        {
-            context.Manager.MainMenu
-			//{{Item_Menu_Template}
-			...
-		}	
+	public override void SetNavigation(INavigationProviderContext context)
+    {
+    	context.Manager.MainMenu
+		//{{Item_Menu_Template}}
+		//...
+	}	
 	```
 1. Adicionar as chaves `//{{JS_index}}` e `//{{JS_CreateOrEdit}}` no final do arquivo `bundle.config` localizado na pasta raíz do projeto Web, como exibido abaixo.
 	
-	```Json
-	[ 
+	```
+	[
 	...,
 	{
 		"outputFileName": "wwwroot/view-resources/Views/Shared/Components/TenantChange/Default.min.js",
@@ -153,8 +153,8 @@ dotnet AbpCodeGenerator.dll
 	]
 	```
 
-1. Adicionar a chave `//{{Template_Page_Name_Consts}}` no arquivo localizado em _``<Namespace>.Web\Startup\PageNames.cs``_
-2. No arquivo localizado em _``<Namespace>.Core\Authorization\<Namespace>AuthorizationProvider.cs``_ incluir na função *SetPermission()*:
+1. Adicionar a chave `//{{Template_Page_Name_Consts}}` no arquivo localizado em `<Namespace>.Web\Startup\PageNames.cs`
+2. No arquivo localizado em `<Namespace>.Core\Authorization\<Namespace>AuthorizationProvider.cs` incluir na função *SetPermission()*:
 
    ```csharp
 	public override void SetPermissions(IPermissionDefinitionContext context)
@@ -165,7 +165,7 @@ dotnet AbpCodeGenerator.dll
 	}
    ```
 
-1. No arquivo de localização adicionar a marca _``<!--LocalizationDictionary_Here-->``_, localizado em _``<Namespace>.Core\Localization\<Namespace>-pt-BR.xml``_. Caso este arquivo não exista, copiar um dos xmls existentes e modificar o seu nome
+1. No arquivo de localização adicionar a marca `<!--LocalizationDictionary_Here-->`, localizado em `<Namespace>.Core\Localization\<Namespace>-pt-BR.xml`. Caso este arquivo não exista, copiar um dos xmls existentes e modificar o seu nome
  1. Executar o aplicativo de gerar código com a opção de criar data table
  2. No arquivo de contexto adicione o código abaixo para que a validação seja realizada:
 
@@ -219,22 +219,22 @@ dotnet AbpCodeGenerator.dll
 
 ## Geração de código
 
-* Configure os ``DbSets`` necessários
-* Execute o código conforme as instruções da tela ou ``-h`` para exibir a ajuda.
-  * Geralmente é executado ``NomeEntidade -all`` ou ``NomeEntidade -h``
+* Configure os `DbSets` necessários
+* Execute o código conforme as instruções da tela ou `-h` para exibir a ajuda.
+  * Geralmente é executado `NomeEntidade -all` ou `NomeEntidade -h`
 * Para cada Entity que foi gerada faça:
   
-  * No Service criado, substitua ``<<ChangeThisPropertyField>>`` pelo campo de busca
+  * No Service criado, substitua `<<ChangeThisPropertyField>>` pelo campo de busca
   * Adicione o namespace que contém o Model (entity) (Usar a compilação para detectar as ocorrências)
-  * Ajuste o ``@using`` do ``_CreateOrEdit`` gerado
-  * Ajuste o ``Entity`` para criar as constantes de validação, principalmente em relação ao tamanho do campo.
-    * Sugestão: ``public const int <Campo>MaxLength = 50;``
+  * Ajuste o `@using` do `_CreateOrEdit` gerado
+  * Ajuste o `Entity` para criar as constantes de validação, principalmente em relação ao tamanho do campo.
+    * Sugestão: `public const int <Campo>MaxLength = 50;`
   
 
 ## Outros ajustes interessantes
 
-* Modificar a ``DefaultPassPhrase`` em ``Application.AppConsts.DefaultPassPhrase``
-* Copiar o arquivo ``_ViewImports.cshtml`` e ``_ViewStart.cshtml`` para a pasta da área, caso não exista.
+* Modificar a `DefaultPassPhrase` em `Application.AppConsts.DefaultPassPhrase`
+* Copiar o arquivo `_ViewImports.cshtml` e `_ViewStart.cshtml` para a pasta da área, caso não exista.
 
 ## Exibição de grids
   
