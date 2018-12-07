@@ -1,3 +1,7 @@
+---
+title: ABP CodeGenerator
+description: Gerador de código para o AspNetBoilerPlate v.3.9.0.
+---
 # Sobre o CodeGenerator
 
 Gerador de código para o [AspNetBoilerPlate](http://aspnetboilerplate.com) v.3.9.0.
