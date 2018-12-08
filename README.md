@@ -19,7 +19,7 @@ Nesta página você encontrará:
 
 - [Sobre o CodeGenerator](#sobre-o-codegenerator)
 	- [Como utilizar](#como-utilizar)
-		- [Passo-a-passo](#passo-a-passo)
+		- [Setup](#setup)
 	- [Geração de código](#gera%C3%A7%C3%A3o-de-c%C3%B3digo)
 	- [Outros ajustes interessantes](#outros-ajustes-interessantes)
 	- [Exibição de grids](#exibi%C3%A7%C3%A3o-de-grids)
@@ -39,7 +39,7 @@ Comando:
 dotnet AbpCodeGenerator.dll
 ```
 
-### Passo-a-passo
+### Setup
 
 1. Criar o site/projeto ABP utilizando o _template_ disponível [aqui](https://aspnetboilerplate.com/Templates);
 
@@ -61,6 +61,7 @@ dotnet AbpCodeGenerator.dll
 3. Criar a classe base para a geração de `CRUD` chamada `<App_Area_Name>AsyncCrudAppServiceBase.cs`
 	* Substituir o * <App_Area_Name> pelo nome da área
 	* Colocar o código abaixo realizando os devidos ajustes de `namespace` e nomes de classes
+  
 	```cs
 	using Abp.Application.Services;
 	using Abp.Application.Services.Dto;
@@ -130,9 +131,9 @@ dotnet AbpCodeGenerator.dll
 	}
 	```
 
-2. Adicionar a chave *`//{{AppPermissions_Here}}`* no arquivo `<Namespace>.Core\Authorization\PermissionNames.cs`
+4. Adicionar a chave *`//{{AppPermissions_Here}}`* no arquivo `<Namespace>.Core\Authorization\PermissionNames.cs`
 
-3. Adicionar a chave *`//{{Item_Menu_Template}}`* na classe que implementa *NavigationProvider*, disponível em `<Namespace>.Web\Startup\<Namespace>NavigationProvider.cs`, dentro da função `SetNavigation()`, como no exemplo abaixo:
+5. Adicionar a chave *`//{{Item_Menu_Template}}`* na classe que implementa *NavigationProvider*, disponível em `<Namespace>.Web\Startup\<Namespace>NavigationProvider.cs`, dentro da função `SetNavigation()`, como no exemplo abaixo:
 
 	```csharp
 	public override void SetNavigation(INavigationProviderContext context)
