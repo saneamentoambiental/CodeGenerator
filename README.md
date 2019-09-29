@@ -7,7 +7,7 @@ Gerador de código para o [AspNetBoilerPlate](http://aspnetboilerplate.com) v.3.
 |   GitHub    | [![Build status](https://ci.appveyor.com/api/projects/status/tv4ap6797k4nmtfh?svg=true)](https://ci.appveyor.com/project/saneamentoambiental/codegenerator) |
 
 
-Esta versão é um Fork do [CodeGenerator de HisKingdom](https://github.com/HisKingdom/CodeGenerator)  e trabalha com a versão gratuita do AspNetBoilerPlate para auxiliar na construção telas não modais para visualização e edição de dados.
+Esta versão é um Fork do [CodeGenerator de HisKingdom](https://github.com/HisKingdom/CodeGenerator)  e trabalha com a versão gratuita do AspNetBoilerPlate para auxiliar na construção telas não modais para visualização e edição de dados e também na elaboração da infraestrutura inicial para o correto funcionamento do AspNetBoilerPlate.
 
 -------
 
